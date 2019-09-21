@@ -1,0 +1,9 @@
+C:\Users\Henry Kou\Documents\PSoC Creator\Eigenboard_bootloading\P01A_485_Boot_Host_Simple.cydsn\P01A_485_Boot_Host_Simple.cyprj|136e0101-d865-40d9-a1db-83dc182c7c33
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|802c95d6-3b4e-4fc0-a506-7887906773db
+C:\Users\Henry Kou\Documents\PSoC Creator\4.2\Downloads ( 4.2).cylib\Downloads ( 4.2).cyprj|7b668552-cd14-4ad5-a47d-0d19840757e0
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|50e3c974-f70d-4d3f-8757-fc8d1ff9943e
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|fad64484-12d2-429a-b2a9-348cb506afef
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|a790fad9-8b0f-4559-a8c4-976cf6939968
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\default\CyReferenceLibrary\CyReferenceLibrary.cylib\CyReferenceLibrary.cyprj|aae41e91-2f24-46ba-8c1e-b9f0c46dc334
+C:\Users\Henry Kou\Documents\PSoC Creator\Eigenboard_bootloading\blinkLED_Eigen.cydsn\blinkLED_Eigen.cyprj|53fb5f3e-1bd7-44ba-9e2d-a1e01e92cedb
+C:\Users\Henry Kou\Documents\PSoC Creator\Eigenboard_bootloading\P01B_485_Bootloader_Simple.cydsn\P01B_485_Bootloader_Simple.cyprj|5afd6700-0ba5-40b7-8bce-c3602fa34a29

@@ -1,0 +1,2386 @@
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccaoFVu7.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"main.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.global	blinkStringImage
+  20              		.section	.rodata
+  21              		.align	2
+  22              	.LC0:
+  23 0000 32453136 		.ascii	"2E1610690000\000"
+  23      31303639 
+  23      30303030 
+  23      00
+  24 000d 000000   		.align	2
+  25              	.LC1:
+  26 0010 3A303030 		.ascii	":00002901200080002011290000192C0000192C000080B500AF"
+  26      30323930 
+  26      31323030 
+  26      30383030 
+  26      30323031 
+  27 0043 30304630 		.ascii	"00F08AF910B5054C237833B9044B13B10448AFF300800123237"
+  27      38414639 
+  27      31304235 
+  27      30353443 
+  27      32333738 
+  28 0076 30313042 		.ascii	"010BD4081FF1F00000000782E0000084B10B51BB108490848AF"
+  28      44343038 
+  28      31464631 
+  28      46303030 
+  28      30303030 
+  29 00a9 46333030 		.ascii	"F300800848036803B910BD074B002BFBD0BDE81040184700BF0"
+  29      38303038 
+  29      34383033 
+  29      36383033 
+  29      42393130 
+  30 00dc 30303030 		.ascii	"00000004481FF1F782E0000C880FF1F0000000080B582B000AF"
+  30      30303034 
+  30      34383146 
+  30      46314637 
+  30      38324530 
+  31 010f 34464634 		.ascii	"4FF4FA733B60012000F0E7F900237B6005E0012000F0FFF97B6"
+  31      46413733 
+  31      33423630 
+  31      30313230 
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccaoFVu7.s 			page 2
+
+
+  31      30304630 
+  32 0142 38303133 		.ascii	"801337B607A683B689A42F5DB002000F0D7F93B68184600F0F1"
+  32      33374236 
+  32      30374136 
+  32      38334236 
+  32      38394134 
+  33 0175 46394537 		.ascii	"F9E7E780B582B000AF786039603A680021786800F051FA00BF0"
+  33      45373830 
+  33      42353832 
+  33      42303030 
+  33      41463738 
+  34 01a8 38333742 		.ascii	"837BD4680BD80B584B000AFF860B9607A607A68B968F86800F0"
+  34      44343638 
+  34      30424438 
+  34      30423538 
+  34      34423030 
+  35 01db 33374641 		.ascii	"37FA00BF1037BD4680BD00BF80B483B000AF0346FB71FEE780B"
+  35      30304246 
+  35      31303337 
+  35      42443436 
+  35      38304244 
+  36 020e 35383242 		.ascii	"582B000AF2E4B00030300000000000070700000000000010014"
+  36      30303041 
+  36      46324534 
+  36      42303030 
+  36      33303330 
+  37 0241 30313030 		.ascii	"01000000000000000000000000EB\000"
+  37      30303030 
+  37      30303030 
+  37      30303030 
+  37      30303030 
+  38 025e 0000     		.align	2
+  39              	.LC2:
+  40 0260 3A303030 		.ascii	":00002A012003F190431033042219462C48FFF7DEFF2B4B0222"
+  40      30324130 
+  40      31323030 
+  40      33463139 
+  40      30343331 
+  41 0293 31413730 		.ascii	"1A704FF0402308221A70294B03221A70284B294A1278D2B21A7"
+  41      34464630 
+  41      34303233 
+  41      30383232 
+  41      31413730 
+  42 02c6 30323834 		.ascii	"0284B08221A80274B41F251221A800023FB7019237B6014E0FB"
+  42      42303832 
+  42      32314138 
+  42      30323734 
+  42      42343146 
+  43 02f9 37383542 		.ascii	"785B00DAB2224B1B78DBB203F00103DBB21343DBB203F00303F"
+  43      30304441 
+  43      42323232 
+  43      34423142 
+  43      37384442 
+  44 032c 42373034 		.ascii	"B704FF4F07000F0B7F97B68013B7B607B68002B02D0FB78032B"
+  44      46463446 
+  44      30373030 
+  44      30463042 
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccaoFVu7.s 			page 3
+
+
+  44      37463937 
+  45 035f 45344431 		.ascii	"E4D17B68002B02D10320FFF7B2FF144B4FF480721A80124B072"
+  45      37423638 
+  45      30303242 
+  45      30324431 
+  45      30333230 
+  46 0392 32314137 		.ascii	"21A70124B00221A70114B48221A700E4B00221A700F4B02221A"
+  46      30313234 
+  46      42303032 
+  46      32314137 
+  46      30313134 
+  47 03c5 37303030 		.ascii	"7000BF0837BD4680BD00BF20050000004100400043004000420"
+  47      42463038 
+  47      33374244 
+  47      34363830 
+  47      42443030 
+  48 03f8 30343041 		.ascii	"040A14600400801004922420040204200402542004004400040"
+  48      31343630 
+  48      30343030 
+  48      38303130 
+  48      30343932 
+  49 042b 30363430 		.ascii	"06400040084000400140004080B483B000AF0B4B1B78FB710A4"
+  49      30303430 
+  49      30383430 
+  49      30303430 
+  49      30313430 
+  50 045e 41464237 		.ascii	"AFB7903F0070300000000000000000000000000000000000000"
+  50      39303346 
+  50      30303730 
+  50      33303030 
+  50      30303030 
+  51 0491 30303030 		.ascii	"000000000000000000000000007D\000"
+  51      30303030 
+  51      30303030 
+  51      30303030 
+  51      30303030 
+  52 04ae 0000     		.align	2
+  53              	.LC3:
+  54 04b0 3A303030 		.ascii	":00002B0120DBB21370084AFB791B09DBB21370074B44221A70"
+  54      30324230 
+  54      31323044 
+  54      42423231 
+  54      33373030 
+  55 04e3 30304246 		.ascii	"00BF0C37BD4680BC704700BFCF0100496E5800406F580040765"
+  55      30433337 
+  55      42443436 
+  55      38304243 
+  55      37303437 
+  56 0516 38303034 		.ascii	"8004080B582B000AF72B60023FB7113E0FA7913465B0013445B"
+  56      30383042 
+  56      35383242 
+  56      30303041 
+  56      46373242 
+  57 0549 30303238 		.ascii	"00284A13443B603B681A683B689B889BB219461046FFF728FFF"
+  57      34413133 
+  57      34343342 
+  57      36303342 
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccaoFVu7.s 			page 4
+
+
+  57      36383141 
+  58 057c 42373930 		.ascii	"B790133FB71FB79082BE8D9204A204B1B78DBB243F00203DBB2"
+  58      31333346 
+  58      42373146 
+  58      42373930 
+  58      38324245 
+  59 05af 31333730 		.ascii	"13701D4A1D4B1B78DBB243F00203DBB213701A4B03F19043082"
+  59      31443441 
+  59      31443442 
+  59      31423738 
+  59      44424232 
+  60 05e2 32313934 		.ascii	"219461948FFF718FF164B03F190430833082219461548FFF70F"
+  60      36313934 
+  60      38464646 
+  60      37313846 
+  60      46313634 
+  61 0615 46463135 		.ascii	"FF154A144B1B78DBB243F00803DBB21370124B61221A70FFF71"
+  61      34413134 
+  61      34423142 
+  61      37384442 
+  61      42323433 
+  62 0648 38464630 		.ascii	"8FF0F4B81221A700F4B01221A70FFF78AFF0E220D490D48FFF7"
+  62      46344238 
+  62      31323231 
+  62      41373030 
+  62      46344230 
+  63 067b 46354645 		.ascii	"F5FE00BF0837BD4680BD00BF7C2E00000350014013500140200"
+  63      30304246 
+  63      30383337 
+  63      42443436 
+  63      38304244 
+  64 06ae 35303030 		.ascii	"500001251004000000000000000000000000000000000000000"
+  64      30313235 
+  64      31303034 
+  64      30303030 
+  64      30303030 
+  65 06e1 30303030 		.ascii	"00000000000000000000000000FB\000"
+  65      30303030 
+  65      30303030 
+  65      30303030 
+  65      30303030 
+  66 06fe 0000     		.align	2
+  67              	.LC4:
+  68 0700 3A303030 		.ascii	":00002C012022510040224300400048004004000840A0430040"
+  68      30324330 
+  68      31323032 
+  68      32353130 
+  68      30343032 
+  69 0733 42303433 		.ascii	"B043004080B500AF00F0ECF803461B680C2B00D1FEE7FEE780B"
+  69      30303430 
+  69      38304235 
+  69      30304146 
+  69      30304630 
+  70 0766 35383642 		.ascii	"586B000AF224B7B61224B3B61204B7B6135E03B691B68FB603B"
+  70      30303041 
+  70      46323234 
+  70      42374236 
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccaoFVu7.s 			page 5
+
+
+  70      31323234 
+  71 0799 36393542 		.ascii	"695B68BB603B699B683B6000237B600CE0FB681A68BB681A60B"
+  71      36384242 
+  71      36303342 
+  71      36393942 
+  71      36383342 
+  72 07cc 42363830 		.ascii	"B680433BB60FB680433FB607B6804337B607A683B689A42EED1"
+  72      34333342 
+  72      42363046 
+  72      42363830 
+  72      34333346 
+  73 07ff 33423639 		.ascii	"3B69DB683B6000237B6008E0BB6800221A60BB680433BB607B6"
+  73      44423638 
+  73      33423630 
+  73      30303233 
+  73      37423630 
+  74 0832 38303433 		.ascii	"804337B607A683B689A42F2D13B6910333B617B69013B7B617B"
+  74      33374236 
+  74      30374136 
+  74      38334236 
+  74      38394134 
+  75 0865 36393030 		.ascii	"69002BC6D100F0A7F8FFF75DFEFEE701000000D82E000080B58"
+  75      32424336 
+  75      44313030 
+  75      46304137 
+  75      46384646 
+  76 0898 32423030 		.ascii	"2B000AF184B184A1A60184A184B1B6843F40073136000237B60"
+  76      30414631 
+  76      38344231 
+  76      38344131 
+  76      41363031 
+  77 08cb 30464530 		.ascii	"0FE07B68032B04D8134A7B6852F8233000E0124B12497A6841F"
+  77      37423638 
+  77      30333242 
+  77      30344438 
+  77      31333441 
+  78 08fe 38323233 		.ascii	"822307B68013300000000000000000000000000000000000000"
+  78      30374236 
+  78      38303133 
+  78      33303030 
+  78      30303030 
+  79 0931 30303030 		.ascii	"00000000000000000000000000AF\000"
+  79      30303030 
+  79      30303030 
+  79      30303030 
+  79      30303030 
+  80 094e 0000     		.align	2
+  81              	.LC5:
+  82 0950 3A303030 		.ascii	":00002D01207B607B682F2BECD90E4B1B78DAB20E4B1A700E4B"
+  82      30324430 
+  82      31323037 
+  82      42363037 
+  82      42363832 
+  83 0983 30413441 		.ascii	"0A4A1A60FFF70AFF0C4B00221A6000BF0837BD4680BD00BF0CE"
+  83      31413630 
+  83      46464637 
+  83      30414646 
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccaoFVu7.s 			page 6
+
+
+  83      30433442 
+  84 09b6 44303045 		.ascii	"D00E00004FA0514ED00E000290000192C00000080FF1FBC7600"
+  84      30303030 
+  84      34464130 
+  84      35313445 
+  84      44303045 
+  85 09e9 34304334 		.ascii	"40C480FF1F08ED00E0C080FF1F80B485B000AF0346FB710B4B1"
+  85      38304646 
+  85      31463038 
+  85      45443030 
+  85      45304330 
+  86 0a1c 42373844 		.ascii	"B78DBB223F01003FB730849FB791B01DBB203F01003DAB2FB7B"
+  86      42423232 
+  86      33463031 
+  86      30303346 
+  86      42373330 
+  87 0a4f 31333433 		.ascii	"1343DBB20B7000BF1437BD4680BC704700BF2051004080B582B"
+  87      44424232 
+  87      30423730 
+  87      30304246 
+  87      31343337 
+  88 0a82 30303041 		.ascii	"000AF786008E00C4B1B68184600F01AF87B68A3F500437B607B"
+  88      46373836 
+  88      30303845 
+  88      30304334 
+  88      42314236 
+  89 0ab5 36384233 		.ascii	"68B3F5004FF2D8064B1B687A6802FB03F3184600F00AF800BF0"
+  89      46353030 
+  89      34464632 
+  89      44383036 
+  89      34423142 
+  90 0ae8 38333742 		.ascii	"837BD4680BDD880FF1FD080FF1F000000000230800803D000BF"
+  90      44343638 
+  90      30424444 
+  90      38383046 
+  90      46314644 
+  91 0b1b 30313338 		.ascii	"01380046FCD17047EFF3108072B6704780F31088704700BF014"
+  91      30303436 
+  91      46434431 
+  91      37303437 
+  91      45464633 
+  92 0b4e 42313836 		.ascii	"B1868704700BF00000000000000000000000000000000000000"
+  92      38373034 
+  92      37303042 
+  92      46303030 
+  92      30303030 
+  93 0b81 30303030 		.ascii	"00000000000000000000000000AE\000"
+  93      30303030 
+  93      30303030 
+  93      30303030 
+  93      30303030 
+  94 0b9e 0000     		.align	2
+  95              	.LC6:
+  96 0ba0 3A303030 		.ascii	":00002E01203C81FF1F0E4B70B51E460E4C0025E41AA410A542"
+  96      30324530 
+  96      31323033 
+  96      43383146 
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccaoFVu7.s 			page 7
+
+
+  96      46314630 
+  97 0bd3 30344430 		.ascii	"04D056F8253098470135F8E700F048F8084B094C1E46E41AA41"
+  97      35364638 
+  97      32353330 
+  97      39383437 
+  97      30313335 
+  98 0c06 30303032 		.ascii	"00025A54204D056F8253098470135F8E770BDC02E0000C02E00"
+  98      35413534 
+  98      32303444 
+  98      30353646 
+  98      38323533 
+  99 0c39 30304330 		.ascii	"00C02E0000C82E000010B5431E0A44914204D011F8014B03F80"
+  99      32453030 
+  99      30304338 
+  99      32453030 
+  99      30303130 
+ 100 0c6c 31344646 		.ascii	"14FF8E710BD03460244934202D003F8011BFAE7704700000000"
+ 100      38453731 
+ 100      30424430 
+ 100      33343630 
+ 100      32343439 
+ 101 0c9f 30303030 		.ascii	"0000005100401000305100404000C05100401000F0510040100"
+ 101      30303531 
+ 101      30303430 
+ 101      31303030 
+ 101      33303531 
+ 102 0cd2 30303030 		.ascii	"000000140001000140140000800400140000A004C0140000200"
+ 102      30303134 
+ 102      30303031 
+ 102      30303031 
+ 102      34303134 
+ 103 0d05 35303031 		.ascii	"50014020004300F8B500BFF8BC08BC9E4670473D290000C52C0"
+ 103      34303230 
+ 103      30303433 
+ 103      30304638 
+ 103      42353030 
+ 104 0d38 30303046 		.ascii	"000F8B500BFF8BC08BC9E46704719290000E82E0000C880FF1F"
+ 104      38423530 
+ 104      30424646 
+ 104      38424330 
+ 104      38424339 
+ 105 0d6b 37383030 		.ascii	"78000000200000000000000000366E01C05D000018000000000"
+ 105      30303030 
+ 105      32303030 
+ 105      30303030 
+ 105      30303030 
+ 106 0d9e 30453032 		.ascii	"0E02E0000000000000000000000000000000000000000000000"
+ 106      45303030 
+ 106      30303030 
+ 106      30303030 
+ 106      30303030 
+ 107 0dd1 30303030 		.ascii	"00000000000000000000000000F0\000"
+ 107      30303030 
+ 107      30303030 
+ 107      30303030 
+ 107      30303030 
+ 108 0dee 0000     		.align	2
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccaoFVu7.s 			page 8
+
+
+ 109              	.LC7:
+ 110 0df0 3A303030 		.ascii	":00002F01200000000000000000000000000000000000000000"
+ 110      30324630 
+ 110      31323030 
+ 110      30303030 
+ 110      30303030 
+ 111 0e23 30303030 		.ascii	"0000000000000000B22E0000000000000000000000000000000"
+ 111      30303030 
+ 111      30303030 
+ 111      30303030 
+ 111      42323245 
+ 112 0e56 30303030 		.ascii	"000000000000000000000000000000000000000000000000000"
+ 112      30303030 
+ 112      30303030 
+ 112      30303030 
+ 112      30303030 
+ 113 0e89 30303030 		.ascii	"000000000000000000000000000000000000000000DC80FF1F0"
+ 113      30303030 
+ 113      30303030 
+ 113      30303030 
+ 113      30303030 
+ 114 0ebc 30303030 		.ascii	"000000000000000000000000000000000000000000000000000"
+ 114      30303030 
+ 114      30303030 
+ 114      30303030 
+ 114      30303030 
+ 115 0eef 30303030 		.ascii	"000000000000000000000000000000000000000000000000000"
+ 115      30303030 
+ 115      30303030 
+ 115      30303030 
+ 115      30303030 
+ 116 0f22 30303030 		.ascii	"000000000000000000000000000000000000000000000000000"
+ 116      30303030 
+ 116      30303030 
+ 116      30303030 
+ 116      30303030 
+ 117 0f55 30303030 		.ascii	"000000000000000000000000000000000000000000000000000"
+ 117      30303030 
+ 117      30303030 
+ 117      30303030 
+ 117      30303030 
+ 118 0f88 30303030 		.ascii	"000000000000000000000000000000000000000000000000000"
+ 118      30303030 
+ 118      30303030 
+ 118      30303030 
+ 118      30303030 
+ 119 0fbb 30303030 		.ascii	"000000000000000000000000000000000000000000000000000"
+ 119      30303030 
+ 119      30303030 
+ 119      30303030 
+ 119      30303030 
+ 120 0fee 30303030 		.ascii	"000000000000000000000000000000000000000000000000000"
+ 120      30303030 
+ 120      30303030 
+ 120      30303030 
+ 120      30303030 
+ 121 1021 30303030 		.ascii	"0000000000000000000000000056\000"
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccaoFVu7.s 			page 9
+
+
+ 121      30303030 
+ 121      30303030 
+ 121      30303030 
+ 121      30303030 
+ 122 103e 0000     		.align	2
+ 123              	.LC8:
+ 124 1040 3A303330 		.ascii	":0300FF01200000000000000000000000000000000000000000"
+ 124      30464630 
+ 124      31323030 
+ 124      30303030 
+ 124      30303030 
+ 125 1073 30303030 		.ascii	"000000000000000000000000000000000000000000000000000"
+ 125      30303030 
+ 125      30303030 
+ 125      30303030 
+ 125      30303030 
+ 126 10a6 30303030 		.ascii	"000000000000000000000000000000000000000000000000000"
+ 126      30303030 
+ 126      30303030 
+ 126      30303030 
+ 126      30303030 
+ 127 10d9 30303030 		.ascii	"000000000000000000000000000000000000000000000000000"
+ 127      30303030 
+ 127      30303030 
+ 127      30303030 
+ 127      30303030 
+ 128 110c 30303030 		.ascii	"000000000000000000000000000000000000000000000000000"
+ 128      30303030 
+ 128      30303030 
+ 128      30303030 
+ 128      30303030 
+ 129 113f 30303030 		.ascii	"000000000000000000000000000000000000000000000000000"
+ 129      30303030 
+ 129      30303030 
+ 129      30303030 
+ 129      30303030 
+ 130 1172 30303030 		.ascii	"000000000000000000000000000000000000000000000000000"
+ 130      30303030 
+ 130      30303030 
+ 130      30303030 
+ 130      30303030 
+ 131 11a5 30303030 		.ascii	"000000000000000000000000000000000000002111290000280"
+ 131      30303030 
+ 131      30303030 
+ 131      30303030 
+ 131      30303030 
+ 132 11d8 30303030 		.ascii	"000000007000000000000000000000000000000000000000000"
+ 132      30303030 
+ 132      37303030 
+ 132      30303030 
+ 132      30303030 
+ 133 120b 30303030 		.ascii	"000000000000000000000000000000000000000000000000000"
+ 133      30303030 
+ 133      30303030 
+ 133      30303030 
+ 133      30303030 
+ 134 123e 30303030 		.ascii	"000000000000000000000000000000000000000000000000000"
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccaoFVu7.s 			page 10
+
+
+ 134      30303030 
+ 134      30303030 
+ 134      30303030 
+ 134      30303030 
+ 135 1271 30303030 		.ascii	"0000000000000000000000000053\000"
+ 135      30303030 
+ 135      30303030 
+ 135      30303030 
+ 135      30303030 
+ 136              		.data
+ 137              		.align	2
+ 138              		.type	blinkStringImage, %object
+ 139              		.size	blinkStringImage, 36
+ 140              	blinkStringImage:
+ 141 0000 00000000 		.word	.LC0
+ 142 0004 10000000 		.word	.LC1
+ 143 0008 60020000 		.word	.LC2
+ 144 000c B0040000 		.word	.LC3
+ 145 0010 00070000 		.word	.LC4
+ 146 0014 50090000 		.word	.LC5
+ 147 0018 A00B0000 		.word	.LC6
+ 148 001c F00D0000 		.word	.LC7
+ 149 0020 40100000 		.word	.LC8
+ 150              		.global	LINE_CNT
+ 151              		.align	2
+ 152              		.type	LINE_CNT, %object
+ 153              		.size	LINE_CNT, 4
+ 154              	LINE_CNT:
+ 155 0024 09000000 		.word	9
+ 156              		.comm	comm1,20,4
+ 157              		.global	toggle
+ 158              		.bss
+ 159              		.type	toggle, %object
+ 160              		.size	toggle, 1
+ 161              	toggle:
+ 162 0000 00       		.space	1
+ 163              		.section	.text.main,"ax",%progbits
+ 164              		.align	2
+ 165              		.global	main
+ 166              		.thumb
+ 167              		.thumb_func
+ 168              		.type	main, %function
+ 169              	main:
+ 170              	.LFB64:
+ 171              		.file 1 "main.c"
+   1:main.c        **** /*  -----------------------------------------------------------------------------------------------
+   2:main.c        **** * Copyright 2016, Cypress Semiconductor Corporation.
+   3:main.c        **** *
+   4:main.c        **** * This software is owned by Cypress Semiconductor Corporation (Cypress)
+   5:main.c        **** * and is protected by and subject to worldwide patent protection (United
+   6:main.c        **** * States and foreign), United States copyright laws and international
+   7:main.c        **** * treaty provisions. Cypress hereby grants to licensee a personal,
+   8:main.c        **** * non-exclusive, non-transferable license to copy, use, modify, create
+   9:main.c        **** * derivative works of, and compile the Cypress Source Code and derivative
+  10:main.c        **** * works for the sole purpose of creating custom software in support of
+  11:main.c        **** * licensee product to be used only in conjunction with a Cypress integrated
+  12:main.c        **** * circuit as specified in the applicable agreement. Any reproduction,
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccaoFVu7.s 			page 11
+
+
+  13:main.c        **** * modification, translation, compilation, or representation of this
+  14:main.c        **** * software except as specified above is prohibited without the express
+  15:main.c        **** * written permission of Cypress.
+  16:main.c        **** * 
+  17:main.c        **** * Disclaimer: CYPRESS MAKES NO WARRANTY OF ANY KIND,EXPRESS OR IMPLIED,
+  18:main.c        **** * WITH REGARD TO THIS MATERIAL, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+  19:main.c        **** * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+  20:main.c        **** * Cypress reserves the right to make changes without further notice to the
+  21:main.c        **** * materials described herein. Cypress does not assume any liability arising
+  22:main.c        **** * out of the application or use of any product or circuit described herein.
+  23:main.c        **** * Cypress does not authorize its products for use as critical components in
+  24:main.c        **** * life-support systems where a malfunction or failure may reasonably be
+  25:main.c        **** * expected to result in significant injury to the user. The inclusion of
+  26:main.c        **** * Cypress' product in a life-support systems application implies that the
+  27:main.c        **** * manufacturer assumes all risk of such use and in doing so indemnifies
+  28:main.c        **** * Cypress against all charges.
+  29:main.c        **** * 
+  30:main.c        **** * Use may be limited by and subject to the applicable Cypress software
+  31:main.c        **** * license agreement.
+  32:main.c        **** * -------------------------------------------------------------------------------------------------
+  33:main.c        **** * Copyright (c) Cypress Semiconductors 2000-2015. All Rights Reserved.
+  34:main.c        **** *
+  35:main.c        **** ***************************************************************************************************
+  36:main.c        **** *  Project Name: UART_Bootloader_Host_PSoC5LP
+  37:main.c        **** *  Project Revision: 1.00
+  38:main.c        **** *  Software Version: PSoC Creator 3.3 SP2
+  39:main.c        **** *  Device Tested: CY8C5868AXI-LP035
+  40:main.c        **** *  Compilers Tested: ARM GCC
+  41:main.c        **** *  Related Hardware: CY8CKIT-050
+  42:main.c        **** ***************************************************************************************************
+  43:main.c        **** ***************************************************************************************************
+  44:main.c        **** 
+  45:main.c        **** /**************************************************************************************************
+  46:main.c        **** * Project Description:
+  47:main.c        **** * This is a sample bootloader host program demonstrating PSoC5LP bootloading
+  48:main.c        **** * PSoC 3 or PSoC 4 or PSoC Analog Coprocessor or PSoC 5LP. The project is tested using CY8CKIT-050 
+  49:main.c        **** * PSoC 5LP chip and CY8CKIT-030 (CY8CKIT-042) with PSoC 3 (PSoC 4) chip.
+  50:main.c        **** * PSoC 3 (PSoC 4, PSoC Analog Coprocessor) must be programmed with the UART Bootloader Program atta
+  51:main.c        **** * with the app note.
+  52:main.c        **** *
+  53:main.c        **** * Connections Required
+  54:main.c        **** * CY8CKIT-050 (PSoC 5LP DVK) :
+  55:main.c        **** *  P0[0] - Rx -  connected to Tx of PSoC3
+  56:main.c        **** *  P0[1] - Tx -  connected to Rx of PSoC3 
+  57:main.c        **** *  P6.1 is internally connected to SW2 on DVK.
+  58:main.c        **** *
+  59:main.c        **** * CY8CKIT-030 (PSoC 3 DVK) : PSoC  3 intially programmed with 
+  60:main.c        **** * UART_Bootloader program.
+  61:main.c        **** *  P0[0] - Rx - Connected to Tx of PSoC 5LP
+  62:main.c        **** *  P0[1] - Tx - Connected to Rx of PSoC 5LP
+  63:main.c        **** *  P6.1 is internally connected to SW2 on DVK.
+  64:main.c        **** *
+  65:main.c        **** * If you are using a PSoC 4 as your target, the connections are as follows:
+  66:main.c        **** * CY8CKIT-042 (PSoC 4 DVK) : PSoC  4 intially programmed with 
+  67:main.c        **** * UART_Bootloader (PSoC 4 project) program.
+  68:main.c        **** *  P0[0] - Rx - Connected to Tx of PSoC 5LP
+  69:main.c        **** *  P0[1] - Tx - Connected to Rx of PSoC 5LP
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccaoFVu7.s 			page 12
+
+
+  70:main.c        **** *  P0.7 is internally connected to SW2 on DVK.
+  71:main.c        **** *
+  72:main.c        **** *If you are using PSoC 5LP as your target, the connections on the DVK 
+  73:main.c        **** * remain same as that for CY8CKIT-030 (PSoC 3).
+  74:main.c        **** *
+  75:main.c        **** * Note that the GNDs of both DVKs should be connected together.
+  76:main.c        **** *
+  77:main.c        **** * Bootload function is defined in main.c: BootloadStringImage which uses 
+  78:main.c        **** * Bootloader Host APIs to bootload the contents of .cyacd file.
+  79:main.c        **** *
+  80:main.c        **** * BootloadStringImage function requires each line of .cyacd to be stored 
+  81:main.c        **** * as a seperate string in a string array. The total number of lines in 
+  82:main.c        **** * the file should also be manually calculated and stored as #define LINE_CNT
+  83:main.c        **** * The string image of .cyacd file is stored in StringImage.h file.
+  84:main.c        **** *
+  85:main.c        **** * The following events happens alternatively on each switch press
+  86:main.c        **** * On first switch press it will bootload 'stringImage_1' stored in StringImage.h
+  87:main.c        **** * using BootloadStringImage function . 
+  88:main.c        **** * On next switch press it will bootload 'stringImage_2' stored in StringImage.h
+  89:main.c        **** * using BootloadStringImage function .
+  90:main.c        **** *
+  91:main.c        **** * These bootloadable images display either "Hello" or "Bye" on the first row of 
+  92:main.c        **** * LCD(PSoC 3 DVK). In the case of PSoC 4, they blink Green and Blue LEDs.
+  93:main.c        **** * Note that in order to enter the bootloader from the application program 
+  94:main.c        **** * P6.1 - connected to SW2 (in the case of PSoC 4, P0.7 connected to SW2 on
+  95:main.c        **** * CY8CKIT-030) should be pressed so that the application program running on
+  96:main.c        **** * PSoC 3 (PSoC 4) enters Bootloader and is ready to bootload a new application
+  97:main.c        **** * code/data . 
+  98:main.c        **** *
+  99:main.c        **** ***************************************************************************************************
+ 100:main.c        **** 
+ 101:main.c        **** #include <device.h>
+ 102:main.c        **** #include "string.h"
+ 103:main.c        **** #include <cybtldr_parse.h>
+ 104:main.c        **** #include <cybtldr_command.h>
+ 105:main.c        **** #include <communication_api.h>
+ 106:main.c        **** #include <cybtldr_api.h>
+ 107:main.c        **** #include "StringImage2.h"
+ 108:main.c        **** 
+ 109:main.c        **** /* Macros to choose among PSoC 3, PSoC 4 and PSoC 5LP as a target device */
+ 110:main.c        **** #define PSoC_3       0
+ 111:main.c        **** #define PSoC_5LP     1
+ 112:main.c        **** #define PSoC_4		 2
+ 113:main.c        **** #define PSoC_AC      2
+ 114:main.c        **** /* If your target device is PSoC 4 or PSoC 5LP, change the value of this Macro
+ 115:main.c        ****    to "PSoC_4" or "PSoC_5LP" respectively */
+ 116:main.c        **** #define TARGET_DEVICE PSoC_5LP
+ 117:main.c        **** 
+ 118:main.c        **** /* This function bootloads the .cyacd file. It sends command packets and 
+ 119:main.c        ****    flash data to the target. Based on the response from the target, it decides
+ 120:main.c        ****    whether to continue bootloading or end it. */
+ 121:main.c        **** uint16 BootloadStringImage(const char *bootloadImagePtr[],unsigned int lineCount );
+ 122:main.c        **** 
+ 123:main.c        **** /* This structure contains function pointers to the four communication layer 
+ 124:main.c        ****    functions contained in the communication_api.c / .h */
+ 125:main.c        **** CyBtldr_CommunicationsData comm1 ;
+ 126:main.c        **** 
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccaoFVu7.s 			page 13
+
+
+ 127:main.c        **** /* toggle alternates between the two bootloadable files 
+ 128:main.c        ****    (Hello and Bye) of (Green and Blue) */
+ 129:main.c        **** uint8 toggle = 0;
+ 130:main.c        **** 
+ 131:main.c        **** 
+ 132:main.c        **** int main()
+ 133:main.c        **** {
+ 172              		.loc 1 133 0
+ 173              		.cfi_startproc
+ 174              		@ args = 0, pretend = 0, frame = 8
+ 175              		@ frame_needed = 1, uses_anonymous_args = 0
+ 176 0000 80B5     		push	{r7, lr}
+ 177              		.cfi_def_cfa_offset 8
+ 178              		.cfi_offset 7, -8
+ 179              		.cfi_offset 14, -4
+ 180 0002 82B0     		sub	sp, sp, #8
+ 181              		.cfi_def_cfa_offset 16
+ 182 0004 00AF     		add	r7, sp, #0
+ 183              		.cfi_def_cfa_register 7
+ 134:main.c        ****     /* error holds the success / failure message of the bootload operation */
+ 135:main.c        **** 	uint16 error = 0;
+ 184              		.loc 1 135 0
+ 185 0006 0023     		movs	r3, #0
+ 186 0008 FB80     		strh	r3, [r7, #6]	@ movhi
+ 136:main.c        **** 
+ 137:main.c        **** 	/* Display the instruction to the user on how to start bootloading */
+ 138:main.c        **** //	LCD_Char_Start();	
+ 139:main.c        **** //	LCD_Char_Position(1,0);
+ 140:main.c        **** //	LCD_Char_PrintString("P6.1 to BL");
+ 141:main.c        **** 	
+ 142:main.c        **** 	/* Enable all interrupts */
+ 143:main.c        **** 	CYGlobalIntEnable;
+ 187              		.loc 1 143 0
+ 188              		.syntax unified
+ 189              	@ 143 "main.c" 1
+ 190 000a 62B6     		CPSIE   i
+ 191              	@ 0 "" 2
+ 144:main.c        **** 
+ 145:main.c        **** 	/* Initialize the communication structure element -comm1 */
+ 146:main.c        **** 	comm1.OpenConnection = &OpenConnection;
+ 192              		.loc 1 146 0
+ 193              		.thumb
+ 194              		.syntax unified
+ 195 000c 164B     		ldr	r3, .L4
+ 196 000e 174A     		ldr	r2, .L4+4
+ 197 0010 1A60     		str	r2, [r3]
+ 147:main.c        **** 	comm1.CloseConnection = &CloseConnection;
+ 198              		.loc 1 147 0
+ 199 0012 154B     		ldr	r3, .L4
+ 200 0014 164A     		ldr	r2, .L4+8
+ 201 0016 5A60     		str	r2, [r3, #4]
+ 148:main.c        **** 	comm1.ReadData = &ReadData;
+ 202              		.loc 1 148 0
+ 203 0018 134B     		ldr	r3, .L4
+ 204 001a 164A     		ldr	r2, .L4+12
+ 205 001c 9A60     		str	r2, [r3, #8]
+ 149:main.c        **** 	comm1.WriteData =&WriteData;
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccaoFVu7.s 			page 14
+
+
+ 206              		.loc 1 149 0
+ 207 001e 124B     		ldr	r3, .L4
+ 208 0020 154A     		ldr	r2, .L4+16
+ 209 0022 DA60     		str	r2, [r3, #12]
+ 150:main.c        **** 	comm1.MaxTransferSize =64;
+ 210              		.loc 1 150 0
+ 211 0024 104B     		ldr	r3, .L4
+ 212 0026 4022     		movs	r2, #64
+ 213 0028 1A61     		str	r2, [r3, #16]
+ 214              	.L3:
+ 151:main.c        ****         
+ 152:main.c        ****     for(;;)
+ 153:main.c        ****     {
+ 154:main.c        ****         error = BootloadStringImage(blinkStringImage,LINE_CNT);
+ 215              		.loc 1 154 0
+ 216 002a 144B     		ldr	r3, .L4+20
+ 217 002c 1B68     		ldr	r3, [r3]
+ 218 002e 1946     		mov	r1, r3
+ 219 0030 1348     		ldr	r0, .L4+24
+ 220 0032 FFF7FEFF 		bl	BootloadStringImage
+ 221 0036 0346     		mov	r3, r0
+ 222 0038 FB80     		strh	r3, [r7, #6]	@ movhi
+ 155:main.c        ****         if(error == CYRET_SUCCESS)
+ 223              		.loc 1 155 0
+ 224 003a FB88     		ldrh	r3, [r7, #6]
+ 225 003c 002B     		cmp	r3, #0
+ 226 003e F4D0     		beq	.L3
+ 156:main.c        ****             {
+ 157:main.c        **** 	            //LCD_Char_Position(0,0);
+ 158:main.c        **** 				
+ 159:main.c        ****                 /* Display the success message */
+ 160:main.c        **** 				
+ 161:main.c        ****             }
+ 162:main.c        ****             
+ 163:main.c        ****             else //bootloader operation was not successful
+ 164:main.c        ****             {
+ 165:main.c        ****                 LED_B_Write(1);
+ 227              		.loc 1 165 0
+ 228 0040 0120     		movs	r0, #1
+ 229 0042 FFF7FEFF 		bl	LED_B_Write
+ 166:main.c        ****                 LED_G_Write(1);
+ 230              		.loc 1 166 0
+ 231 0046 0120     		movs	r0, #1
+ 232 0048 FFF7FEFF 		bl	LED_G_Write
+ 167:main.c        ****                 LED_R_Write(1);
+ 233              		.loc 1 167 0
+ 234 004c 0120     		movs	r0, #1
+ 235 004e FFF7FEFF 		bl	LED_R_Write
+ 168:main.c        ****                 /* Display the failure message along with the approiate error code */
+ 169:main.c        ****                 if(error & CYRET_ERR_COMM_MASK) /* Check for comm error*/
+ 236              		.loc 1 169 0
+ 237 0052 FB88     		ldrh	r3, [r7, #6]
+ 238 0054 03F40053 		and	r3, r3, #8192
+ 239 0058 002B     		cmp	r3, #0
+ 240 005a E6D1     		bne	.L3
+ 170:main.c        ****                 {
+ 171:main.c        ****                     //LCD_Char_Position(0,0);
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccaoFVu7.s 			page 15
+
+
+ 172:main.c        ****                     //LCD_Char_PrintString("Communicatn Err ");
+ 173:main.c        ****                 }
+ 174:main.c        ****                 else /* Else Display the bootload error code */
+ 175:main.c        ****                 {
+ 176:main.c        ****                     //LCD_Char_Position(0,0);
+ 177:main.c        ****                     //LCD_Char_PrintString("Bootload Err :");
+ 178:main.c        ****                     //LCD_Char_PrintHexUint8(error);
+ 179:main.c        **** 					CyDelay(4000);
+ 241              		.loc 1 179 0
+ 242 005c 4FF47A60 		mov	r0, #4000
+ 243 0060 FFF7FEFF 		bl	CyDelay
+ 180:main.c        ****                 }
+ 181:main.c        ****             }   
+ 182:main.c        ****     }
+ 244              		.loc 1 182 0
+ 245 0064 E1E7     		b	.L3
+ 246              	.L5:
+ 247 0066 00BF     		.align	2
+ 248              	.L4:
+ 249 0068 00000000 		.word	comm1
+ 250 006c 00000000 		.word	OpenConnection
+ 251 0070 00000000 		.word	CloseConnection
+ 252 0074 00000000 		.word	ReadData
+ 253 0078 00000000 		.word	WriteData
+ 254 007c 00000000 		.word	LINE_CNT
+ 255 0080 00000000 		.word	blinkStringImage
+ 256              		.cfi_endproc
+ 257              	.LFE64:
+ 258              		.size	main, .-main
+ 259              		.section	.text.BootloadStringImage,"ax",%progbits
+ 260              		.align	2
+ 261              		.global	BootloadStringImage
+ 262              		.thumb
+ 263              		.thumb_func
+ 264              		.type	BootloadStringImage, %function
+ 265              	BootloadStringImage:
+ 266              	.LFB65:
+ 183:main.c        ****     
+ 184:main.c        **** //    for(;;)
+ 185:main.c        **** //    {
+ 186:main.c        **** //	    /* If Switch is pressed and if toggle =0,the image to be bootloaded is Hello */
+ 187:main.c        **** //		if(1)
+ 188:main.c        **** //		{
+ 189:main.c        **** ////			LCD_Char_Position(0,0);
+ 190:main.c        **** ////			LCD_Char_PrintString("Bootloading...  ");
+ 191:main.c        **** //			
+ 192:main.c        **** //                 
+ 193:main.c        **** //			/* Select the Bootloadable files based on the target device */
+ 194:main.c        **** //            if(TARGET_DEVICE == PSoC_3)
+ 195:main.c        **** //            {	
+ 196:main.c        **** //				
+ 197:main.c        **** //                 /* Alternate between the two bootloadable files 
+ 198:main.c        **** //				    (Hello and Bye) based on toggle */    
+ 199:main.c        **** //                if (toggle == 0)
+ 200:main.c        **** //                {   
+ 201:main.c        **** //                    /* Bootload the Bootloadable_1.cyacd (Hello) */
+ 202:main.c        **** //                    error = BootloadStringImage(stringImage_1,LINE_CNT_1);
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccaoFVu7.s 			page 16
+
+
+ 203:main.c        **** //                }
+ 204:main.c        **** //                 else if(toggle == 1)
+ 205:main.c        **** //                {
+ 206:main.c        **** //                     /* Bootload the Bootloadable_2.cyacd (Bye) */
+ 207:main.c        **** //                     error = BootloadStringImage(stringImage_2,LINE_CNT_2);
+ 208:main.c        **** //                }
+ 209:main.c        **** //            }
+ 210:main.c        **** //            
+ 211:main.c        **** //            // This gets selected
+ 212:main.c        **** //            else if(TARGET_DEVICE == PSoC_5LP)
+ 213:main.c        **** //            {
+ 214:main.c        **** //				
+ 215:main.c        **** //                 /* Alternate between the two bootloadable files 
+ 216:main.c        **** //				    (Hello and Bye) based on toggle */    
+ 217:main.c        **** //                if (toggle == 0)
+ 218:main.c        **** //                {   
+ 219:main.c        **** //                     /* Bootload the Bootloadable_1.cyacd (Hello) */
+ 220:main.c        **** //                    error = BootloadStringImage(stringImage_3,LINE_CNT_3);
+ 221:main.c        **** //                }
+ 222:main.c        **** //                 else if(toggle == 1)
+ 223:main.c        **** //                {
+ 224:main.c        **** //                     /* Bootload the Bootloadable_2.cyacd (Bye) */
+ 225:main.c        **** //                     error = BootloadStringImage(stringImage_4,LINE_CNT_4);
+ 226:main.c        **** //                }
+ 227:main.c        **** //				
+ 228:main.c        **** //            }
+ 229:main.c        **** //            
+ 230:main.c        **** ////			else if(TARGET_DEVICE == PSoC_4)
+ 231:main.c        **** ////            {
+ 232:main.c        **** ////				
+ 233:main.c        **** ////                 /* Alternate between the two bootloadable files 
+ 234:main.c        **** ////				    (Green and Blue) based on toggle */    
+ 235:main.c        **** ////                if (toggle == 0)
+ 236:main.c        **** ////                {   
+ 237:main.c        **** ////                     /* Bootload the Bootloadable_1.cyacd (Green LED) */
+ 238:main.c        **** ////                    error = BootloadStringImage(stringImage_5,LINE_CNT_5);
+ 239:main.c        **** ////                }
+ 240:main.c        **** ////                else if(toggle == 1)
+ 241:main.c        **** ////                {
+ 242:main.c        **** ////                     /* Bootload the Bootloadable_2.cyacd (Blue LED) */
+ 243:main.c        **** ////                     error = BootloadStringImage(stringImage_6,LINE_CNT_6);
+ 244:main.c        **** ////                }
+ 245:main.c        **** ////				
+ 246:main.c        **** ////            }
+ 247:main.c        **** //            
+ 248:main.c        **** //            else
+ 249:main.c        **** //            {
+ 250:main.c        **** //                 /* Do nothing if the target device is none of 
+ 251:main.c        **** //				    PSoC 3, PSoC 4 or PSoC 5LP */
+ 252:main.c        **** //            }
+ 253:main.c        **** //             	 
+ 254:main.c        **** //			/* Check if the bootload operation is successful */
+ 255:main.c        **** //            if(error == CYRET_SUCCESS)
+ 256:main.c        **** //            {
+ 257:main.c        **** //	            //LCD_Char_Position(0,0);
+ 258:main.c        **** //				
+ 259:main.c        **** //                /* Display the success message */
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccaoFVu7.s 			page 17
+
+
+ 260:main.c        **** //				if(TARGET_DEVICE == PSoC_4)
+ 261:main.c        **** //				{
+ 262:main.c        **** ////					if(toggle == 0)
+ 263:main.c        **** ////	                {
+ 264:main.c        **** ////	                    LCD_Char_PrintString("Bootloaded-Green");
+ 265:main.c        **** ////	                    LCD_Char_Position(1,0);
+ 266:main.c        **** ////	                    LCD_Char_PrintString("P6.1 to BL Blue ");
+ 267:main.c        **** ////						toggle = 1;
+ 268:main.c        **** ////	                }
+ 269:main.c        **** ////	                else
+ 270:main.c        **** ////	                {
+ 271:main.c        **** ////	                    LCD_Char_PrintString("Bootloaded-Blue");
+ 272:main.c        **** ////	                    LCD_Char_Position(1,0);
+ 273:main.c        **** ////	                    LCD_Char_PrintString("P6.1 to BL Green");
+ 274:main.c        **** ////	                    toggle = 0;
+ 275:main.c        **** ////	                }
+ 276:main.c        **** //				}
+ 277:main.c        **** //				else
+ 278:main.c        **** //				{
+ 279:main.c        **** //	                if(toggle == 0)
+ 280:main.c        **** //	                {
+ 281:main.c        **** //	                    //LCD_Char_PrintString("Bootloaded-Hello");
+ 282:main.c        **** //	                    //LCD_Char_Position(1,0);
+ 283:main.c        **** //	                    //LCD_Char_PrintString("P6.1 to BL Bye  ");
+ 284:main.c        **** //						toggle = 1;
+ 285:main.c        **** //	                }
+ 286:main.c        **** //	                else
+ 287:main.c        **** //	                {
+ 288:main.c        **** //	                    //LCD_Char_PrintString("Bootloaded-Bye");
+ 289:main.c        **** //	                    //LCD_Char_Position(1,0);
+ 290:main.c        **** //	                    //LCD_Char_PrintString("P6.1 to BL Hello  ");
+ 291:main.c        **** //	                    toggle = 0;
+ 292:main.c        **** //	                }
+ 293:main.c        **** //				}
+ 294:main.c        **** //            }
+ 295:main.c        **** //            
+ 296:main.c        **** //            else //bootloader operation was not successful
+ 297:main.c        **** //            {
+ 298:main.c        **** //                LED_B_Write(1);
+ 299:main.c        **** //                LED_G_Write(1);
+ 300:main.c        **** //                LED_R_Write(1);
+ 301:main.c        **** //                /* Display the failure message along with the approiate error code */
+ 302:main.c        **** //                if(error & CYRET_ERR_COMM_MASK) /* Check for comm error*/
+ 303:main.c        **** //                {
+ 304:main.c        **** //                    //LCD_Char_Position(0,0);
+ 305:main.c        **** //                    //LCD_Char_PrintString("Communicatn Err ");
+ 306:main.c        **** //                }
+ 307:main.c        **** //                else /* Else Display the bootload error code */
+ 308:main.c        **** //                {
+ 309:main.c        **** //                    //LCD_Char_Position(0,0);
+ 310:main.c        **** //                    //LCD_Char_PrintString("Bootload Err :");
+ 311:main.c        **** //                    //LCD_Char_PrintHexUint8(error);
+ 312:main.c        **** //					CyDelay(4000);
+ 313:main.c        **** //                }
+ 314:main.c        **** //            }   
+ 315:main.c        **** //        }
+ 316:main.c        **** //        
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccaoFVu7.s 			page 18
+
+
+ 317:main.c        **** //        else 
+ 318:main.c        **** //        {
+ 319:main.c        **** //		
+ 320:main.c        **** //            /* Do Nothing */
+ 321:main.c        **** //        }
+ 322:main.c        **** //	}
+ 323:main.c        **** }	
+ 324:main.c        **** 
+ 325:main.c        **** 
+ 326:main.c        **** /**************************************************************************************************
+ 327:main.c        **** * Function Name: BootloadStringImage
+ 328:main.c        **** ***************************************************************************************************
+ 329:main.c        **** *
+ 330:main.c        **** * Summary:
+ 331:main.c        **** *  Bootloads the .cyacd file contents which is stored as string array
+ 332:main.c        **** *
+ 333:main.c        **** * Parameters:  
+ 334:main.c        **** * bootloadImagePtr - Pointer to the string array
+ 335:main.c        **** * lineCount - No. of lines in the .cyacd file(No: of rows in the string array)
+ 336:main.c        **** *
+ 337:main.c        **** * Return: 
+ 338:main.c        **** *  Returns a flag to indicate whether the bootload operation was successful or not
+ 339:main.c        **** *
+ 340:main.c        **** *
+ 341:main.c        **** ***************************************************************************************************
+ 342:main.c        **** uint16 BootloadStringImage(const char *bootloadImagePtr[],unsigned int lineCount )
+ 343:main.c        **** {
+ 267              		.loc 1 343 0
+ 268              		.cfi_startproc
+ 269              		@ args = 0, pretend = 0, frame = 328
+ 270              		@ frame_needed = 1, uses_anonymous_args = 0
+ 271 0000 80B5     		push	{r7, lr}
+ 272              		.cfi_def_cfa_offset 8
+ 273              		.cfi_offset 7, -8
+ 274              		.cfi_offset 14, -4
+ 275 0002 D6B0     		sub	sp, sp, #344
+ 276              		.cfi_def_cfa_offset 352
+ 277 0004 04AF     		add	r7, sp, #16
+ 278              		.cfi_def_cfa 7, 336
+ 279 0006 3B1D     		adds	r3, r7, #4
+ 280 0008 1860     		str	r0, [r3]
+ 281 000a 3B46     		mov	r3, r7
+ 282 000c 1960     		str	r1, [r3]
+ 344:main.c        **** 	uint16 err=0;
+ 283              		.loc 1 344 0
+ 284 000e 0023     		movs	r3, #0
+ 285 0010 A7F84631 		strh	r3, [r7, #326]	@ movhi
+ 345:main.c        **** 	unsigned char arrayId; 
+ 346:main.c        **** 	unsigned short rowNum;
+ 347:main.c        **** 	unsigned short rowSize; 
+ 348:main.c        **** 	unsigned char checksum ;
+ 349:main.c        **** 	unsigned char checksum2;
+ 350:main.c        **** 	unsigned long blVer=0;
+ 286              		.loc 1 350 0
+ 287 0014 0023     		movs	r3, #0
+ 288 0016 C7F83031 		str	r3, [r7, #304]
+ 351:main.c        **** 	/* rowData buffer size should be equal to the length of data to be sent for
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccaoFVu7.s 			page 19
+
+
+ 352:main.c        **** 	*  each flash row. It equals 288 , if ECC  is disabled in the bootloadable project,
+ 353:main.c        **** 	*  else 255 (in the case of PSoC 4 the flash row size is 128) */
+ 354:main.c        **** 	unsigned char rowData[288];
+ 355:main.c        **** 	unsigned int lineLen;
+ 356:main.c        **** 	unsigned long  siliconID;
+ 357:main.c        **** 	unsigned char siliconRev;
+ 358:main.c        **** 	unsigned char packetChkSumType;
+ 359:main.c        **** 	unsigned int lineCntr ;
+ 360:main.c        **** 	
+ 361:main.c        **** 	/* Initialize line counter */
+ 362:main.c        **** 	lineCntr = 0;
+ 289              		.loc 1 362 0
+ 290 001a 0023     		movs	r3, #0
+ 291 001c C7F84031 		str	r3, [r7, #320]
+ 363:main.c        **** 	
+ 364:main.c        **** 	/* Get length of the first line in cyacd file*/
+ 365:main.c        **** 	lineLen = strlen(bootloadImagePtr[lineCntr]);
+ 292              		.loc 1 365 0
+ 293 0020 D7F84031 		ldr	r3, [r7, #320]
+ 294 0024 9B00     		lsls	r3, r3, #2
+ 295 0026 3A1D     		adds	r2, r7, #4
+ 296 0028 1268     		ldr	r2, [r2]
+ 297 002a 1344     		add	r3, r3, r2
+ 298 002c 1B68     		ldr	r3, [r3]
+ 299 002e 1846     		mov	r0, r3
+ 300 0030 FFF7FEFF 		bl	strlen
+ 301 0034 C7F83C01 		str	r0, [r7, #316]
+ 366:main.c        **** 	
+ 367:main.c        **** 	/* Parse the first line(header) of cyacd file to extract 
+ 368:main.c        **** 	   siliconID, siliconRev and packetChkSumType */
+ 369:main.c        **** 	err = CyBtldr_ParseHeader(lineLen ,(unsigned char *)bootloadImagePtr[lineCntr] , &siliconID , &sil
+ 302              		.loc 1 369 0
+ 303 0038 D7F84031 		ldr	r3, [r7, #320]
+ 304 003c 9B00     		lsls	r3, r3, #2
+ 305 003e 3A1D     		adds	r2, r7, #4
+ 306 0040 1268     		ldr	r2, [r2]
+ 307 0042 1344     		add	r3, r3, r2
+ 308 0044 1968     		ldr	r1, [r3]
+ 309 0046 07F10B00 		add	r0, r7, #11
+ 310 004a 07F10C02 		add	r2, r7, #12
+ 311 004e 07F10A03 		add	r3, r7, #10
+ 312 0052 0093     		str	r3, [sp]
+ 313 0054 0346     		mov	r3, r0
+ 314 0056 D7F83C01 		ldr	r0, [r7, #316]
+ 315 005a FFF7FEFF 		bl	CyBtldr_ParseHeader
+ 316 005e 0346     		mov	r3, r0
+ 317 0060 A7F84631 		strh	r3, [r7, #326]	@ movhi
+ 370:main.c        ****     	
+ 371:main.c        **** 	/* Set the packet checksum type for communicating with bootloader. 
+ 372:main.c        **** 	   The packet checksum type to be used is determined from the 
+ 373:main.c        **** 	   cyacd file header information */
+ 374:main.c        **** 	CyBtldr_SetCheckSumType((CyBtldr_ChecksumType)packetChkSumType);
+ 318              		.loc 1 374 0
+ 319 0064 07F10A03 		add	r3, r7, #10
+ 320 0068 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 321 006a 1846     		mov	r0, r3
+ 322 006c FFF7FEFF 		bl	CyBtldr_SetCheckSumType
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccaoFVu7.s 			page 20
+
+
+ 375:main.c        **** 	
+ 376:main.c        **** 	if(err==CYRET_SUCCESS)
+ 323              		.loc 1 376 0
+ 324 0070 B7F84631 		ldrh	r3, [r7, #326]
+ 325 0074 002B     		cmp	r3, #0
+ 326 0076 40F08D80 		bne	.L7
+ 377:main.c        **** 	{
+ 378:main.c        **** 		/* Start Bootloader operation */
+ 379:main.c        **** 		err = CyBtldr_StartBootloadOperation(&comm1 ,siliconID, siliconRev ,&blVer);
+ 327              		.loc 1 379 0
+ 328 007a 07F10C03 		add	r3, r7, #12
+ 329 007e 1968     		ldr	r1, [r3]
+ 330 0080 07F10B03 		add	r3, r7, #11
+ 331 0084 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 332 0086 07F59873 		add	r3, r7, #304
+ 333 008a 4648     		ldr	r0, .L13
+ 334 008c FFF7FEFF 		bl	CyBtldr_StartBootloadOperation
+ 335 0090 0346     		mov	r3, r0
+ 336 0092 A7F84631 		strh	r3, [r7, #326]	@ movhi
+ 380:main.c        **** 		lineCntr++ ;
+ 337              		.loc 1 380 0
+ 338 0096 D7F84031 		ldr	r3, [r7, #320]
+ 339 009a 0133     		adds	r3, r3, #1
+ 340 009c C7F84031 		str	r3, [r7, #320]
+ 381:main.c        **** 		while((err == CYRET_SUCCESS)&& ( lineCntr <  lineCount ))
+ 341              		.loc 1 381 0
+ 342 00a0 6CE0     		b	.L8
+ 343              	.L11:
+ 382:main.c        **** 		{
+ 383:main.c        **** 		
+ 384:main.c        ****             /* Get the string length for the line*/
+ 385:main.c        **** 			lineLen =  strlen(bootloadImagePtr[lineCntr]);
+ 344              		.loc 1 385 0
+ 345 00a2 D7F84031 		ldr	r3, [r7, #320]
+ 346 00a6 9B00     		lsls	r3, r3, #2
+ 347 00a8 3A1D     		adds	r2, r7, #4
+ 348 00aa 1268     		ldr	r2, [r2]
+ 349 00ac 1344     		add	r3, r3, r2
+ 350 00ae 1B68     		ldr	r3, [r3]
+ 351 00b0 1846     		mov	r0, r3
+ 352 00b2 FFF7FEFF 		bl	strlen
+ 353 00b6 C7F83C01 		str	r0, [r7, #316]
+ 386:main.c        **** 			
+ 387:main.c        **** 			/*Parse row data*/
+ 388:main.c        **** 			err = CyBtldr_ParseRowData((unsigned int)lineLen,(unsigned char *)bootloadImagePtr[lineCntr], &a
+ 354              		.loc 1 388 0
+ 355 00ba D7F84031 		ldr	r3, [r7, #320]
+ 356 00be 9B00     		lsls	r3, r3, #2
+ 357 00c0 3A1D     		adds	r2, r7, #4
+ 358 00c2 1268     		ldr	r2, [r2]
+ 359 00c4 1344     		add	r3, r3, r2
+ 360 00c6 1968     		ldr	r1, [r3]
+ 361 00c8 07F59C70 		add	r0, r7, #312
+ 362 00cc 07F59D72 		add	r2, r7, #314
+ 363 00d0 07F23513 		addw	r3, r7, #309
+ 364 00d4 0293     		str	r3, [sp, #8]
+ 365 00d6 07F59B73 		add	r3, r7, #310
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccaoFVu7.s 			page 21
+
+
+ 366 00da 0193     		str	r3, [sp, #4]
+ 367 00dc 07F11003 		add	r3, r7, #16
+ 368 00e0 0093     		str	r3, [sp]
+ 369 00e2 0346     		mov	r3, r0
+ 370 00e4 D7F83C01 		ldr	r0, [r7, #316]
+ 371 00e8 FFF7FEFF 		bl	CyBtldr_ParseRowData
+ 372 00ec 0346     		mov	r3, r0
+ 373 00ee A7F84631 		strh	r3, [r7, #326]	@ movhi
+ 389:main.c        ****           	
+ 390:main.c        **** 			
+ 391:main.c        **** 			if (CYRET_SUCCESS == err)
+ 374              		.loc 1 391 0
+ 375 00f2 B7F84631 		ldrh	r3, [r7, #326]
+ 376 00f6 002B     		cmp	r3, #0
+ 377 00f8 3BD1     		bne	.L9
+ 392:main.c        ****             {
+ 393:main.c        **** 				/* Program Row */
+ 394:main.c        **** 				err = CyBtldr_ProgramRow(arrayId, rowNum, rowData, rowSize);
+ 378              		.loc 1 394 0
+ 379 00fa 97F83A01 		ldrb	r0, [r7, #314]	@ zero_extendqisi2
+ 380 00fe B7F83811 		ldrh	r1, [r7, #312]
+ 381 0102 B7F83631 		ldrh	r3, [r7, #310]
+ 382 0106 07F11002 		add	r2, r7, #16
+ 383 010a FFF7FEFF 		bl	CyBtldr_ProgramRow
+ 384 010e 0346     		mov	r3, r0
+ 385 0110 A7F84631 		strh	r3, [r7, #326]	@ movhi
+ 395:main.c        **** 				
+ 396:main.c        **** 	            if (CYRET_SUCCESS == err)
+ 386              		.loc 1 396 0
+ 387 0114 B7F84631 		ldrh	r3, [r7, #326]
+ 388 0118 002B     		cmp	r3, #0
+ 389 011a 2AD1     		bne	.L9
+ 397:main.c        **** 				{
+ 398:main.c        **** 					/* Verify Row . Check whether the checksum received from bootloader matches
+ 399:main.c        **** 					* the expected row checksum stored in cyacd file*/
+ 400:main.c        **** 					checksum2 = (unsigned char)(checksum + arrayId + rowNum + (rowNum >> 8) + rowSize + (rowSize >
+ 390              		.loc 1 400 0
+ 391 011c 97F83521 		ldrb	r2, [r7, #309]	@ zero_extendqisi2
+ 392 0120 97F83A31 		ldrb	r3, [r7, #314]	@ zero_extendqisi2
+ 393 0124 1344     		add	r3, r3, r2
+ 394 0126 DAB2     		uxtb	r2, r3
+ 395 0128 B7F83831 		ldrh	r3, [r7, #312]
+ 396 012c DBB2     		uxtb	r3, r3
+ 397 012e 1344     		add	r3, r3, r2
+ 398 0130 DAB2     		uxtb	r2, r3
+ 399 0132 B7F83831 		ldrh	r3, [r7, #312]
+ 400 0136 1B0A     		lsrs	r3, r3, #8
+ 401 0138 9BB2     		uxth	r3, r3
+ 402 013a DBB2     		uxtb	r3, r3
+ 403 013c 1344     		add	r3, r3, r2
+ 404 013e DAB2     		uxtb	r2, r3
+ 405 0140 B7F83631 		ldrh	r3, [r7, #310]
+ 406 0144 DBB2     		uxtb	r3, r3
+ 407 0146 1344     		add	r3, r3, r2
+ 408 0148 DAB2     		uxtb	r2, r3
+ 409 014a B7F83631 		ldrh	r3, [r7, #310]
+ 410 014e 1B0A     		lsrs	r3, r3, #8
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccaoFVu7.s 			page 22
+
+
+ 411 0150 9BB2     		uxth	r3, r3
+ 412 0152 DBB2     		uxtb	r3, r3
+ 413 0154 1344     		add	r3, r3, r2
+ 414 0156 87F83B31 		strb	r3, [r7, #315]
+ 401:main.c        **** 					err = CyBtldr_VerifyRow(arrayId, rowNum, checksum2);
+ 415              		.loc 1 401 0
+ 416 015a 97F83A31 		ldrb	r3, [r7, #314]	@ zero_extendqisi2
+ 417 015e B7F83811 		ldrh	r1, [r7, #312]
+ 418 0162 97F83B21 		ldrb	r2, [r7, #315]	@ zero_extendqisi2
+ 419 0166 1846     		mov	r0, r3
+ 420 0168 FFF7FEFF 		bl	CyBtldr_VerifyRow
+ 421 016c 0346     		mov	r3, r0
+ 422 016e A7F84631 		strh	r3, [r7, #326]	@ movhi
+ 423              	.L9:
+ 402:main.c        **** 				}
+ 403:main.c        ****             }
+ 404:main.c        **** 			/* Increment the linCntr */
+ 405:main.c        **** 			lineCntr++;
+ 424              		.loc 1 405 0
+ 425 0172 D7F84031 		ldr	r3, [r7, #320]
+ 426 0176 0133     		adds	r3, r3, #1
+ 427 0178 C7F84031 		str	r3, [r7, #320]
+ 428              	.L8:
+ 381:main.c        **** 		{
+ 429              		.loc 1 381 0
+ 430 017c B7F84631 		ldrh	r3, [r7, #326]
+ 431 0180 002B     		cmp	r3, #0
+ 432 0182 05D1     		bne	.L10
+ 381:main.c        **** 		{
+ 433              		.loc 1 381 0 is_stmt 0 discriminator 1
+ 434 0184 3B46     		mov	r3, r7
+ 435 0186 D7F84021 		ldr	r2, [r7, #320]
+ 436 018a 1B68     		ldr	r3, [r3]
+ 437 018c 9A42     		cmp	r2, r3
+ 438 018e 88D3     		bcc	.L11
+ 439              	.L10:
+ 406:main.c        **** 		}
+ 407:main.c        **** 		/* End Bootloader Operation */
+ 408:main.c        **** 		CyBtldr_EndBootloadOperation();
+ 440              		.loc 1 408 0 is_stmt 1
+ 441 0190 FFF7FEFF 		bl	CyBtldr_EndBootloadOperation
+ 442              	.L7:
+ 409:main.c        **** 	}
+ 410:main.c        **** 	return(err);
+ 443              		.loc 1 410 0
+ 444 0194 B7F84631 		ldrh	r3, [r7, #326]
+ 411:main.c        **** 
+ 412:main.c        **** }
+ 445              		.loc 1 412 0
+ 446 0198 1846     		mov	r0, r3
+ 447 019a 07F5A477 		add	r7, r7, #328
+ 448              		.cfi_def_cfa_offset 8
+ 449 019e BD46     		mov	sp, r7
+ 450              		.cfi_def_cfa_register 13
+ 451              		@ sp needed
+ 452 01a0 80BD     		pop	{r7, pc}
+ 453              	.L14:
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccaoFVu7.s 			page 23
+
+
+ 454 01a2 00BF     		.align	2
+ 455              	.L13:
+ 456 01a4 00000000 		.word	comm1
+ 457              		.cfi_endproc
+ 458              	.LFE65:
+ 459              		.size	BootloadStringImage, .-BootloadStringImage
+ 460              		.text
+ 461              	.Letext0:
+ 462              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 463              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 464              		.file 4 "Generated_Source\\PSoC5/cytypes.h"
+ 465              		.file 5 "./cybtldr_command.h"
+ 466              		.file 6 "./cybtldr_api.h"
+ 467              		.file 7 "Generated_Source\\PSoC5/core_cm3.h"
+ 468              		.file 8 "StringImage2.h"
+ 469              		.section	.debug_info,"",%progbits
+ 470              	.Ldebug_info0:
+ 471 0000 09030000 		.4byte	0x309
+ 472 0004 0400     		.2byte	0x4
+ 473 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 474 000a 04       		.byte	0x4
+ 475 000b 01       		.uleb128 0x1
+ 476 000c 13000000 		.4byte	.LASF47
+ 477 0010 0C       		.byte	0xc
+ 478 0011 2E020000 		.4byte	.LASF48
+ 479 0015 3A020000 		.4byte	.LASF49
+ 480 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 481 001d 00000000 		.4byte	0
+ 482 0021 00000000 		.4byte	.Ldebug_line0
+ 483 0025 02       		.uleb128 0x2
+ 484 0026 01       		.byte	0x1
+ 485 0027 06       		.byte	0x6
+ 486 0028 D7020000 		.4byte	.LASF0
+ 487 002c 02       		.uleb128 0x2
+ 488 002d 01       		.byte	0x1
+ 489 002e 08       		.byte	0x8
+ 490 002f EC000000 		.4byte	.LASF1
+ 491 0033 02       		.uleb128 0x2
+ 492 0034 02       		.byte	0x2
+ 493 0035 05       		.byte	0x5
+ 494 0036 7A010000 		.4byte	.LASF2
+ 495 003a 02       		.uleb128 0x2
+ 496 003b 02       		.byte	0x2
+ 497 003c 07       		.byte	0x7
+ 498 003d 1E010000 		.4byte	.LASF3
+ 499 0041 03       		.uleb128 0x3
+ 500 0042 A8000000 		.4byte	.LASF9
+ 501 0046 02       		.byte	0x2
+ 502 0047 3F       		.byte	0x3f
+ 503 0048 4C000000 		.4byte	0x4c
+ 504 004c 02       		.uleb128 0x2
+ 505 004d 04       		.byte	0x4
+ 506 004e 05       		.byte	0x5
+ 507 004f C2020000 		.4byte	.LASF4
+ 508 0053 02       		.uleb128 0x2
+ 509 0054 04       		.byte	0x4
+ 510 0055 07       		.byte	0x7
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccaoFVu7.s 			page 24
+
+
+ 511 0056 60010000 		.4byte	.LASF5
+ 512 005a 02       		.uleb128 0x2
+ 513 005b 08       		.byte	0x8
+ 514 005c 05       		.byte	0x5
+ 515 005d 1A020000 		.4byte	.LASF6
+ 516 0061 02       		.uleb128 0x2
+ 517 0062 08       		.byte	0x8
+ 518 0063 07       		.byte	0x7
+ 519 0064 AD010000 		.4byte	.LASF7
+ 520 0068 04       		.uleb128 0x4
+ 521 0069 04       		.byte	0x4
+ 522 006a 05       		.byte	0x5
+ 523 006b 696E7400 		.ascii	"int\000"
+ 524 006f 02       		.uleb128 0x2
+ 525 0070 04       		.byte	0x4
+ 526 0071 07       		.byte	0x7
+ 527 0072 9A010000 		.4byte	.LASF8
+ 528 0076 03       		.uleb128 0x3
+ 529 0077 C6000000 		.4byte	.LASF10
+ 530 007b 03       		.byte	0x3
+ 531 007c 2C       		.byte	0x2c
+ 532 007d 41000000 		.4byte	0x41
+ 533 0081 05       		.uleb128 0x5
+ 534 0082 B2020000 		.4byte	.LASF11
+ 535 0086 04       		.byte	0x4
+ 536 0087 E401     		.2byte	0x1e4
+ 537 0089 2C000000 		.4byte	0x2c
+ 538 008d 05       		.uleb128 0x5
+ 539 008e 84010000 		.4byte	.LASF12
+ 540 0092 04       		.byte	0x4
+ 541 0093 E501     		.2byte	0x1e5
+ 542 0095 3A000000 		.4byte	0x3a
+ 543 0099 02       		.uleb128 0x2
+ 544 009a 04       		.byte	0x4
+ 545 009b 04       		.byte	0x4
+ 546 009c DD000000 		.4byte	.LASF13
+ 547 00a0 02       		.uleb128 0x2
+ 548 00a1 08       		.byte	0x8
+ 549 00a2 04       		.byte	0x4
+ 550 00a3 BF000000 		.4byte	.LASF14
+ 551 00a7 02       		.uleb128 0x2
+ 552 00a8 01       		.byte	0x1
+ 553 00a9 08       		.byte	0x8
+ 554 00aa 35020000 		.4byte	.LASF15
+ 555 00ae 02       		.uleb128 0x2
+ 556 00af 08       		.byte	0x8
+ 557 00b0 04       		.byte	0x4
+ 558 00b1 CB020000 		.4byte	.LASF16
+ 559 00b5 02       		.uleb128 0x2
+ 560 00b6 04       		.byte	0x4
+ 561 00b7 07       		.byte	0x7
+ 562 00b8 0B020000 		.4byte	.LASF17
+ 563 00bc 06       		.uleb128 0x6
+ 564 00bd 04       		.byte	0x4
+ 565 00be 2C000000 		.4byte	0x2c
+ 566 00c2 06       		.uleb128 0x6
+ 567 00c3 04       		.byte	0x4
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccaoFVu7.s 			page 25
+
+
+ 568 00c4 C8000000 		.4byte	0xc8
+ 569 00c8 07       		.uleb128 0x7
+ 570 00c9 A7000000 		.4byte	0xa7
+ 571 00cd 08       		.uleb128 0x8
+ 572 00ce 01       		.byte	0x1
+ 573 00cf 2C000000 		.4byte	0x2c
+ 574 00d3 05       		.byte	0x5
+ 575 00d4 3C       		.byte	0x3c
+ 576 00d5 E6000000 		.4byte	0xe6
+ 577 00d9 09       		.uleb128 0x9
+ 578 00da E3020000 		.4byte	.LASF18
+ 579 00de 00       		.byte	0
+ 580 00df 09       		.uleb128 0x9
+ 581 00e0 B2000000 		.4byte	.LASF19
+ 582 00e4 01       		.byte	0x1
+ 583 00e5 00       		.byte	0
+ 584 00e6 03       		.uleb128 0x3
+ 585 00e7 9D020000 		.4byte	.LASF20
+ 586 00eb 05       		.byte	0x5
+ 587 00ec 41       		.byte	0x41
+ 588 00ed CD000000 		.4byte	0xcd
+ 589 00f1 0A       		.uleb128 0xa
+ 590 00f2 14       		.byte	0x14
+ 591 00f3 06       		.byte	0x6
+ 592 00f4 13       		.byte	0x13
+ 593 00f5 36010000 		.4byte	0x136
+ 594 00f9 0B       		.uleb128 0xb
+ 595 00fa CE000000 		.4byte	.LASF21
+ 596 00fe 06       		.byte	0x6
+ 597 00ff 16       		.byte	0x16
+ 598 0100 3B010000 		.4byte	0x13b
+ 599 0104 00       		.byte	0
+ 600 0105 0B       		.uleb128 0xb
+ 601 0106 1B030000 		.4byte	.LASF22
+ 602 010a 06       		.byte	0x6
+ 603 010b 18       		.byte	0x18
+ 604 010c 3B010000 		.4byte	0x13b
+ 605 0110 04       		.byte	0x4
+ 606 0111 0B       		.uleb128 0xb
+ 607 0112 00000000 		.4byte	.LASF23
+ 608 0116 06       		.byte	0x6
+ 609 0117 1A       		.byte	0x1a
+ 610 0118 55010000 		.4byte	0x155
+ 611 011c 08       		.byte	0x8
+ 612 011d 0B       		.uleb128 0xb
+ 613 011e 8B010000 		.4byte	.LASF24
+ 614 0122 06       		.byte	0x6
+ 615 0123 1C       		.byte	0x1c
+ 616 0124 55010000 		.4byte	0x155
+ 617 0128 0C       		.byte	0xc
+ 618 0129 0B       		.uleb128 0xb
+ 619 012a E0010000 		.4byte	.LASF25
+ 620 012e 06       		.byte	0x6
+ 621 012f 1E       		.byte	0x1e
+ 622 0130 6F000000 		.4byte	0x6f
+ 623 0134 10       		.byte	0x10
+ 624 0135 00       		.byte	0
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccaoFVu7.s 			page 26
+
+
+ 625 0136 0C       		.uleb128 0xc
+ 626 0137 68000000 		.4byte	0x68
+ 627 013b 06       		.uleb128 0x6
+ 628 013c 04       		.byte	0x4
+ 629 013d 36010000 		.4byte	0x136
+ 630 0141 0D       		.uleb128 0xd
+ 631 0142 68000000 		.4byte	0x68
+ 632 0146 55010000 		.4byte	0x155
+ 633 014a 0E       		.uleb128 0xe
+ 634 014b BC000000 		.4byte	0xbc
+ 635 014f 0E       		.uleb128 0xe
+ 636 0150 68000000 		.4byte	0x68
+ 637 0154 00       		.byte	0
+ 638 0155 06       		.uleb128 0x6
+ 639 0156 04       		.byte	0x4
+ 640 0157 41010000 		.4byte	0x141
+ 641 015b 03       		.uleb128 0x3
+ 642 015c 00030000 		.4byte	.LASF26
+ 643 0160 06       		.byte	0x6
+ 644 0161 1F       		.byte	0x1f
+ 645 0162 F1000000 		.4byte	0xf1
+ 646 0166 0F       		.uleb128 0xf
+ 647 0167 95010000 		.4byte	.LASF50
+ 648 016b 01       		.byte	0x1
+ 649 016c 84       		.byte	0x84
+ 650 016d 68000000 		.4byte	0x68
+ 651 0171 00000000 		.4byte	.LFB64
+ 652 0175 84000000 		.4byte	.LFE64-.LFB64
+ 653 0179 01       		.uleb128 0x1
+ 654 017a 9C       		.byte	0x9c
+ 655 017b 8E010000 		.4byte	0x18e
+ 656 017f 10       		.uleb128 0x10
+ 657 0180 14020000 		.4byte	.LASF29
+ 658 0184 01       		.byte	0x1
+ 659 0185 87       		.byte	0x87
+ 660 0186 8D000000 		.4byte	0x8d
+ 661 018a 02       		.uleb128 0x2
+ 662 018b 91       		.byte	0x91
+ 663 018c 76       		.sleb128 -10
+ 664 018d 00       		.byte	0
+ 665 018e 11       		.uleb128 0x11
+ 666 018f C4010000 		.4byte	.LASF51
+ 667 0193 01       		.byte	0x1
+ 668 0194 5601     		.2byte	0x156
+ 669 0196 8D000000 		.4byte	0x8d
+ 670 019a 00000000 		.4byte	.LFB65
+ 671 019e A8010000 		.4byte	.LFE65-.LFB65
+ 672 01a2 01       		.uleb128 0x1
+ 673 01a3 9C       		.byte	0x9c
+ 674 01a4 90020000 		.4byte	0x290
+ 675 01a8 12       		.uleb128 0x12
+ 676 01a9 4F010000 		.4byte	.LASF27
+ 677 01ad 01       		.byte	0x1
+ 678 01ae 5601     		.2byte	0x156
+ 679 01b0 90020000 		.4byte	0x290
+ 680 01b4 03       		.uleb128 0x3
+ 681 01b5 91       		.byte	0x91
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccaoFVu7.s 			page 27
+
+
+ 682 01b6 B47D     		.sleb128 -332
+ 683 01b8 12       		.uleb128 0x12
+ 684 01b9 B8020000 		.4byte	.LASF28
+ 685 01bd 01       		.byte	0x1
+ 686 01be 5601     		.2byte	0x156
+ 687 01c0 6F000000 		.4byte	0x6f
+ 688 01c4 03       		.uleb128 0x3
+ 689 01c5 91       		.byte	0x91
+ 690 01c6 B07D     		.sleb128 -336
+ 691 01c8 13       		.uleb128 0x13
+ 692 01c9 65727200 		.ascii	"err\000"
+ 693 01cd 01       		.byte	0x1
+ 694 01ce 5801     		.2byte	0x158
+ 695 01d0 8D000000 		.4byte	0x8d
+ 696 01d4 02       		.uleb128 0x2
+ 697 01d5 91       		.byte	0x91
+ 698 01d6 76       		.sleb128 -10
+ 699 01d7 14       		.uleb128 0x14
+ 700 01d8 31010000 		.4byte	.LASF30
+ 701 01dc 01       		.byte	0x1
+ 702 01dd 5901     		.2byte	0x159
+ 703 01df 2C000000 		.4byte	0x2c
+ 704 01e3 02       		.uleb128 0x2
+ 705 01e4 91       		.byte	0x91
+ 706 01e5 6A       		.sleb128 -22
+ 707 01e6 14       		.uleb128 0x14
+ 708 01e7 A1000000 		.4byte	.LASF31
+ 709 01eb 01       		.byte	0x1
+ 710 01ec 5A01     		.2byte	0x15a
+ 711 01ee 3A000000 		.4byte	0x3a
+ 712 01f2 02       		.uleb128 0x2
+ 713 01f3 91       		.byte	0x91
+ 714 01f4 68       		.sleb128 -24
+ 715 01f5 14       		.uleb128 0x14
+ 716 01f6 72010000 		.4byte	.LASF32
+ 717 01fa 01       		.byte	0x1
+ 718 01fb 5B01     		.2byte	0x15b
+ 719 01fd 3A000000 		.4byte	0x3a
+ 720 0201 02       		.uleb128 0x2
+ 721 0202 91       		.byte	0x91
+ 722 0203 66       		.sleb128 -26
+ 723 0204 14       		.uleb128 0x14
+ 724 0205 E3000000 		.4byte	.LASF33
+ 725 0209 01       		.byte	0x1
+ 726 020a 5C01     		.2byte	0x15c
+ 727 020c 2C000000 		.4byte	0x2c
+ 728 0210 02       		.uleb128 0x2
+ 729 0211 91       		.byte	0x91
+ 730 0212 65       		.sleb128 -27
+ 731 0213 14       		.uleb128 0x14
+ 732 0214 01020000 		.4byte	.LASF34
+ 733 0218 01       		.byte	0x1
+ 734 0219 5D01     		.2byte	0x15d
+ 735 021b 2C000000 		.4byte	0x2c
+ 736 021f 02       		.uleb128 0x2
+ 737 0220 91       		.byte	0x91
+ 738 0221 6B       		.sleb128 -21
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccaoFVu7.s 			page 28
+
+
+ 739 0222 14       		.uleb128 0x14
+ 740 0223 28020000 		.4byte	.LASF35
+ 741 0227 01       		.byte	0x1
+ 742 0228 5E01     		.2byte	0x15e
+ 743 022a 53000000 		.4byte	0x53
+ 744 022e 02       		.uleb128 0x2
+ 745 022f 91       		.byte	0x91
+ 746 0230 60       		.sleb128 -32
+ 747 0231 14       		.uleb128 0x14
+ 748 0232 FA000000 		.4byte	.LASF36
+ 749 0236 01       		.byte	0x1
+ 750 0237 6201     		.2byte	0x162
+ 751 0239 96020000 		.4byte	0x296
+ 752 023d 03       		.uleb128 0x3
+ 753 023e 91       		.byte	0x91
+ 754 023f C07D     		.sleb128 -320
+ 755 0241 14       		.uleb128 0x14
+ 756 0242 D8010000 		.4byte	.LASF37
+ 757 0246 01       		.byte	0x1
+ 758 0247 6301     		.2byte	0x163
+ 759 0249 6F000000 		.4byte	0x6f
+ 760 024d 02       		.uleb128 0x2
+ 761 024e 91       		.byte	0x91
+ 762 024f 6C       		.sleb128 -20
+ 763 0250 14       		.uleb128 0x14
+ 764 0251 09000000 		.4byte	.LASF38
+ 765 0255 01       		.byte	0x1
+ 766 0256 6401     		.2byte	0x164
+ 767 0258 53000000 		.4byte	0x53
+ 768 025c 03       		.uleb128 0x3
+ 769 025d 91       		.byte	0x91
+ 770 025e BC7D     		.sleb128 -324
+ 771 0260 14       		.uleb128 0x14
+ 772 0261 13010000 		.4byte	.LASF39
+ 773 0265 01       		.byte	0x1
+ 774 0266 6501     		.2byte	0x165
+ 775 0268 2C000000 		.4byte	0x2c
+ 776 026c 03       		.uleb128 0x3
+ 777 026d 91       		.byte	0x91
+ 778 026e BB7D     		.sleb128 -325
+ 779 0270 14       		.uleb128 0x14
+ 780 0271 F0010000 		.4byte	.LASF40
+ 781 0275 01       		.byte	0x1
+ 782 0276 6601     		.2byte	0x166
+ 783 0278 2C000000 		.4byte	0x2c
+ 784 027c 03       		.uleb128 0x3
+ 785 027d 91       		.byte	0x91
+ 786 027e BA7D     		.sleb128 -326
+ 787 0280 14       		.uleb128 0x14
+ 788 0281 F7020000 		.4byte	.LASF41
+ 789 0285 01       		.byte	0x1
+ 790 0286 6701     		.2byte	0x167
+ 791 0288 6F000000 		.4byte	0x6f
+ 792 028c 02       		.uleb128 0x2
+ 793 028d 91       		.byte	0x91
+ 794 028e 70       		.sleb128 -16
+ 795 028f 00       		.byte	0
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccaoFVu7.s 			page 29
+
+
+ 796 0290 06       		.uleb128 0x6
+ 797 0291 04       		.byte	0x4
+ 798 0292 C2000000 		.4byte	0xc2
+ 799 0296 15       		.uleb128 0x15
+ 800 0297 2C000000 		.4byte	0x2c
+ 801 029b A7020000 		.4byte	0x2a7
+ 802 029f 16       		.uleb128 0x16
+ 803 02a0 B5000000 		.4byte	0xb5
+ 804 02a4 1F01     		.2byte	0x11f
+ 805 02a6 00       		.byte	0
+ 806 02a7 17       		.uleb128 0x17
+ 807 02a8 39010000 		.4byte	.LASF42
+ 808 02ac 07       		.byte	0x7
+ 809 02ad 1207     		.2byte	0x712
+ 810 02af B3020000 		.4byte	0x2b3
+ 811 02b3 18       		.uleb128 0x18
+ 812 02b4 76000000 		.4byte	0x76
+ 813 02b8 15       		.uleb128 0x15
+ 814 02b9 C2000000 		.4byte	0xc2
+ 815 02bd C8020000 		.4byte	0x2c8
+ 816 02c1 19       		.uleb128 0x19
+ 817 02c2 B5000000 		.4byte	0xb5
+ 818 02c6 08       		.byte	0x8
+ 819 02c7 00       		.byte	0
+ 820 02c8 1A       		.uleb128 0x1a
+ 821 02c9 02010000 		.4byte	.LASF43
+ 822 02cd 08       		.byte	0x8
+ 823 02ce 0A       		.byte	0xa
+ 824 02cf B8020000 		.4byte	0x2b8
+ 825 02d3 05       		.uleb128 0x5
+ 826 02d4 03       		.byte	0x3
+ 827 02d5 00000000 		.4byte	blinkStringImage
+ 828 02d9 1A       		.uleb128 0x1a
+ 829 02da 46010000 		.4byte	.LASF44
+ 830 02de 08       		.byte	0x8
+ 831 02df 16       		.byte	0x16
+ 832 02e0 6F000000 		.4byte	0x6f
+ 833 02e4 05       		.uleb128 0x5
+ 834 02e5 03       		.byte	0x3
+ 835 02e6 00000000 		.4byte	LINE_CNT
+ 836 02ea 1A       		.uleb128 0x1a
+ 837 02eb A7010000 		.4byte	.LASF45
+ 838 02ef 01       		.byte	0x1
+ 839 02f0 7D       		.byte	0x7d
+ 840 02f1 5B010000 		.4byte	0x15b
+ 841 02f5 05       		.uleb128 0x5
+ 842 02f6 03       		.byte	0x3
+ 843 02f7 00000000 		.4byte	comm1
+ 844 02fb 1A       		.uleb128 0x1a
+ 845 02fc F0020000 		.4byte	.LASF46
+ 846 0300 01       		.byte	0x1
+ 847 0301 81       		.byte	0x81
+ 848 0302 81000000 		.4byte	0x81
+ 849 0306 05       		.uleb128 0x5
+ 850 0307 03       		.byte	0x3
+ 851 0308 00000000 		.4byte	toggle
+ 852 030c 00       		.byte	0
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccaoFVu7.s 			page 30
+
+
+ 853              		.section	.debug_abbrev,"",%progbits
+ 854              	.Ldebug_abbrev0:
+ 855 0000 01       		.uleb128 0x1
+ 856 0001 11       		.uleb128 0x11
+ 857 0002 01       		.byte	0x1
+ 858 0003 25       		.uleb128 0x25
+ 859 0004 0E       		.uleb128 0xe
+ 860 0005 13       		.uleb128 0x13
+ 861 0006 0B       		.uleb128 0xb
+ 862 0007 03       		.uleb128 0x3
+ 863 0008 0E       		.uleb128 0xe
+ 864 0009 1B       		.uleb128 0x1b
+ 865 000a 0E       		.uleb128 0xe
+ 866 000b 55       		.uleb128 0x55
+ 867 000c 17       		.uleb128 0x17
+ 868 000d 11       		.uleb128 0x11
+ 869 000e 01       		.uleb128 0x1
+ 870 000f 10       		.uleb128 0x10
+ 871 0010 17       		.uleb128 0x17
+ 872 0011 00       		.byte	0
+ 873 0012 00       		.byte	0
+ 874 0013 02       		.uleb128 0x2
+ 875 0014 24       		.uleb128 0x24
+ 876 0015 00       		.byte	0
+ 877 0016 0B       		.uleb128 0xb
+ 878 0017 0B       		.uleb128 0xb
+ 879 0018 3E       		.uleb128 0x3e
+ 880 0019 0B       		.uleb128 0xb
+ 881 001a 03       		.uleb128 0x3
+ 882 001b 0E       		.uleb128 0xe
+ 883 001c 00       		.byte	0
+ 884 001d 00       		.byte	0
+ 885 001e 03       		.uleb128 0x3
+ 886 001f 16       		.uleb128 0x16
+ 887 0020 00       		.byte	0
+ 888 0021 03       		.uleb128 0x3
+ 889 0022 0E       		.uleb128 0xe
+ 890 0023 3A       		.uleb128 0x3a
+ 891 0024 0B       		.uleb128 0xb
+ 892 0025 3B       		.uleb128 0x3b
+ 893 0026 0B       		.uleb128 0xb
+ 894 0027 49       		.uleb128 0x49
+ 895 0028 13       		.uleb128 0x13
+ 896 0029 00       		.byte	0
+ 897 002a 00       		.byte	0
+ 898 002b 04       		.uleb128 0x4
+ 899 002c 24       		.uleb128 0x24
+ 900 002d 00       		.byte	0
+ 901 002e 0B       		.uleb128 0xb
+ 902 002f 0B       		.uleb128 0xb
+ 903 0030 3E       		.uleb128 0x3e
+ 904 0031 0B       		.uleb128 0xb
+ 905 0032 03       		.uleb128 0x3
+ 906 0033 08       		.uleb128 0x8
+ 907 0034 00       		.byte	0
+ 908 0035 00       		.byte	0
+ 909 0036 05       		.uleb128 0x5
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccaoFVu7.s 			page 31
+
+
+ 910 0037 16       		.uleb128 0x16
+ 911 0038 00       		.byte	0
+ 912 0039 03       		.uleb128 0x3
+ 913 003a 0E       		.uleb128 0xe
+ 914 003b 3A       		.uleb128 0x3a
+ 915 003c 0B       		.uleb128 0xb
+ 916 003d 3B       		.uleb128 0x3b
+ 917 003e 05       		.uleb128 0x5
+ 918 003f 49       		.uleb128 0x49
+ 919 0040 13       		.uleb128 0x13
+ 920 0041 00       		.byte	0
+ 921 0042 00       		.byte	0
+ 922 0043 06       		.uleb128 0x6
+ 923 0044 0F       		.uleb128 0xf
+ 924 0045 00       		.byte	0
+ 925 0046 0B       		.uleb128 0xb
+ 926 0047 0B       		.uleb128 0xb
+ 927 0048 49       		.uleb128 0x49
+ 928 0049 13       		.uleb128 0x13
+ 929 004a 00       		.byte	0
+ 930 004b 00       		.byte	0
+ 931 004c 07       		.uleb128 0x7
+ 932 004d 26       		.uleb128 0x26
+ 933 004e 00       		.byte	0
+ 934 004f 49       		.uleb128 0x49
+ 935 0050 13       		.uleb128 0x13
+ 936 0051 00       		.byte	0
+ 937 0052 00       		.byte	0
+ 938 0053 08       		.uleb128 0x8
+ 939 0054 04       		.uleb128 0x4
+ 940 0055 01       		.byte	0x1
+ 941 0056 0B       		.uleb128 0xb
+ 942 0057 0B       		.uleb128 0xb
+ 943 0058 49       		.uleb128 0x49
+ 944 0059 13       		.uleb128 0x13
+ 945 005a 3A       		.uleb128 0x3a
+ 946 005b 0B       		.uleb128 0xb
+ 947 005c 3B       		.uleb128 0x3b
+ 948 005d 0B       		.uleb128 0xb
+ 949 005e 01       		.uleb128 0x1
+ 950 005f 13       		.uleb128 0x13
+ 951 0060 00       		.byte	0
+ 952 0061 00       		.byte	0
+ 953 0062 09       		.uleb128 0x9
+ 954 0063 28       		.uleb128 0x28
+ 955 0064 00       		.byte	0
+ 956 0065 03       		.uleb128 0x3
+ 957 0066 0E       		.uleb128 0xe
+ 958 0067 1C       		.uleb128 0x1c
+ 959 0068 0B       		.uleb128 0xb
+ 960 0069 00       		.byte	0
+ 961 006a 00       		.byte	0
+ 962 006b 0A       		.uleb128 0xa
+ 963 006c 13       		.uleb128 0x13
+ 964 006d 01       		.byte	0x1
+ 965 006e 0B       		.uleb128 0xb
+ 966 006f 0B       		.uleb128 0xb
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccaoFVu7.s 			page 32
+
+
+ 967 0070 3A       		.uleb128 0x3a
+ 968 0071 0B       		.uleb128 0xb
+ 969 0072 3B       		.uleb128 0x3b
+ 970 0073 0B       		.uleb128 0xb
+ 971 0074 01       		.uleb128 0x1
+ 972 0075 13       		.uleb128 0x13
+ 973 0076 00       		.byte	0
+ 974 0077 00       		.byte	0
+ 975 0078 0B       		.uleb128 0xb
+ 976 0079 0D       		.uleb128 0xd
+ 977 007a 00       		.byte	0
+ 978 007b 03       		.uleb128 0x3
+ 979 007c 0E       		.uleb128 0xe
+ 980 007d 3A       		.uleb128 0x3a
+ 981 007e 0B       		.uleb128 0xb
+ 982 007f 3B       		.uleb128 0x3b
+ 983 0080 0B       		.uleb128 0xb
+ 984 0081 49       		.uleb128 0x49
+ 985 0082 13       		.uleb128 0x13
+ 986 0083 38       		.uleb128 0x38
+ 987 0084 0B       		.uleb128 0xb
+ 988 0085 00       		.byte	0
+ 989 0086 00       		.byte	0
+ 990 0087 0C       		.uleb128 0xc
+ 991 0088 15       		.uleb128 0x15
+ 992 0089 00       		.byte	0
+ 993 008a 27       		.uleb128 0x27
+ 994 008b 19       		.uleb128 0x19
+ 995 008c 49       		.uleb128 0x49
+ 996 008d 13       		.uleb128 0x13
+ 997 008e 00       		.byte	0
+ 998 008f 00       		.byte	0
+ 999 0090 0D       		.uleb128 0xd
+ 1000 0091 15       		.uleb128 0x15
+ 1001 0092 01       		.byte	0x1
+ 1002 0093 27       		.uleb128 0x27
+ 1003 0094 19       		.uleb128 0x19
+ 1004 0095 49       		.uleb128 0x49
+ 1005 0096 13       		.uleb128 0x13
+ 1006 0097 01       		.uleb128 0x1
+ 1007 0098 13       		.uleb128 0x13
+ 1008 0099 00       		.byte	0
+ 1009 009a 00       		.byte	0
+ 1010 009b 0E       		.uleb128 0xe
+ 1011 009c 05       		.uleb128 0x5
+ 1012 009d 00       		.byte	0
+ 1013 009e 49       		.uleb128 0x49
+ 1014 009f 13       		.uleb128 0x13
+ 1015 00a0 00       		.byte	0
+ 1016 00a1 00       		.byte	0
+ 1017 00a2 0F       		.uleb128 0xf
+ 1018 00a3 2E       		.uleb128 0x2e
+ 1019 00a4 01       		.byte	0x1
+ 1020 00a5 3F       		.uleb128 0x3f
+ 1021 00a6 19       		.uleb128 0x19
+ 1022 00a7 03       		.uleb128 0x3
+ 1023 00a8 0E       		.uleb128 0xe
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccaoFVu7.s 			page 33
+
+
+ 1024 00a9 3A       		.uleb128 0x3a
+ 1025 00aa 0B       		.uleb128 0xb
+ 1026 00ab 3B       		.uleb128 0x3b
+ 1027 00ac 0B       		.uleb128 0xb
+ 1028 00ad 49       		.uleb128 0x49
+ 1029 00ae 13       		.uleb128 0x13
+ 1030 00af 11       		.uleb128 0x11
+ 1031 00b0 01       		.uleb128 0x1
+ 1032 00b1 12       		.uleb128 0x12
+ 1033 00b2 06       		.uleb128 0x6
+ 1034 00b3 40       		.uleb128 0x40
+ 1035 00b4 18       		.uleb128 0x18
+ 1036 00b5 9642     		.uleb128 0x2116
+ 1037 00b7 19       		.uleb128 0x19
+ 1038 00b8 01       		.uleb128 0x1
+ 1039 00b9 13       		.uleb128 0x13
+ 1040 00ba 00       		.byte	0
+ 1041 00bb 00       		.byte	0
+ 1042 00bc 10       		.uleb128 0x10
+ 1043 00bd 34       		.uleb128 0x34
+ 1044 00be 00       		.byte	0
+ 1045 00bf 03       		.uleb128 0x3
+ 1046 00c0 0E       		.uleb128 0xe
+ 1047 00c1 3A       		.uleb128 0x3a
+ 1048 00c2 0B       		.uleb128 0xb
+ 1049 00c3 3B       		.uleb128 0x3b
+ 1050 00c4 0B       		.uleb128 0xb
+ 1051 00c5 49       		.uleb128 0x49
+ 1052 00c6 13       		.uleb128 0x13
+ 1053 00c7 02       		.uleb128 0x2
+ 1054 00c8 18       		.uleb128 0x18
+ 1055 00c9 00       		.byte	0
+ 1056 00ca 00       		.byte	0
+ 1057 00cb 11       		.uleb128 0x11
+ 1058 00cc 2E       		.uleb128 0x2e
+ 1059 00cd 01       		.byte	0x1
+ 1060 00ce 3F       		.uleb128 0x3f
+ 1061 00cf 19       		.uleb128 0x19
+ 1062 00d0 03       		.uleb128 0x3
+ 1063 00d1 0E       		.uleb128 0xe
+ 1064 00d2 3A       		.uleb128 0x3a
+ 1065 00d3 0B       		.uleb128 0xb
+ 1066 00d4 3B       		.uleb128 0x3b
+ 1067 00d5 05       		.uleb128 0x5
+ 1068 00d6 27       		.uleb128 0x27
+ 1069 00d7 19       		.uleb128 0x19
+ 1070 00d8 49       		.uleb128 0x49
+ 1071 00d9 13       		.uleb128 0x13
+ 1072 00da 11       		.uleb128 0x11
+ 1073 00db 01       		.uleb128 0x1
+ 1074 00dc 12       		.uleb128 0x12
+ 1075 00dd 06       		.uleb128 0x6
+ 1076 00de 40       		.uleb128 0x40
+ 1077 00df 18       		.uleb128 0x18
+ 1078 00e0 9642     		.uleb128 0x2116
+ 1079 00e2 19       		.uleb128 0x19
+ 1080 00e3 01       		.uleb128 0x1
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccaoFVu7.s 			page 34
+
+
+ 1081 00e4 13       		.uleb128 0x13
+ 1082 00e5 00       		.byte	0
+ 1083 00e6 00       		.byte	0
+ 1084 00e7 12       		.uleb128 0x12
+ 1085 00e8 05       		.uleb128 0x5
+ 1086 00e9 00       		.byte	0
+ 1087 00ea 03       		.uleb128 0x3
+ 1088 00eb 0E       		.uleb128 0xe
+ 1089 00ec 3A       		.uleb128 0x3a
+ 1090 00ed 0B       		.uleb128 0xb
+ 1091 00ee 3B       		.uleb128 0x3b
+ 1092 00ef 05       		.uleb128 0x5
+ 1093 00f0 49       		.uleb128 0x49
+ 1094 00f1 13       		.uleb128 0x13
+ 1095 00f2 02       		.uleb128 0x2
+ 1096 00f3 18       		.uleb128 0x18
+ 1097 00f4 00       		.byte	0
+ 1098 00f5 00       		.byte	0
+ 1099 00f6 13       		.uleb128 0x13
+ 1100 00f7 34       		.uleb128 0x34
+ 1101 00f8 00       		.byte	0
+ 1102 00f9 03       		.uleb128 0x3
+ 1103 00fa 08       		.uleb128 0x8
+ 1104 00fb 3A       		.uleb128 0x3a
+ 1105 00fc 0B       		.uleb128 0xb
+ 1106 00fd 3B       		.uleb128 0x3b
+ 1107 00fe 05       		.uleb128 0x5
+ 1108 00ff 49       		.uleb128 0x49
+ 1109 0100 13       		.uleb128 0x13
+ 1110 0101 02       		.uleb128 0x2
+ 1111 0102 18       		.uleb128 0x18
+ 1112 0103 00       		.byte	0
+ 1113 0104 00       		.byte	0
+ 1114 0105 14       		.uleb128 0x14
+ 1115 0106 34       		.uleb128 0x34
+ 1116 0107 00       		.byte	0
+ 1117 0108 03       		.uleb128 0x3
+ 1118 0109 0E       		.uleb128 0xe
+ 1119 010a 3A       		.uleb128 0x3a
+ 1120 010b 0B       		.uleb128 0xb
+ 1121 010c 3B       		.uleb128 0x3b
+ 1122 010d 05       		.uleb128 0x5
+ 1123 010e 49       		.uleb128 0x49
+ 1124 010f 13       		.uleb128 0x13
+ 1125 0110 02       		.uleb128 0x2
+ 1126 0111 18       		.uleb128 0x18
+ 1127 0112 00       		.byte	0
+ 1128 0113 00       		.byte	0
+ 1129 0114 15       		.uleb128 0x15
+ 1130 0115 01       		.uleb128 0x1
+ 1131 0116 01       		.byte	0x1
+ 1132 0117 49       		.uleb128 0x49
+ 1133 0118 13       		.uleb128 0x13
+ 1134 0119 01       		.uleb128 0x1
+ 1135 011a 13       		.uleb128 0x13
+ 1136 011b 00       		.byte	0
+ 1137 011c 00       		.byte	0
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccaoFVu7.s 			page 35
+
+
+ 1138 011d 16       		.uleb128 0x16
+ 1139 011e 21       		.uleb128 0x21
+ 1140 011f 00       		.byte	0
+ 1141 0120 49       		.uleb128 0x49
+ 1142 0121 13       		.uleb128 0x13
+ 1143 0122 2F       		.uleb128 0x2f
+ 1144 0123 05       		.uleb128 0x5
+ 1145 0124 00       		.byte	0
+ 1146 0125 00       		.byte	0
+ 1147 0126 17       		.uleb128 0x17
+ 1148 0127 34       		.uleb128 0x34
+ 1149 0128 00       		.byte	0
+ 1150 0129 03       		.uleb128 0x3
+ 1151 012a 0E       		.uleb128 0xe
+ 1152 012b 3A       		.uleb128 0x3a
+ 1153 012c 0B       		.uleb128 0xb
+ 1154 012d 3B       		.uleb128 0x3b
+ 1155 012e 05       		.uleb128 0x5
+ 1156 012f 49       		.uleb128 0x49
+ 1157 0130 13       		.uleb128 0x13
+ 1158 0131 3F       		.uleb128 0x3f
+ 1159 0132 19       		.uleb128 0x19
+ 1160 0133 3C       		.uleb128 0x3c
+ 1161 0134 19       		.uleb128 0x19
+ 1162 0135 00       		.byte	0
+ 1163 0136 00       		.byte	0
+ 1164 0137 18       		.uleb128 0x18
+ 1165 0138 35       		.uleb128 0x35
+ 1166 0139 00       		.byte	0
+ 1167 013a 49       		.uleb128 0x49
+ 1168 013b 13       		.uleb128 0x13
+ 1169 013c 00       		.byte	0
+ 1170 013d 00       		.byte	0
+ 1171 013e 19       		.uleb128 0x19
+ 1172 013f 21       		.uleb128 0x21
+ 1173 0140 00       		.byte	0
+ 1174 0141 49       		.uleb128 0x49
+ 1175 0142 13       		.uleb128 0x13
+ 1176 0143 2F       		.uleb128 0x2f
+ 1177 0144 0B       		.uleb128 0xb
+ 1178 0145 00       		.byte	0
+ 1179 0146 00       		.byte	0
+ 1180 0147 1A       		.uleb128 0x1a
+ 1181 0148 34       		.uleb128 0x34
+ 1182 0149 00       		.byte	0
+ 1183 014a 03       		.uleb128 0x3
+ 1184 014b 0E       		.uleb128 0xe
+ 1185 014c 3A       		.uleb128 0x3a
+ 1186 014d 0B       		.uleb128 0xb
+ 1187 014e 3B       		.uleb128 0x3b
+ 1188 014f 0B       		.uleb128 0xb
+ 1189 0150 49       		.uleb128 0x49
+ 1190 0151 13       		.uleb128 0x13
+ 1191 0152 3F       		.uleb128 0x3f
+ 1192 0153 19       		.uleb128 0x19
+ 1193 0154 02       		.uleb128 0x2
+ 1194 0155 18       		.uleb128 0x18
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccaoFVu7.s 			page 36
+
+
+ 1195 0156 00       		.byte	0
+ 1196 0157 00       		.byte	0
+ 1197 0158 00       		.byte	0
+ 1198              		.section	.debug_aranges,"",%progbits
+ 1199 0000 24000000 		.4byte	0x24
+ 1200 0004 0200     		.2byte	0x2
+ 1201 0006 00000000 		.4byte	.Ldebug_info0
+ 1202 000a 04       		.byte	0x4
+ 1203 000b 00       		.byte	0
+ 1204 000c 0000     		.2byte	0
+ 1205 000e 0000     		.2byte	0
+ 1206 0010 00000000 		.4byte	.LFB64
+ 1207 0014 84000000 		.4byte	.LFE64-.LFB64
+ 1208 0018 00000000 		.4byte	.LFB65
+ 1209 001c A8010000 		.4byte	.LFE65-.LFB65
+ 1210 0020 00000000 		.4byte	0
+ 1211 0024 00000000 		.4byte	0
+ 1212              		.section	.debug_ranges,"",%progbits
+ 1213              	.Ldebug_ranges0:
+ 1214 0000 00000000 		.4byte	.LFB64
+ 1215 0004 84000000 		.4byte	.LFE64
+ 1216 0008 00000000 		.4byte	.LFB65
+ 1217 000c A8010000 		.4byte	.LFE65
+ 1218 0010 00000000 		.4byte	0
+ 1219 0014 00000000 		.4byte	0
+ 1220              		.section	.debug_line,"",%progbits
+ 1221              	.Ldebug_line0:
+ 1222 0000 E7010000 		.section	.debug_str,"MS",%progbits,1
+ 1222      02008801 
+ 1222      00000201 
+ 1222      FB0E0D00 
+ 1222      01010101 
+ 1223              	.LASF23:
+ 1224 0000 52656164 		.ascii	"ReadData\000"
+ 1224      44617461 
+ 1224      00
+ 1225              	.LASF38:
+ 1226 0009 73696C69 		.ascii	"siliconID\000"
+ 1226      636F6E49 
+ 1226      4400
+ 1227              	.LASF47:
+ 1228 0013 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 1228      43313120 
+ 1228      352E342E 
+ 1228      31203230 
+ 1228      31363036 
+ 1229 0046 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 1229      20726576 
+ 1229      6973696F 
+ 1229      6E203233 
+ 1229      37373135 
+ 1230 0079 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 1230      66756E63 
+ 1230      74696F6E 
+ 1230      2D736563 
+ 1230      74696F6E 
+ 1231              	.LASF31:
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccaoFVu7.s 			page 37
+
+
+ 1232 00a1 726F774E 		.ascii	"rowNum\000"
+ 1232      756D00
+ 1233              	.LASF9:
+ 1234 00a8 5F5F696E 		.ascii	"__int32_t\000"
+ 1234      7433325F 
+ 1234      7400
+ 1235              	.LASF19:
+ 1236 00b2 4352435F 		.ascii	"CRC_CHECKSUM\000"
+ 1236      43484543 
+ 1236      4B53554D 
+ 1236      00
+ 1237              	.LASF14:
+ 1238 00bf 646F7562 		.ascii	"double\000"
+ 1238      6C6500
+ 1239              	.LASF10:
+ 1240 00c6 696E7433 		.ascii	"int32_t\000"
+ 1240      325F7400 
+ 1241              	.LASF21:
+ 1242 00ce 4F70656E 		.ascii	"OpenConnection\000"
+ 1242      436F6E6E 
+ 1242      65637469 
+ 1242      6F6E00
+ 1243              	.LASF13:
+ 1244 00dd 666C6F61 		.ascii	"float\000"
+ 1244      7400
+ 1245              	.LASF33:
+ 1246 00e3 63686563 		.ascii	"checksum\000"
+ 1246      6B73756D 
+ 1246      00
+ 1247              	.LASF1:
+ 1248 00ec 756E7369 		.ascii	"unsigned char\000"
+ 1248      676E6564 
+ 1248      20636861 
+ 1248      7200
+ 1249              	.LASF36:
+ 1250 00fa 726F7744 		.ascii	"rowData\000"
+ 1250      61746100 
+ 1251              	.LASF43:
+ 1252 0102 626C696E 		.ascii	"blinkStringImage\000"
+ 1252      6B537472 
+ 1252      696E6749 
+ 1252      6D616765 
+ 1252      00
+ 1253              	.LASF39:
+ 1254 0113 73696C69 		.ascii	"siliconRev\000"
+ 1254      636F6E52 
+ 1254      657600
+ 1255              	.LASF3:
+ 1256 011e 73686F72 		.ascii	"short unsigned int\000"
+ 1256      7420756E 
+ 1256      7369676E 
+ 1256      65642069 
+ 1256      6E7400
+ 1257              	.LASF30:
+ 1258 0131 61727261 		.ascii	"arrayId\000"
+ 1258      79496400 
+ 1259              	.LASF42:
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccaoFVu7.s 			page 38
+
+
+ 1260 0139 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 1260      52784275 
+ 1260      66666572 
+ 1260      00
+ 1261              	.LASF44:
+ 1262 0146 4C494E45 		.ascii	"LINE_CNT\000"
+ 1262      5F434E54 
+ 1262      00
+ 1263              	.LASF27:
+ 1264 014f 626F6F74 		.ascii	"bootloadImagePtr\000"
+ 1264      6C6F6164 
+ 1264      496D6167 
+ 1264      65507472 
+ 1264      00
+ 1265              	.LASF5:
+ 1266 0160 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1266      20756E73 
+ 1266      69676E65 
+ 1266      6420696E 
+ 1266      7400
+ 1267              	.LASF32:
+ 1268 0172 726F7753 		.ascii	"rowSize\000"
+ 1268      697A6500 
+ 1269              	.LASF2:
+ 1270 017a 73686F72 		.ascii	"short int\000"
+ 1270      7420696E 
+ 1270      7400
+ 1271              	.LASF12:
+ 1272 0184 75696E74 		.ascii	"uint16\000"
+ 1272      313600
+ 1273              	.LASF24:
+ 1274 018b 57726974 		.ascii	"WriteData\000"
+ 1274      65446174 
+ 1274      6100
+ 1275              	.LASF50:
+ 1276 0195 6D61696E 		.ascii	"main\000"
+ 1276      00
+ 1277              	.LASF8:
+ 1278 019a 756E7369 		.ascii	"unsigned int\000"
+ 1278      676E6564 
+ 1278      20696E74 
+ 1278      00
+ 1279              	.LASF45:
+ 1280 01a7 636F6D6D 		.ascii	"comm1\000"
+ 1280      3100
+ 1281              	.LASF7:
+ 1282 01ad 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1282      206C6F6E 
+ 1282      6720756E 
+ 1282      7369676E 
+ 1282      65642069 
+ 1283              	.LASF51:
+ 1284 01c4 426F6F74 		.ascii	"BootloadStringImage\000"
+ 1284      6C6F6164 
+ 1284      53747269 
+ 1284      6E67496D 
+ 1284      61676500 
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccaoFVu7.s 			page 39
+
+
+ 1285              	.LASF37:
+ 1286 01d8 6C696E65 		.ascii	"lineLen\000"
+ 1286      4C656E00 
+ 1287              	.LASF25:
+ 1288 01e0 4D617854 		.ascii	"MaxTransferSize\000"
+ 1288      72616E73 
+ 1288      66657253 
+ 1288      697A6500 
+ 1289              	.LASF40:
+ 1290 01f0 7061636B 		.ascii	"packetChkSumType\000"
+ 1290      65744368 
+ 1290      6B53756D 
+ 1290      54797065 
+ 1290      00
+ 1291              	.LASF34:
+ 1292 0201 63686563 		.ascii	"checksum2\000"
+ 1292      6B73756D 
+ 1292      3200
+ 1293              	.LASF17:
+ 1294 020b 73697A65 		.ascii	"sizetype\000"
+ 1294      74797065 
+ 1294      00
+ 1295              	.LASF29:
+ 1296 0214 6572726F 		.ascii	"error\000"
+ 1296      7200
+ 1297              	.LASF6:
+ 1298 021a 6C6F6E67 		.ascii	"long long int\000"
+ 1298      206C6F6E 
+ 1298      6720696E 
+ 1298      7400
+ 1299              	.LASF35:
+ 1300 0228 626C5665 		.ascii	"blVer\000"
+ 1300      7200
+ 1301              	.LASF48:
+ 1302 022e 6D61696E 		.ascii	"main.c\000"
+ 1302      2E6300
+ 1303              	.LASF15:
+ 1304 0235 63686172 		.ascii	"char\000"
+ 1304      00
+ 1305              	.LASF49:
+ 1306 023a 433A5C55 		.ascii	"C:\\Users\\Henry Kou\\Documents\\PSoC Creator\\Eige"
+ 1306      73657273 
+ 1306      5C48656E 
+ 1306      7279204B 
+ 1306      6F755C44 
+ 1307 0268 6E626F61 		.ascii	"nboard_bootloading\\P02A_485_Boot_Host_Commands.cyd"
+ 1307      72645F62 
+ 1307      6F6F746C 
+ 1307      6F616469 
+ 1307      6E675C50 
+ 1308 029a 736E00   		.ascii	"sn\000"
+ 1309              	.LASF20:
+ 1310 029d 43794274 		.ascii	"CyBtldr_ChecksumType\000"
+ 1310      6C64725F 
+ 1310      43686563 
+ 1310      6B73756D 
+ 1310      54797065 
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccaoFVu7.s 			page 40
+
+
+ 1311              	.LASF11:
+ 1312 02b2 75696E74 		.ascii	"uint8\000"
+ 1312      3800
+ 1313              	.LASF28:
+ 1314 02b8 6C696E65 		.ascii	"lineCount\000"
+ 1314      436F756E 
+ 1314      7400
+ 1315              	.LASF4:
+ 1316 02c2 6C6F6E67 		.ascii	"long int\000"
+ 1316      20696E74 
+ 1316      00
+ 1317              	.LASF16:
+ 1318 02cb 6C6F6E67 		.ascii	"long double\000"
+ 1318      20646F75 
+ 1318      626C6500 
+ 1319              	.LASF0:
+ 1320 02d7 7369676E 		.ascii	"signed char\000"
+ 1320      65642063 
+ 1320      68617200 
+ 1321              	.LASF18:
+ 1322 02e3 53554D5F 		.ascii	"SUM_CHECKSUM\000"
+ 1322      43484543 
+ 1322      4B53554D 
+ 1322      00
+ 1323              	.LASF46:
+ 1324 02f0 746F6767 		.ascii	"toggle\000"
+ 1324      6C6500
+ 1325              	.LASF41:
+ 1326 02f7 6C696E65 		.ascii	"lineCntr\000"
+ 1326      436E7472 
+ 1326      00
+ 1327              	.LASF26:
+ 1328 0300 43794274 		.ascii	"CyBtldr_CommunicationsData\000"
+ 1328      6C64725F 
+ 1328      436F6D6D 
+ 1328      756E6963 
+ 1328      6174696F 
+ 1329              	.LASF22:
+ 1330 031b 436C6F73 		.ascii	"CloseConnection\000"
+ 1330      65436F6E 
+ 1330      6E656374 
+ 1330      696F6E00 
+ 1331              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

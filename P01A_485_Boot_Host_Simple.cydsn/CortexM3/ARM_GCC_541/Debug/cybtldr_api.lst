@@ -1,0 +1,3544 @@
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"cybtldr_api.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.comm	g_validRows,256,4
+  20              		.bss
+  21              		.align	2
+  22              	g_comm:
+  23 0000 00000000 		.space	4
+  24              		.section	.text.CyBtldr_TransferData,"ax",%progbits
+  25              		.align	2
+  26              		.global	CyBtldr_TransferData
+  27              		.thumb
+  28              		.thumb_func
+  29              		.type	CyBtldr_TransferData, %function
+  30              	CyBtldr_TransferData:
+  31              	.LFB1:
+  32              		.file 1 "cybtldr_api.c"
+   1:cybtldr_api.c **** /*******************************************************************************
+   2:cybtldr_api.c **** * Copyright 2011-2012, Cypress Semiconductor Corporation.  All rights reserved.
+   3:cybtldr_api.c **** * You may use this file only in accordance with the license, terms, conditions, 
+   4:cybtldr_api.c **** * disclaimers, and limitations in the end user license agreement accompanying 
+   5:cybtldr_api.c **** * the software package with which this file was provided.
+   6:cybtldr_api.c **** ********************************************************************************/
+   7:cybtldr_api.c **** 
+   8:cybtldr_api.c **** #include "cybtldr_command.h"
+   9:cybtldr_api.c **** #include "cybtldr_api.h"
+  10:cybtldr_api.c **** 
+  11:cybtldr_api.c **** /* The highest number of memory arrays for any device. This includes flash and EEPROM arrays */
+  12:cybtldr_api.c **** #define MAX_DEV_ARRAYS    0x80
+  13:cybtldr_api.c **** /* The default value if a flash array has not yet received data */
+  14:cybtldr_api.c **** #define NO_FLASH_ARRAY_DATA 0
+  15:cybtldr_api.c **** /* The maximum number of flash arrays */
+  16:cybtldr_api.c **** #define MAX_FLASH_ARRAYS 0x40
+  17:cybtldr_api.c **** /* The minimum array id for EEPROM arrays. */
+  18:cybtldr_api.c **** #define MIN_EEPROM_ARRAY 0x40
+  19:cybtldr_api.c **** 
+  20:cybtldr_api.c **** unsigned long g_validRows[MAX_FLASH_ARRAYS];
+  21:cybtldr_api.c **** static CyBtldr_CommunicationsData* g_comm;
+  22:cybtldr_api.c **** 
+  23:cybtldr_api.c **** int CyBtldr_TransferData(unsigned char* inBuf, int inSize, unsigned char* outBuf, int outSize)
+  24:cybtldr_api.c **** {
+  33              		.loc 1 24 0
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 2
+
+
+  34              		.cfi_startproc
+  35              		@ args = 0, pretend = 0, frame = 24
+  36              		@ frame_needed = 1, uses_anonymous_args = 0
+  37 0000 80B5     		push	{r7, lr}
+  38              		.cfi_def_cfa_offset 8
+  39              		.cfi_offset 7, -8
+  40              		.cfi_offset 14, -4
+  41 0002 86B0     		sub	sp, sp, #24
+  42              		.cfi_def_cfa_offset 32
+  43 0004 00AF     		add	r7, sp, #0
+  44              		.cfi_def_cfa_register 7
+  45 0006 F860     		str	r0, [r7, #12]
+  46 0008 B960     		str	r1, [r7, #8]
+  47 000a 7A60     		str	r2, [r7, #4]
+  48 000c 3B60     		str	r3, [r7]
+  25:cybtldr_api.c ****     int err = g_comm->WriteData(inBuf, inSize);
+  49              		.loc 1 25 0
+  50 000e 0E4B     		ldr	r3, .L5
+  51 0010 1B68     		ldr	r3, [r3]
+  52 0012 DB68     		ldr	r3, [r3, #12]
+  53 0014 B968     		ldr	r1, [r7, #8]
+  54 0016 F868     		ldr	r0, [r7, #12]
+  55 0018 9847     		blx	r3
+  56 001a 7861     		str	r0, [r7, #20]
+  26:cybtldr_api.c **** 
+  27:cybtldr_api.c ****     if (CYRET_SUCCESS == err)
+  57              		.loc 1 27 0
+  58 001c 7B69     		ldr	r3, [r7, #20]
+  59 001e 002B     		cmp	r3, #0
+  60 0020 06D1     		bne	.L2
+  28:cybtldr_api.c ****         err = g_comm->ReadData(outBuf, outSize);
+  61              		.loc 1 28 0
+  62 0022 094B     		ldr	r3, .L5
+  63 0024 1B68     		ldr	r3, [r3]
+  64 0026 9B68     		ldr	r3, [r3, #8]
+  65 0028 3968     		ldr	r1, [r7]
+  66 002a 7868     		ldr	r0, [r7, #4]
+  67 002c 9847     		blx	r3
+  68 002e 7861     		str	r0, [r7, #20]
+  69              	.L2:
+  29:cybtldr_api.c **** 
+  30:cybtldr_api.c ****     if (CYRET_SUCCESS != err)
+  70              		.loc 1 30 0
+  71 0030 7B69     		ldr	r3, [r7, #20]
+  72 0032 002B     		cmp	r3, #0
+  73 0034 03D0     		beq	.L3
+  31:cybtldr_api.c ****         err |= CYRET_ERR_COMM_MASK;
+  74              		.loc 1 31 0
+  75 0036 7B69     		ldr	r3, [r7, #20]
+  76 0038 43F40053 		orr	r3, r3, #8192
+  77 003c 7B61     		str	r3, [r7, #20]
+  78              	.L3:
+  32:cybtldr_api.c **** 
+  33:cybtldr_api.c ****     return err;
+  79              		.loc 1 33 0
+  80 003e 7B69     		ldr	r3, [r7, #20]
+  34:cybtldr_api.c **** }
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 3
+
+
+  81              		.loc 1 34 0
+  82 0040 1846     		mov	r0, r3
+  83 0042 1837     		adds	r7, r7, #24
+  84              		.cfi_def_cfa_offset 8
+  85 0044 BD46     		mov	sp, r7
+  86              		.cfi_def_cfa_register 13
+  87              		@ sp needed
+  88 0046 80BD     		pop	{r7, pc}
+  89              	.L6:
+  90              		.align	2
+  91              	.L5:
+  92 0048 00000000 		.word	g_comm
+  93              		.cfi_endproc
+  94              	.LFE1:
+  95              		.size	CyBtldr_TransferData, .-CyBtldr_TransferData
+  96              		.section	.text.CyBtldr_ValidateRow,"ax",%progbits
+  97              		.align	2
+  98              		.global	CyBtldr_ValidateRow
+  99              		.thumb
+ 100              		.thumb_func
+ 101              		.type	CyBtldr_ValidateRow, %function
+ 102              	CyBtldr_ValidateRow:
+ 103              	.LFB2:
+  35:cybtldr_api.c **** 
+  36:cybtldr_api.c **** int CyBtldr_ValidateRow(unsigned char arrayId, unsigned short rowNum)
+  37:cybtldr_api.c **** {
+ 104              		.loc 1 37 0
+ 105              		.cfi_startproc
+ 106              		@ args = 0, pretend = 0, frame = 1056
+ 107              		@ frame_needed = 1, uses_anonymous_args = 0
+ 108 0000 90B5     		push	{r4, r7, lr}
+ 109              		.cfi_def_cfa_offset 12
+ 110              		.cfi_offset 4, -12
+ 111              		.cfi_offset 7, -8
+ 112              		.cfi_offset 14, -4
+ 113 0002 ADF22C4D 		subw	sp, sp, #1068
+ 114              		.cfi_def_cfa_offset 1080
+ 115 0006 02AF     		add	r7, sp, #8
+ 116              		.cfi_def_cfa 7, 1072
+ 117 0008 0246     		mov	r2, r0
+ 118 000a FB1D     		adds	r3, r7, #7
+ 119 000c 1A70     		strb	r2, [r3]
+ 120 000e 3B1D     		adds	r3, r7, #4
+ 121 0010 0A46     		mov	r2, r1	@ movhi
+ 122 0012 1A80     		strh	r2, [r3]	@ movhi
+  38:cybtldr_api.c ****     unsigned long inSize;
+  39:cybtldr_api.c ****     unsigned long outSize;
+  40:cybtldr_api.c ****     unsigned short minRow = 0;
+ 123              		.loc 1 40 0
+ 124 0014 0023     		movs	r3, #0
+ 125 0016 A7F81234 		strh	r3, [r7, #1042]	@ movhi
+  41:cybtldr_api.c ****     unsigned short maxRow = 0;
+ 126              		.loc 1 41 0
+ 127 001a 0023     		movs	r3, #0
+ 128 001c A7F81034 		strh	r3, [r7, #1040]	@ movhi
+  42:cybtldr_api.c ****     unsigned char inBuf[MAX_COMMAND_SIZE];
+  43:cybtldr_api.c ****     unsigned char outBuf[MAX_COMMAND_SIZE];
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 4
+
+
+  44:cybtldr_api.c ****     unsigned char status = CYRET_SUCCESS;
+ 129              		.loc 1 44 0
+ 130 0020 07F10F03 		add	r3, r7, #15
+ 131 0024 0022     		movs	r2, #0
+ 132 0026 1A70     		strb	r2, [r3]
+  45:cybtldr_api.c ****     int err = CYRET_SUCCESS;
+ 133              		.loc 1 45 0
+ 134 0028 0023     		movs	r3, #0
+ 135 002a C7F81C34 		str	r3, [r7, #1052]
+  46:cybtldr_api.c **** 
+  47:cybtldr_api.c ****     if (arrayId < MAX_FLASH_ARRAYS)
+ 136              		.loc 1 47 0
+ 137 002e FB1D     		adds	r3, r7, #7
+ 138 0030 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 139 0032 3F2B     		cmp	r3, #63
+ 140 0034 00F28780 		bhi	.L8
+  48:cybtldr_api.c ****     {
+  49:cybtldr_api.c ****         if (NO_FLASH_ARRAY_DATA == g_validRows[arrayId])
+ 141              		.loc 1 49 0
+ 142 0038 FB1D     		adds	r3, r7, #7
+ 143 003a 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 144 003c 474A     		ldr	r2, .L18
+ 145 003e 52F82330 		ldr	r3, [r2, r3, lsl #2]
+ 146 0042 002B     		cmp	r3, #0
+ 147 0044 5AD1     		bne	.L9
+  50:cybtldr_api.c ****         {
+  51:cybtldr_api.c ****             err = CyBtldr_CreateGetFlashSizeCmd(arrayId, inBuf, &inSize, &outSize);
+ 148              		.loc 1 51 0
+ 149 0046 07F21444 		addw	r4, r7, #1044
+ 150 004a 07F58362 		add	r2, r7, #1048
+ 151 004e 07F50471 		add	r1, r7, #528
+ 152 0052 FB1D     		adds	r3, r7, #7
+ 153 0054 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 154 0056 2346     		mov	r3, r4
+ 155 0058 FFF7FEFF 		bl	CyBtldr_CreateGetFlashSizeCmd
+ 156 005c C7F81C04 		str	r0, [r7, #1052]
+  52:cybtldr_api.c ****             if (CYRET_SUCCESS == err)
+ 157              		.loc 1 52 0
+ 158 0060 D7F81C34 		ldr	r3, [r7, #1052]
+ 159 0064 002B     		cmp	r3, #0
+ 160 0066 0CD1     		bne	.L10
+  53:cybtldr_api.c ****                 err = CyBtldr_TransferData(inBuf, inSize, outBuf, outSize);
+ 161              		.loc 1 53 0
+ 162 0068 D7F81834 		ldr	r3, [r7, #1048]
+ 163 006c 1946     		mov	r1, r3
+ 164 006e D7F81434 		ldr	r3, [r7, #1044]
+ 165 0072 07F11002 		add	r2, r7, #16
+ 166 0076 07F50470 		add	r0, r7, #528
+ 167 007a FFF7FEFF 		bl	CyBtldr_TransferData
+ 168 007e C7F81C04 		str	r0, [r7, #1052]
+ 169              	.L10:
+  54:cybtldr_api.c ****             if (CYRET_SUCCESS == err)
+ 170              		.loc 1 54 0
+ 171 0082 D7F81C34 		ldr	r3, [r7, #1052]
+ 172 0086 002B     		cmp	r3, #0
+ 173 0088 0FD1     		bne	.L11
+  55:cybtldr_api.c ****                 err = CyBtldr_ParseGetFlashSizeCmdResult(outBuf, outSize, &minRow, &maxRow, &status
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 5
+
+
+ 174              		.loc 1 55 0
+ 175 008a D7F81414 		ldr	r1, [r7, #1044]
+ 176 008e 07F58264 		add	r4, r7, #1040
+ 177 0092 07F21242 		addw	r2, r7, #1042
+ 178 0096 07F11000 		add	r0, r7, #16
+ 179 009a 07F10F03 		add	r3, r7, #15
+ 180 009e 0093     		str	r3, [sp]
+ 181 00a0 2346     		mov	r3, r4
+ 182 00a2 FFF7FEFF 		bl	CyBtldr_ParseGetFlashSizeCmdResult
+ 183 00a6 C7F81C04 		str	r0, [r7, #1052]
+ 184              	.L11:
+  56:cybtldr_api.c ****             if (CYRET_SUCCESS != status)
+ 185              		.loc 1 56 0
+ 186 00aa 07F10F03 		add	r3, r7, #15
+ 187 00ae 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 188 00b0 002B     		cmp	r3, #0
+ 189 00b2 06D0     		beq	.L12
+  57:cybtldr_api.c ****                 err = status | CYRET_ERR_BTLDR_MASK;
+ 190              		.loc 1 57 0
+ 191 00b4 07F10F03 		add	r3, r7, #15
+ 192 00b8 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 193 00ba 43F48043 		orr	r3, r3, #16384
+ 194 00be C7F81C34 		str	r3, [r7, #1052]
+ 195              	.L12:
+  58:cybtldr_api.c **** 
+  59:cybtldr_api.c ****             if (CYRET_SUCCESS == err)
+ 196              		.loc 1 59 0
+ 197 00c2 D7F81C34 		ldr	r3, [r7, #1052]
+ 198 00c6 002B     		cmp	r3, #0
+ 199 00c8 18D1     		bne	.L9
+  60:cybtldr_api.c ****             {
+  61:cybtldr_api.c ****                 if (CYRET_SUCCESS == status)
+ 200              		.loc 1 61 0
+ 201 00ca 07F10F03 		add	r3, r7, #15
+ 202 00ce 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 203 00d0 002B     		cmp	r3, #0
+ 204 00d2 0CD1     		bne	.L13
+  62:cybtldr_api.c ****                     g_validRows[arrayId] = (minRow << 16) + maxRow;
+ 205              		.loc 1 62 0
+ 206 00d4 FB1D     		adds	r3, r7, #7
+ 207 00d6 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 208 00d8 B7F81224 		ldrh	r2, [r7, #1042]
+ 209 00dc 1204     		lsls	r2, r2, #16
+ 210 00de B7F81014 		ldrh	r1, [r7, #1040]
+ 211 00e2 0A44     		add	r2, r2, r1
+ 212 00e4 1146     		mov	r1, r2
+ 213 00e6 1D4A     		ldr	r2, .L18
+ 214 00e8 42F82310 		str	r1, [r2, r3, lsl #2]
+ 215 00ec 06E0     		b	.L9
+ 216              	.L13:
+  63:cybtldr_api.c ****                 else
+  64:cybtldr_api.c ****                     err = status | CYRET_ERR_BTLDR_MASK;
+ 217              		.loc 1 64 0
+ 218 00ee 07F10F03 		add	r3, r7, #15
+ 219 00f2 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 220 00f4 43F48043 		orr	r3, r3, #16384
+ 221 00f8 C7F81C34 		str	r3, [r7, #1052]
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 6
+
+
+ 222              	.L9:
+  65:cybtldr_api.c ****             }
+  66:cybtldr_api.c ****         }
+  67:cybtldr_api.c ****         if (CYRET_SUCCESS == err)
+ 223              		.loc 1 67 0
+ 224 00fc D7F81C34 		ldr	r3, [r7, #1052]
+ 225 0100 002B     		cmp	r3, #0
+ 226 0102 23D1     		bne	.L16
+  68:cybtldr_api.c ****         {
+  69:cybtldr_api.c ****             minRow = (unsigned short)(g_validRows[arrayId] >> 16);
+ 227              		.loc 1 69 0
+ 228 0104 FB1D     		adds	r3, r7, #7
+ 229 0106 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 230 0108 144A     		ldr	r2, .L18
+ 231 010a 52F82330 		ldr	r3, [r2, r3, lsl #2]
+ 232 010e 1B0C     		lsrs	r3, r3, #16
+ 233 0110 9BB2     		uxth	r3, r3
+ 234 0112 A7F81234 		strh	r3, [r7, #1042]	@ movhi
+  70:cybtldr_api.c ****             maxRow = (unsigned short)g_validRows[arrayId];
+ 235              		.loc 1 70 0
+ 236 0116 FB1D     		adds	r3, r7, #7
+ 237 0118 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 238 011a 104A     		ldr	r2, .L18
+ 239 011c 52F82330 		ldr	r3, [r2, r3, lsl #2]
+ 240 0120 9BB2     		uxth	r3, r3
+ 241 0122 A7F81034 		strh	r3, [r7, #1040]	@ movhi
+  71:cybtldr_api.c ****             if (rowNum < minRow || rowNum > maxRow)
+ 242              		.loc 1 71 0
+ 243 0126 B7F81234 		ldrh	r3, [r7, #1042]
+ 244 012a 3A1D     		adds	r2, r7, #4
+ 245 012c 1288     		ldrh	r2, [r2]
+ 246 012e 9A42     		cmp	r2, r3
+ 247 0130 05D3     		bcc	.L15
+ 248              		.loc 1 71 0 is_stmt 0 discriminator 1
+ 249 0132 B7F81034 		ldrh	r3, [r7, #1040]
+ 250 0136 3A1D     		adds	r2, r7, #4
+ 251 0138 1288     		ldrh	r2, [r2]
+ 252 013a 9A42     		cmp	r2, r3
+ 253 013c 06D9     		bls	.L16
+ 254              	.L15:
+  72:cybtldr_api.c ****                 err = CYRET_ERR_ROW;
+ 255              		.loc 1 72 0 is_stmt 1
+ 256 013e 0A23     		movs	r3, #10
+ 257 0140 C7F81C34 		str	r3, [r7, #1052]
+ 258 0144 02E0     		b	.L16
+ 259              	.L8:
+  73:cybtldr_api.c ****         }
+  74:cybtldr_api.c ****     }
+  75:cybtldr_api.c ****     else
+  76:cybtldr_api.c ****         err = CYRET_ERR_ARRAY;
+ 260              		.loc 1 76 0
+ 261 0146 0923     		movs	r3, #9
+ 262 0148 C7F81C34 		str	r3, [r7, #1052]
+ 263              	.L16:
+  77:cybtldr_api.c **** 
+  78:cybtldr_api.c ****     return err;
+ 264              		.loc 1 78 0
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 7
+
+
+ 265 014c D7F81C34 		ldr	r3, [r7, #1052]
+  79:cybtldr_api.c **** }
+ 266              		.loc 1 79 0
+ 267 0150 1846     		mov	r0, r3
+ 268 0152 07F22447 		addw	r7, r7, #1060
+ 269              		.cfi_def_cfa_offset 12
+ 270 0156 BD46     		mov	sp, r7
+ 271              		.cfi_def_cfa_register 13
+ 272              		@ sp needed
+ 273 0158 90BD     		pop	{r4, r7, pc}
+ 274              	.L19:
+ 275 015a 00BF     		.align	2
+ 276              	.L18:
+ 277 015c 00000000 		.word	g_validRows
+ 278              		.cfi_endproc
+ 279              	.LFE2:
+ 280              		.size	CyBtldr_ValidateRow, .-CyBtldr_ValidateRow
+ 281              		.section	.text.CyBtldr_StartBootloadOperation,"ax",%progbits
+ 282              		.align	2
+ 283              		.global	CyBtldr_StartBootloadOperation
+ 284              		.thumb
+ 285              		.thumb_func
+ 286              		.type	CyBtldr_StartBootloadOperation, %function
+ 287              	CyBtldr_StartBootloadOperation:
+ 288              	.LFB3:
+  80:cybtldr_api.c **** 
+  81:cybtldr_api.c **** 
+  82:cybtldr_api.c **** int CyBtldr_StartBootloadOperation(CyBtldr_CommunicationsData* comm, unsigned long expSiId, unsigne
+  83:cybtldr_api.c **** {
+ 289              		.loc 1 83 0
+ 290              		.cfi_startproc
+ 291              		@ args = 0, pretend = 0, frame = 1072
+ 292              		@ frame_needed = 1, uses_anonymous_args = 0
+ 293 0000 90B5     		push	{r4, r7, lr}
+ 294              		.cfi_def_cfa_offset 12
+ 295              		.cfi_offset 4, -12
+ 296              		.cfi_offset 7, -8
+ 297              		.cfi_offset 14, -4
+ 298 0002 ADF23C4D 		subw	sp, sp, #1084
+ 299              		.cfi_def_cfa_offset 1096
+ 300 0006 02AF     		add	r7, sp, #8
+ 301              		.cfi_def_cfa 7, 1088
+ 302 0008 07F10C04 		add	r4, r7, #12
+ 303 000c 2060     		str	r0, [r4]
+ 304 000e 07F10800 		add	r0, r7, #8
+ 305 0012 0160     		str	r1, [r0]
+ 306 0014 1146     		mov	r1, r2
+ 307 0016 3A46     		mov	r2, r7
+ 308 0018 1360     		str	r3, [r2]
+ 309 001a FB1D     		adds	r3, r7, #7
+ 310 001c 0A46     		mov	r2, r1
+ 311 001e 1A70     		strb	r2, [r3]
+  84:cybtldr_api.c ****     const unsigned long SUPPORTED_BOOTLOADER = 0x010000;
+ 312              		.loc 1 84 0
+ 313 0020 4FF48033 		mov	r3, #65536
+ 314 0024 C7F82434 		str	r3, [r7, #1060]
+  85:cybtldr_api.c ****     const unsigned long BOOTLOADER_VERSION_MASK = 0xFF0000;
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 8
+
+
+ 315              		.loc 1 85 0
+ 316 0028 4FF47F03 		mov	r3, #16711680
+ 317 002c C7F82034 		str	r3, [r7, #1056]
+  86:cybtldr_api.c ****     unsigned long i;
+  87:cybtldr_api.c ****     unsigned long inSize = 0;
+ 318              		.loc 1 87 0
+ 319 0030 0023     		movs	r3, #0
+ 320 0032 C7F81C34 		str	r3, [r7, #1052]
+  88:cybtldr_api.c ****     unsigned long outSize = 0;
+ 321              		.loc 1 88 0
+ 322 0036 0023     		movs	r3, #0
+ 323 0038 C7F81834 		str	r3, [r7, #1048]
+  89:cybtldr_api.c ****     unsigned long siliconId = 0;
+ 324              		.loc 1 89 0
+ 325 003c 0023     		movs	r3, #0
+ 326 003e C7F81434 		str	r3, [r7, #1044]
+  90:cybtldr_api.c ****     unsigned char inBuf[MAX_COMMAND_SIZE];
+  91:cybtldr_api.c ****     unsigned char outBuf[MAX_COMMAND_SIZE];
+  92:cybtldr_api.c ****     unsigned char siliconRev = 0;
+ 327              		.loc 1 92 0
+ 328 0042 07F11303 		add	r3, r7, #19
+ 329 0046 0022     		movs	r2, #0
+ 330 0048 1A70     		strb	r2, [r3]
+  93:cybtldr_api.c ****     unsigned char status = CYRET_SUCCESS;
+ 331              		.loc 1 93 0
+ 332 004a 07F11203 		add	r3, r7, #18
+ 333 004e 0022     		movs	r2, #0
+ 334 0050 1A70     		strb	r2, [r3]
+  94:cybtldr_api.c ****     int err;
+  95:cybtldr_api.c **** 
+  96:cybtldr_api.c ****     g_comm = comm;
+ 335              		.loc 1 96 0
+ 336 0052 4A4A     		ldr	r2, .L32
+ 337 0054 07F10C03 		add	r3, r7, #12
+ 338 0058 1B68     		ldr	r3, [r3]
+ 339 005a 1360     		str	r3, [r2]
+  97:cybtldr_api.c ****     for (i = 0; i < MAX_FLASH_ARRAYS; i++)
+ 340              		.loc 1 97 0
+ 341 005c 0023     		movs	r3, #0
+ 342 005e C7F82C34 		str	r3, [r7, #1068]
+ 343 0062 0AE0     		b	.L21
+ 344              	.L22:
+  98:cybtldr_api.c ****         g_validRows[i] = NO_FLASH_ARRAY_DATA;
+ 345              		.loc 1 98 0 discriminator 3
+ 346 0064 464A     		ldr	r2, .L32+4
+ 347 0066 D7F82C34 		ldr	r3, [r7, #1068]
+ 348 006a 0021     		movs	r1, #0
+ 349 006c 42F82310 		str	r1, [r2, r3, lsl #2]
+  97:cybtldr_api.c ****     for (i = 0; i < MAX_FLASH_ARRAYS; i++)
+ 350              		.loc 1 97 0 discriminator 3
+ 351 0070 D7F82C34 		ldr	r3, [r7, #1068]
+ 352 0074 0133     		adds	r3, r3, #1
+ 353 0076 C7F82C34 		str	r3, [r7, #1068]
+ 354              	.L21:
+  97:cybtldr_api.c ****     for (i = 0; i < MAX_FLASH_ARRAYS; i++)
+ 355              		.loc 1 97 0 is_stmt 0 discriminator 1
+ 356 007a D7F82C34 		ldr	r3, [r7, #1068]
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 9
+
+
+ 357 007e 3F2B     		cmp	r3, #63
+ 358 0080 F0D9     		bls	.L22
+  99:cybtldr_api.c **** 
+ 100:cybtldr_api.c ****     err = g_comm->OpenConnection();
+ 359              		.loc 1 100 0 is_stmt 1
+ 360 0082 3E4B     		ldr	r3, .L32
+ 361 0084 1B68     		ldr	r3, [r3]
+ 362 0086 1B68     		ldr	r3, [r3]
+ 363 0088 9847     		blx	r3
+ 364 008a C7F82804 		str	r0, [r7, #1064]
+ 101:cybtldr_api.c ****     if (CYRET_SUCCESS != err)
+ 365              		.loc 1 101 0
+ 366 008e D7F82834 		ldr	r3, [r7, #1064]
+ 367 0092 002B     		cmp	r3, #0
+ 368 0094 05D0     		beq	.L23
+ 102:cybtldr_api.c ****         err |= CYRET_ERR_COMM_MASK;
+ 369              		.loc 1 102 0
+ 370 0096 D7F82834 		ldr	r3, [r7, #1064]
+ 371 009a 43F40053 		orr	r3, r3, #8192
+ 372 009e C7F82834 		str	r3, [r7, #1064]
+ 373              	.L23:
+ 103:cybtldr_api.c **** 
+ 104:cybtldr_api.c ****     if (CYRET_SUCCESS == err)
+ 374              		.loc 1 104 0
+ 375 00a2 D7F82834 		ldr	r3, [r7, #1064]
+ 376 00a6 002B     		cmp	r3, #0
+ 377 00a8 0AD1     		bne	.L24
+ 105:cybtldr_api.c ****         err = CyBtldr_CreateEnterBootLoaderCmd(inBuf, &inSize, &outSize);
+ 378              		.loc 1 105 0
+ 379 00aa 07F58362 		add	r2, r7, #1048
+ 380 00ae 07F21C41 		addw	r1, r7, #1052
+ 381 00b2 07F50573 		add	r3, r7, #532
+ 382 00b6 1846     		mov	r0, r3
+ 383 00b8 FFF7FEFF 		bl	CyBtldr_CreateEnterBootLoaderCmd
+ 384 00bc C7F82804 		str	r0, [r7, #1064]
+ 385              	.L24:
+ 106:cybtldr_api.c ****     if (CYRET_SUCCESS == err)
+ 386              		.loc 1 106 0
+ 387 00c0 D7F82834 		ldr	r3, [r7, #1064]
+ 388 00c4 002B     		cmp	r3, #0
+ 389 00c6 0CD1     		bne	.L25
+ 107:cybtldr_api.c ****         err = CyBtldr_TransferData(inBuf, inSize, outBuf, outSize);
+ 390              		.loc 1 107 0
+ 391 00c8 D7F81C34 		ldr	r3, [r7, #1052]
+ 392 00cc 1946     		mov	r1, r3
+ 393 00ce D7F81834 		ldr	r3, [r7, #1048]
+ 394 00d2 07F11402 		add	r2, r7, #20
+ 395 00d6 07F50570 		add	r0, r7, #532
+ 396 00da FFF7FEFF 		bl	CyBtldr_TransferData
+ 397 00de C7F82804 		str	r0, [r7, #1064]
+ 398              	.L25:
+ 108:cybtldr_api.c ****     if (CYRET_SUCCESS == err)
+ 399              		.loc 1 108 0
+ 400 00e2 D7F82834 		ldr	r3, [r7, #1064]
+ 401 00e6 002B     		cmp	r3, #0
+ 402 00e8 12D1     		bne	.L26
+ 109:cybtldr_api.c ****         err = CyBtldr_ParseEnterBootLoaderCmdResult(outBuf, outSize, &siliconId, &siliconRev, blVer
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 10
+
+
+ 403              		.loc 1 109 0
+ 404 00ea D7F81814 		ldr	r1, [r7, #1048]
+ 405 00ee 07F11304 		add	r4, r7, #19
+ 406 00f2 07F21442 		addw	r2, r7, #1044
+ 407 00f6 07F11400 		add	r0, r7, #20
+ 408 00fa 07F11203 		add	r3, r7, #18
+ 409 00fe 0193     		str	r3, [sp, #4]
+ 410 0100 3B46     		mov	r3, r7
+ 411 0102 1B68     		ldr	r3, [r3]
+ 412 0104 0093     		str	r3, [sp]
+ 413 0106 2346     		mov	r3, r4
+ 414 0108 FFF7FEFF 		bl	CyBtldr_ParseEnterBootLoaderCmdResult
+ 415 010c C7F82804 		str	r0, [r7, #1064]
+ 416              	.L26:
+ 110:cybtldr_api.c **** 
+ 111:cybtldr_api.c **** 
+ 112:cybtldr_api.c ****     if (CYRET_SUCCESS == err)
+ 417              		.loc 1 112 0
+ 418 0110 D7F82834 		ldr	r3, [r7, #1064]
+ 419 0114 002B     		cmp	r3, #0
+ 420 0116 2AD1     		bne	.L27
+ 113:cybtldr_api.c ****     {
+ 114:cybtldr_api.c ****         if (CYRET_SUCCESS != status)
+ 421              		.loc 1 114 0
+ 422 0118 07F11203 		add	r3, r7, #18
+ 423 011c 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 424 011e 002B     		cmp	r3, #0
+ 425 0120 06D0     		beq	.L28
+ 115:cybtldr_api.c ****             err = status | CYRET_ERR_BTLDR_MASK;
+ 426              		.loc 1 115 0
+ 427 0122 07F11203 		add	r3, r7, #18
+ 428 0126 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 429 0128 43F48043 		orr	r3, r3, #16384
+ 430 012c C7F82834 		str	r3, [r7, #1064]
+ 431              	.L28:
+ 116:cybtldr_api.c ****         if (expSiId != siliconId || expSiRev != siliconRev)
+ 432              		.loc 1 116 0
+ 433 0130 D7F81434 		ldr	r3, [r7, #1044]
+ 434 0134 07F10802 		add	r2, r7, #8
+ 435 0138 1268     		ldr	r2, [r2]
+ 436 013a 9A42     		cmp	r2, r3
+ 437 013c 06D1     		bne	.L29
+ 438              		.loc 1 116 0 is_stmt 0 discriminator 1
+ 439 013e 07F11303 		add	r3, r7, #19
+ 440 0142 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 441 0144 FA1D     		adds	r2, r7, #7
+ 442 0146 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 443 0148 9A42     		cmp	r2, r3
+ 444 014a 03D0     		beq	.L30
+ 445              	.L29:
+ 117:cybtldr_api.c ****             err = CYRET_ERR_DEVICE;
+ 446              		.loc 1 117 0 is_stmt 1
+ 447 014c 0623     		movs	r3, #6
+ 448 014e C7F82834 		str	r3, [r7, #1064]
+ 449 0152 0CE0     		b	.L27
+ 450              	.L30:
+ 118:cybtldr_api.c ****         else if ((*blVer & BOOTLOADER_VERSION_MASK) != SUPPORTED_BOOTLOADER)
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 11
+
+
+ 451              		.loc 1 118 0
+ 452 0154 3B46     		mov	r3, r7
+ 453 0156 1B68     		ldr	r3, [r3]
+ 454 0158 1A68     		ldr	r2, [r3]
+ 455 015a D7F82034 		ldr	r3, [r7, #1056]
+ 456 015e 1A40     		ands	r2, r2, r3
+ 457 0160 D7F82434 		ldr	r3, [r7, #1060]
+ 458 0164 9A42     		cmp	r2, r3
+ 459 0166 02D0     		beq	.L27
+ 119:cybtldr_api.c ****             err = CYRET_ERR_VERSION;
+ 460              		.loc 1 119 0
+ 461 0168 0723     		movs	r3, #7
+ 462 016a C7F82834 		str	r3, [r7, #1064]
+ 463              	.L27:
+ 120:cybtldr_api.c ****     }
+ 121:cybtldr_api.c **** 
+ 122:cybtldr_api.c ****     return err;
+ 464              		.loc 1 122 0
+ 465 016e D7F82834 		ldr	r3, [r7, #1064]
+ 123:cybtldr_api.c **** }
+ 466              		.loc 1 123 0
+ 467 0172 1846     		mov	r0, r3
+ 468 0174 07F23447 		addw	r7, r7, #1076
+ 469              		.cfi_def_cfa_offset 12
+ 470 0178 BD46     		mov	sp, r7
+ 471              		.cfi_def_cfa_register 13
+ 472              		@ sp needed
+ 473 017a 90BD     		pop	{r4, r7, pc}
+ 474              	.L33:
+ 475              		.align	2
+ 476              	.L32:
+ 477 017c 00000000 		.word	g_comm
+ 478 0180 00000000 		.word	g_validRows
+ 479              		.cfi_endproc
+ 480              	.LFE3:
+ 481              		.size	CyBtldr_StartBootloadOperation, .-CyBtldr_StartBootloadOperation
+ 482              		.section	.text.CyBtldr_GetApplicationStatus,"ax",%progbits
+ 483              		.align	2
+ 484              		.global	CyBtldr_GetApplicationStatus
+ 485              		.thumb
+ 486              		.thumb_func
+ 487              		.type	CyBtldr_GetApplicationStatus, %function
+ 488              	CyBtldr_GetApplicationStatus:
+ 489              	.LFB4:
+ 124:cybtldr_api.c **** 
+ 125:cybtldr_api.c **** int CyBtldr_GetApplicationStatus(unsigned char appID, unsigned char* isValid, unsigned char* isActi
+ 126:cybtldr_api.c **** {
+ 490              		.loc 1 126 0
+ 491              		.cfi_startproc
+ 492              		@ args = 0, pretend = 0, frame = 1056
+ 493              		@ frame_needed = 1, uses_anonymous_args = 0
+ 494 0000 90B5     		push	{r4, r7, lr}
+ 495              		.cfi_def_cfa_offset 12
+ 496              		.cfi_offset 4, -12
+ 497              		.cfi_offset 7, -8
+ 498              		.cfi_offset 14, -4
+ 499 0002 ADF22C4D 		subw	sp, sp, #1068
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 12
+
+
+ 500              		.cfi_def_cfa_offset 1080
+ 501 0006 02AF     		add	r7, sp, #8
+ 502              		.cfi_def_cfa 7, 1072
+ 503 0008 07F10803 		add	r3, r7, #8
+ 504 000c 1960     		str	r1, [r3]
+ 505 000e 3B1D     		adds	r3, r7, #4
+ 506 0010 1A60     		str	r2, [r3]
+ 507 0012 07F10F03 		add	r3, r7, #15
+ 508 0016 0246     		mov	r2, r0
+ 509 0018 1A70     		strb	r2, [r3]
+ 127:cybtldr_api.c ****     unsigned long inSize = 0;
+ 510              		.loc 1 127 0
+ 511 001a 0023     		movs	r3, #0
+ 512 001c C7F81834 		str	r3, [r7, #1048]
+ 128:cybtldr_api.c ****     unsigned long outSize = 0;
+ 513              		.loc 1 128 0
+ 514 0020 0023     		movs	r3, #0
+ 515 0022 C7F81434 		str	r3, [r7, #1044]
+ 129:cybtldr_api.c ****     unsigned char inBuf[MAX_COMMAND_SIZE];
+ 130:cybtldr_api.c ****     unsigned char outBuf[MAX_COMMAND_SIZE];
+ 131:cybtldr_api.c ****     unsigned char status = CYRET_SUCCESS;
+ 516              		.loc 1 131 0
+ 517 0026 07F11303 		add	r3, r7, #19
+ 518 002a 0022     		movs	r2, #0
+ 519 002c 1A70     		strb	r2, [r3]
+ 132:cybtldr_api.c ****     int err;
+ 133:cybtldr_api.c **** 
+ 134:cybtldr_api.c ****     err = CyBtldr_CreateGetAppStatusCmd(appID, inBuf, &inSize, &outSize);
+ 520              		.loc 1 134 0
+ 521 002e 07F21444 		addw	r4, r7, #1044
+ 522 0032 07F58362 		add	r2, r7, #1048
+ 523 0036 07F50571 		add	r1, r7, #532
+ 524 003a 07F10F03 		add	r3, r7, #15
+ 525 003e 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 526 0040 2346     		mov	r3, r4
+ 527 0042 FFF7FEFF 		bl	CyBtldr_CreateGetAppStatusCmd
+ 528 0046 C7F81C04 		str	r0, [r7, #1052]
+ 135:cybtldr_api.c ****     if (CYRET_SUCCESS == err)
+ 529              		.loc 1 135 0
+ 530 004a D7F81C34 		ldr	r3, [r7, #1052]
+ 531 004e 002B     		cmp	r3, #0
+ 532 0050 0CD1     		bne	.L35
+ 136:cybtldr_api.c ****         err = CyBtldr_TransferData(inBuf, inSize, outBuf, outSize);
+ 533              		.loc 1 136 0
+ 534 0052 D7F81834 		ldr	r3, [r7, #1048]
+ 535 0056 1946     		mov	r1, r3
+ 536 0058 D7F81434 		ldr	r3, [r7, #1044]
+ 537 005c 07F11402 		add	r2, r7, #20
+ 538 0060 07F50570 		add	r0, r7, #532
+ 539 0064 FFF7FEFF 		bl	CyBtldr_TransferData
+ 540 0068 C7F81C04 		str	r0, [r7, #1052]
+ 541              	.L35:
+ 137:cybtldr_api.c ****     if (CYRET_SUCCESS == err)
+ 542              		.loc 1 137 0
+ 543 006c D7F81C34 		ldr	r3, [r7, #1052]
+ 544 0070 002B     		cmp	r3, #0
+ 545 0072 10D1     		bne	.L36
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 13
+
+
+ 138:cybtldr_api.c ****         err = CyBtldr_ParseGetAppStatusCmdResult(outBuf, outSize, isValid, isActive, &status);
+ 546              		.loc 1 138 0
+ 547 0074 D7F81444 		ldr	r4, [r7, #1044]
+ 548 0078 3B1D     		adds	r3, r7, #4
+ 549 007a 07F10802 		add	r2, r7, #8
+ 550 007e 07F11400 		add	r0, r7, #20
+ 551 0082 07F11301 		add	r1, r7, #19
+ 552 0086 0091     		str	r1, [sp]
+ 553 0088 1B68     		ldr	r3, [r3]
+ 554 008a 1268     		ldr	r2, [r2]
+ 555 008c 2146     		mov	r1, r4
+ 556 008e FFF7FEFF 		bl	CyBtldr_ParseGetAppStatusCmdResult
+ 557 0092 C7F81C04 		str	r0, [r7, #1052]
+ 558              	.L36:
+ 139:cybtldr_api.c **** 
+ 140:cybtldr_api.c ****     if (CYRET_SUCCESS == err)
+ 559              		.loc 1 140 0
+ 560 0096 D7F81C34 		ldr	r3, [r7, #1052]
+ 561 009a 002B     		cmp	r3, #0
+ 562 009c 0BD1     		bne	.L37
+ 141:cybtldr_api.c ****     {
+ 142:cybtldr_api.c ****         if (CYRET_SUCCESS != status)
+ 563              		.loc 1 142 0
+ 564 009e 07F11303 		add	r3, r7, #19
+ 565 00a2 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 566 00a4 002B     		cmp	r3, #0
+ 567 00a6 06D0     		beq	.L37
+ 143:cybtldr_api.c ****             err = status | CYRET_ERR_BTLDR_MASK;
+ 568              		.loc 1 143 0
+ 569 00a8 07F11303 		add	r3, r7, #19
+ 570 00ac 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 571 00ae 43F48043 		orr	r3, r3, #16384
+ 572 00b2 C7F81C34 		str	r3, [r7, #1052]
+ 573              	.L37:
+ 144:cybtldr_api.c ****     }
+ 145:cybtldr_api.c **** 
+ 146:cybtldr_api.c ****     return err;
+ 574              		.loc 1 146 0
+ 575 00b6 D7F81C34 		ldr	r3, [r7, #1052]
+ 147:cybtldr_api.c **** }
+ 576              		.loc 1 147 0
+ 577 00ba 1846     		mov	r0, r3
+ 578 00bc 07F22447 		addw	r7, r7, #1060
+ 579              		.cfi_def_cfa_offset 12
+ 580 00c0 BD46     		mov	sp, r7
+ 581              		.cfi_def_cfa_register 13
+ 582              		@ sp needed
+ 583 00c2 90BD     		pop	{r4, r7, pc}
+ 584              		.cfi_endproc
+ 585              	.LFE4:
+ 586              		.size	CyBtldr_GetApplicationStatus, .-CyBtldr_GetApplicationStatus
+ 587              		.section	.text.CyBtldr_SetApplicationStatus,"ax",%progbits
+ 588              		.align	2
+ 589              		.global	CyBtldr_SetApplicationStatus
+ 590              		.thumb
+ 591              		.thumb_func
+ 592              		.type	CyBtldr_SetApplicationStatus, %function
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 14
+
+
+ 593              	CyBtldr_SetApplicationStatus:
+ 594              	.LFB5:
+ 148:cybtldr_api.c **** 
+ 149:cybtldr_api.c **** int CyBtldr_SetApplicationStatus(unsigned char appID)
+ 150:cybtldr_api.c **** {
+ 595              		.loc 1 150 0
+ 596              		.cfi_startproc
+ 597              		@ args = 0, pretend = 0, frame = 1048
+ 598              		@ frame_needed = 1, uses_anonymous_args = 0
+ 599 0000 90B5     		push	{r4, r7, lr}
+ 600              		.cfi_def_cfa_offset 12
+ 601              		.cfi_offset 4, -12
+ 602              		.cfi_offset 7, -8
+ 603              		.cfi_offset 14, -4
+ 604 0002 ADF21C4D 		subw	sp, sp, #1052
+ 605              		.cfi_def_cfa_offset 1064
+ 606 0006 00AF     		add	r7, sp, #0
+ 607              		.cfi_def_cfa_register 7
+ 608 0008 0246     		mov	r2, r0
+ 609 000a FB1D     		adds	r3, r7, #7
+ 610 000c 1A70     		strb	r2, [r3]
+ 151:cybtldr_api.c ****     unsigned long inSize = 0;
+ 611              		.loc 1 151 0
+ 612 000e 0023     		movs	r3, #0
+ 613 0010 C7F81034 		str	r3, [r7, #1040]
+ 152:cybtldr_api.c ****     unsigned long outSize = 0;
+ 614              		.loc 1 152 0
+ 615 0014 0023     		movs	r3, #0
+ 616 0016 C7F80C34 		str	r3, [r7, #1036]
+ 153:cybtldr_api.c ****     unsigned char inBuf[MAX_COMMAND_SIZE];
+ 154:cybtldr_api.c ****     unsigned char outBuf[MAX_COMMAND_SIZE];
+ 155:cybtldr_api.c ****     unsigned char status = CYRET_SUCCESS;
+ 617              		.loc 1 155 0
+ 618 001a 07F10B03 		add	r3, r7, #11
+ 619 001e 0022     		movs	r2, #0
+ 620 0020 1A70     		strb	r2, [r3]
+ 156:cybtldr_api.c ****     int err;
+ 157:cybtldr_api.c **** 
+ 158:cybtldr_api.c ****     err = CyBtldr_CreateSetActiveAppCmd(appID, inBuf, &inSize, &outSize);
+ 621              		.loc 1 158 0
+ 622 0022 07F20C44 		addw	r4, r7, #1036
+ 623 0026 07F58262 		add	r2, r7, #1040
+ 624 002a 07F50371 		add	r1, r7, #524
+ 625 002e FB1D     		adds	r3, r7, #7
+ 626 0030 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 627 0032 2346     		mov	r3, r4
+ 628 0034 FFF7FEFF 		bl	CyBtldr_CreateSetActiveAppCmd
+ 629 0038 C7F81404 		str	r0, [r7, #1044]
+ 159:cybtldr_api.c ****     if (CYRET_SUCCESS == err)
+ 630              		.loc 1 159 0
+ 631 003c D7F81434 		ldr	r3, [r7, #1044]
+ 632 0040 002B     		cmp	r3, #0
+ 633 0042 0CD1     		bne	.L40
+ 160:cybtldr_api.c ****         err = CyBtldr_TransferData(inBuf, inSize, outBuf, outSize);
+ 634              		.loc 1 160 0
+ 635 0044 D7F81034 		ldr	r3, [r7, #1040]
+ 636 0048 1946     		mov	r1, r3
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 15
+
+
+ 637 004a D7F80C34 		ldr	r3, [r7, #1036]
+ 638 004e 07F10C02 		add	r2, r7, #12
+ 639 0052 07F50370 		add	r0, r7, #524
+ 640 0056 FFF7FEFF 		bl	CyBtldr_TransferData
+ 641 005a C7F81404 		str	r0, [r7, #1044]
+ 642              	.L40:
+ 161:cybtldr_api.c ****     if (CYRET_SUCCESS == err)
+ 643              		.loc 1 161 0
+ 644 005e D7F81434 		ldr	r3, [r7, #1044]
+ 645 0062 002B     		cmp	r3, #0
+ 646 0064 0AD1     		bne	.L41
+ 162:cybtldr_api.c ****         err = CyBtldr_ParseSetActiveAppCmdResult(outBuf, outSize, &status);
+ 647              		.loc 1 162 0
+ 648 0066 D7F80C14 		ldr	r1, [r7, #1036]
+ 649 006a 07F10B02 		add	r2, r7, #11
+ 650 006e 07F10C03 		add	r3, r7, #12
+ 651 0072 1846     		mov	r0, r3
+ 652 0074 FFF7FEFF 		bl	CyBtldr_ParseSetActiveAppCmdResult
+ 653 0078 C7F81404 		str	r0, [r7, #1044]
+ 654              	.L41:
+ 163:cybtldr_api.c **** 
+ 164:cybtldr_api.c ****     if (CYRET_SUCCESS == err)
+ 655              		.loc 1 164 0
+ 656 007c D7F81434 		ldr	r3, [r7, #1044]
+ 657 0080 002B     		cmp	r3, #0
+ 658 0082 0BD1     		bne	.L42
+ 165:cybtldr_api.c ****     {
+ 166:cybtldr_api.c ****         if (CYRET_SUCCESS != status)
+ 659              		.loc 1 166 0
+ 660 0084 07F10B03 		add	r3, r7, #11
+ 661 0088 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 662 008a 002B     		cmp	r3, #0
+ 663 008c 06D0     		beq	.L42
+ 167:cybtldr_api.c ****             err = status | CYRET_ERR_BTLDR_MASK;
+ 664              		.loc 1 167 0
+ 665 008e 07F10B03 		add	r3, r7, #11
+ 666 0092 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 667 0094 43F48043 		orr	r3, r3, #16384
+ 668 0098 C7F81434 		str	r3, [r7, #1044]
+ 669              	.L42:
+ 168:cybtldr_api.c ****     }
+ 169:cybtldr_api.c **** 
+ 170:cybtldr_api.c ****     return err;
+ 670              		.loc 1 170 0
+ 671 009c D7F81434 		ldr	r3, [r7, #1044]
+ 171:cybtldr_api.c **** }
+ 672              		.loc 1 171 0
+ 673 00a0 1846     		mov	r0, r3
+ 674 00a2 07F21C47 		addw	r7, r7, #1052
+ 675              		.cfi_def_cfa_offset 12
+ 676 00a6 BD46     		mov	sp, r7
+ 677              		.cfi_def_cfa_register 13
+ 678              		@ sp needed
+ 679 00a8 90BD     		pop	{r4, r7, pc}
+ 680              		.cfi_endproc
+ 681              	.LFE5:
+ 682              		.size	CyBtldr_SetApplicationStatus, .-CyBtldr_SetApplicationStatus
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 16
+
+
+ 683 00aa 00BF     		.section	.text.CyBtldr_EndBootloadOperation,"ax",%progbits
+ 684              		.align	2
+ 685              		.global	CyBtldr_EndBootloadOperation
+ 686              		.thumb
+ 687              		.thumb_func
+ 688              		.type	CyBtldr_EndBootloadOperation, %function
+ 689              	CyBtldr_EndBootloadOperation:
+ 690              	.LFB6:
+ 172:cybtldr_api.c **** 
+ 173:cybtldr_api.c **** int CyBtldr_EndBootloadOperation(void)
+ 174:cybtldr_api.c **** {
+ 691              		.loc 1 174 0
+ 692              		.cfi_startproc
+ 693              		@ args = 0, pretend = 0, frame = 528
+ 694              		@ frame_needed = 1, uses_anonymous_args = 0
+ 695 0000 80B5     		push	{r7, lr}
+ 696              		.cfi_def_cfa_offset 8
+ 697              		.cfi_offset 7, -8
+ 698              		.cfi_offset 14, -4
+ 699 0002 ADF5047D 		sub	sp, sp, #528
+ 700              		.cfi_def_cfa_offset 536
+ 701 0006 00AF     		add	r7, sp, #0
+ 702              		.cfi_def_cfa_register 7
+ 175:cybtldr_api.c ****     unsigned long inSize;
+ 176:cybtldr_api.c ****     unsigned long outSize;
+ 177:cybtldr_api.c ****     unsigned char inBuf[MAX_COMMAND_SIZE];
+ 178:cybtldr_api.c **** 
+ 179:cybtldr_api.c ****     int err = CyBtldr_CreateExitBootLoaderCmd(inBuf, &inSize, &outSize);
+ 703              		.loc 1 179 0
+ 704 0008 07F50172 		add	r2, r7, #516
+ 705 000c 07F50271 		add	r1, r7, #520
+ 706 0010 3B1D     		adds	r3, r7, #4
+ 707 0012 1846     		mov	r0, r3
+ 708 0014 FFF7FEFF 		bl	CyBtldr_CreateExitBootLoaderCmd
+ 709 0018 C7F80C02 		str	r0, [r7, #524]
+ 180:cybtldr_api.c ****     if (CYRET_SUCCESS == err)
+ 710              		.loc 1 180 0
+ 711 001c D7F80C32 		ldr	r3, [r7, #524]
+ 712 0020 002B     		cmp	r3, #0
+ 713 0022 1ED1     		bne	.L45
+ 181:cybtldr_api.c ****     {
+ 182:cybtldr_api.c ****         err = g_comm->WriteData(inBuf, inSize);
+ 714              		.loc 1 182 0
+ 715 0024 144B     		ldr	r3, .L48
+ 716 0026 1B68     		ldr	r3, [r3]
+ 717 0028 DB68     		ldr	r3, [r3, #12]
+ 718 002a D7F80822 		ldr	r2, [r7, #520]
+ 719 002e 1146     		mov	r1, r2
+ 720 0030 3A1D     		adds	r2, r7, #4
+ 721 0032 1046     		mov	r0, r2
+ 722 0034 9847     		blx	r3
+ 723 0036 C7F80C02 		str	r0, [r7, #524]
+ 183:cybtldr_api.c **** 
+ 184:cybtldr_api.c ****         if (CYRET_SUCCESS == err)
+ 724              		.loc 1 184 0
+ 725 003a D7F80C32 		ldr	r3, [r7, #524]
+ 726 003e 002B     		cmp	r3, #0
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 17
+
+
+ 727 0040 05D1     		bne	.L46
+ 185:cybtldr_api.c ****             err = g_comm->CloseConnection();
+ 728              		.loc 1 185 0
+ 729 0042 0D4B     		ldr	r3, .L48
+ 730 0044 1B68     		ldr	r3, [r3]
+ 731 0046 5B68     		ldr	r3, [r3, #4]
+ 732 0048 9847     		blx	r3
+ 733 004a C7F80C02 		str	r0, [r7, #524]
+ 734              	.L46:
+ 186:cybtldr_api.c **** 
+ 187:cybtldr_api.c ****         if (CYRET_SUCCESS != err)
+ 735              		.loc 1 187 0
+ 736 004e D7F80C32 		ldr	r3, [r7, #524]
+ 737 0052 002B     		cmp	r3, #0
+ 738 0054 05D0     		beq	.L45
+ 188:cybtldr_api.c ****             err |= CYRET_ERR_COMM_MASK;
+ 739              		.loc 1 188 0
+ 740 0056 D7F80C32 		ldr	r3, [r7, #524]
+ 741 005a 43F40053 		orr	r3, r3, #8192
+ 742 005e C7F80C32 		str	r3, [r7, #524]
+ 743              	.L45:
+ 189:cybtldr_api.c ****     }
+ 190:cybtldr_api.c ****     g_comm = NULL;
+ 744              		.loc 1 190 0
+ 745 0062 054B     		ldr	r3, .L48
+ 746 0064 0022     		movs	r2, #0
+ 747 0066 1A60     		str	r2, [r3]
+ 191:cybtldr_api.c **** 
+ 192:cybtldr_api.c ****     return err;
+ 748              		.loc 1 192 0
+ 749 0068 D7F80C32 		ldr	r3, [r7, #524]
+ 193:cybtldr_api.c **** }
+ 750              		.loc 1 193 0
+ 751 006c 1846     		mov	r0, r3
+ 752 006e 07F50477 		add	r7, r7, #528
+ 753              		.cfi_def_cfa_offset 8
+ 754 0072 BD46     		mov	sp, r7
+ 755              		.cfi_def_cfa_register 13
+ 756              		@ sp needed
+ 757 0074 80BD     		pop	{r7, pc}
+ 758              	.L49:
+ 759 0076 00BF     		.align	2
+ 760              	.L48:
+ 761 0078 00000000 		.word	g_comm
+ 762              		.cfi_endproc
+ 763              	.LFE6:
+ 764              		.size	CyBtldr_EndBootloadOperation, .-CyBtldr_EndBootloadOperation
+ 765              		.section	.text.CyBtldr_ProgramRow,"ax",%progbits
+ 766              		.align	2
+ 767              		.global	CyBtldr_ProgramRow
+ 768              		.thumb
+ 769              		.thumb_func
+ 770              		.type	CyBtldr_ProgramRow, %function
+ 771              	CyBtldr_ProgramRow:
+ 772              	.LFB7:
+ 194:cybtldr_api.c **** 
+ 195:cybtldr_api.c **** int CyBtldr_ProgramRow(unsigned char arrayID, unsigned short rowNum, unsigned char* buf, unsigned s
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 18
+
+
+ 196:cybtldr_api.c **** {
+ 773              		.loc 1 196 0
+ 774              		.cfi_startproc
+ 775              		@ args = 0, pretend = 0, frame = 1072
+ 776              		@ frame_needed = 1, uses_anonymous_args = 0
+ 777 0000 90B5     		push	{r4, r7, lr}
+ 778              		.cfi_def_cfa_offset 12
+ 779              		.cfi_offset 4, -12
+ 780              		.cfi_offset 7, -8
+ 781              		.cfi_offset 14, -4
+ 782 0002 ADF2444D 		subw	sp, sp, #1092
+ 783              		.cfi_def_cfa_offset 1104
+ 784 0006 04AF     		add	r7, sp, #16
+ 785              		.cfi_def_cfa 7, 1088
+ 786 0008 0446     		mov	r4, r0
+ 787 000a 0846     		mov	r0, r1
+ 788 000c 07F10801 		add	r1, r7, #8
+ 789 0010 0A60     		str	r2, [r1]
+ 790 0012 1946     		mov	r1, r3
+ 791 0014 07F10F03 		add	r3, r7, #15
+ 792 0018 2246     		mov	r2, r4
+ 793 001a 1A70     		strb	r2, [r3]
+ 794 001c 07F10C03 		add	r3, r7, #12
+ 795 0020 0246     		mov	r2, r0	@ movhi
+ 796 0022 1A80     		strh	r2, [r3]	@ movhi
+ 797 0024 BB1D     		adds	r3, r7, #6
+ 798 0026 0A46     		mov	r2, r1	@ movhi
+ 799 0028 1A80     		strh	r2, [r3]	@ movhi
+ 197:cybtldr_api.c ****     const int TRANSFER_HEADER_SIZE = 11;
+ 800              		.loc 1 197 0
+ 801 002a 0B23     		movs	r3, #11
+ 802 002c C7F82434 		str	r3, [r7, #1060]
+ 198:cybtldr_api.c **** 
+ 199:cybtldr_api.c ****     unsigned char inBuf[MAX_COMMAND_SIZE];
+ 200:cybtldr_api.c ****     unsigned char outBuf[MAX_COMMAND_SIZE];
+ 201:cybtldr_api.c ****     unsigned long inSize;
+ 202:cybtldr_api.c ****     unsigned long outSize;
+ 203:cybtldr_api.c ****     unsigned long offset = 0;
+ 803              		.loc 1 203 0
+ 804 0030 0023     		movs	r3, #0
+ 805 0032 C7F82C34 		str	r3, [r7, #1068]
+ 204:cybtldr_api.c ****     unsigned short subBufSize;
+ 205:cybtldr_api.c ****     unsigned char status = CYRET_SUCCESS;
+ 806              		.loc 1 205 0
+ 807 0036 07F11703 		add	r3, r7, #23
+ 808 003a 0022     		movs	r2, #0
+ 809 003c 1A70     		strb	r2, [r3]
+ 206:cybtldr_api.c ****     int err = CYRET_SUCCESS;
+ 810              		.loc 1 206 0
+ 811 003e 0023     		movs	r3, #0
+ 812 0040 C7F82834 		str	r3, [r7, #1064]
+ 207:cybtldr_api.c ****     
+ 208:cybtldr_api.c ****     if (arrayID < MAX_FLASH_ARRAYS)
+ 813              		.loc 1 208 0
+ 814 0044 07F10F03 		add	r3, r7, #15
+ 815 0048 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 816 004a 3F2B     		cmp	r3, #63
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 19
+
+
+ 817 004c 60D8     		bhi	.L52
+ 209:cybtldr_api.c ****         err = CyBtldr_ValidateRow(arrayID, rowNum);
+ 818              		.loc 1 209 0
+ 819 004e 07F10C03 		add	r3, r7, #12
+ 820 0052 1A88     		ldrh	r2, [r3]
+ 821 0054 07F10F03 		add	r3, r7, #15
+ 822 0058 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 823 005a 1146     		mov	r1, r2
+ 824 005c 1846     		mov	r0, r3
+ 825 005e FFF7FEFF 		bl	CyBtldr_ValidateRow
+ 826 0062 C7F82804 		str	r0, [r7, #1064]
+ 210:cybtldr_api.c **** 
+ 211:cybtldr_api.c ****     //Break row into pieces to ensure we don't send too much for the transfer protocol
+ 212:cybtldr_api.c ****     while ((CYRET_SUCCESS == err) && ((size - offset + TRANSFER_HEADER_SIZE) > g_comm->MaxTransferS
+ 827              		.loc 1 212 0
+ 828 0066 53E0     		b	.L52
+ 829              	.L57:
+ 213:cybtldr_api.c ****     {
+ 214:cybtldr_api.c ****         subBufSize = (unsigned short)(g_comm->MaxTransferSize - TRANSFER_HEADER_SIZE);
+ 830              		.loc 1 214 0
+ 831 0068 614B     		ldr	r3, .L62
+ 832 006a 1B68     		ldr	r3, [r3]
+ 833 006c 1B69     		ldr	r3, [r3, #16]
+ 834 006e 9AB2     		uxth	r2, r3
+ 835 0070 D7F82434 		ldr	r3, [r7, #1060]
+ 836 0074 9BB2     		uxth	r3, r3
+ 837 0076 D31A     		subs	r3, r2, r3
+ 838 0078 A7F82234 		strh	r3, [r7, #1058]	@ movhi
+ 215:cybtldr_api.c **** 
+ 216:cybtldr_api.c ****         err = CyBtldr_CreateSendDataCmd(&buf[offset], subBufSize, inBuf, &inSize, &outSize);
+ 839              		.loc 1 216 0
+ 840 007c 07F10803 		add	r3, r7, #8
+ 841 0080 1A68     		ldr	r2, [r3]
+ 842 0082 D7F82C34 		ldr	r3, [r7, #1068]
+ 843 0086 D018     		adds	r0, r2, r3
+ 844 0088 07F11C04 		add	r4, r7, #28
+ 845 008c 07F50872 		add	r2, r7, #544
+ 846 0090 B7F82214 		ldrh	r1, [r7, #1058]
+ 847 0094 07F11803 		add	r3, r7, #24
+ 848 0098 0093     		str	r3, [sp]
+ 849 009a 2346     		mov	r3, r4
+ 850 009c FFF7FEFF 		bl	CyBtldr_CreateSendDataCmd
+ 851 00a0 C7F82804 		str	r0, [r7, #1064]
+ 217:cybtldr_api.c ****         if (CYRET_SUCCESS == err)
+ 852              		.loc 1 217 0
+ 853 00a4 D7F82834 		ldr	r3, [r7, #1064]
+ 854 00a8 002B     		cmp	r3, #0
+ 855 00aa 0ED1     		bne	.L53
+ 218:cybtldr_api.c ****             err = CyBtldr_TransferData(inBuf, inSize, outBuf, outSize);
+ 856              		.loc 1 218 0
+ 857 00ac 07F11C03 		add	r3, r7, #28
+ 858 00b0 1B68     		ldr	r3, [r3]
+ 859 00b2 1946     		mov	r1, r3
+ 860 00b4 07F11803 		add	r3, r7, #24
+ 861 00b8 1B68     		ldr	r3, [r3]
+ 862 00ba 07F12002 		add	r2, r7, #32
+ 863 00be 07F50870 		add	r0, r7, #544
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 20
+
+
+ 864 00c2 FFF7FEFF 		bl	CyBtldr_TransferData
+ 865 00c6 C7F82804 		str	r0, [r7, #1064]
+ 866              	.L53:
+ 219:cybtldr_api.c ****         if (CYRET_SUCCESS == err)
+ 867              		.loc 1 219 0
+ 868 00ca D7F82834 		ldr	r3, [r7, #1064]
+ 869 00ce 002B     		cmp	r3, #0
+ 870 00d0 0BD1     		bne	.L54
+ 220:cybtldr_api.c ****             err = CyBtldr_ParseSendDataCmdResult(outBuf, outSize, &status);
+ 871              		.loc 1 220 0
+ 872 00d2 07F11803 		add	r3, r7, #24
+ 873 00d6 1968     		ldr	r1, [r3]
+ 874 00d8 07F11702 		add	r2, r7, #23
+ 875 00dc 07F12003 		add	r3, r7, #32
+ 876 00e0 1846     		mov	r0, r3
+ 877 00e2 FFF7FEFF 		bl	CyBtldr_ParseSendDataCmdResult
+ 878 00e6 C7F82804 		str	r0, [r7, #1064]
+ 879              	.L54:
+ 221:cybtldr_api.c ****         if (CYRET_SUCCESS != status)
+ 880              		.loc 1 221 0
+ 881 00ea 07F11703 		add	r3, r7, #23
+ 882 00ee 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 883 00f0 002B     		cmp	r3, #0
+ 884 00f2 06D0     		beq	.L55
+ 222:cybtldr_api.c ****             err = status | CYRET_ERR_BTLDR_MASK;
+ 885              		.loc 1 222 0
+ 886 00f4 07F11703 		add	r3, r7, #23
+ 887 00f8 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 888 00fa 43F48043 		orr	r3, r3, #16384
+ 889 00fe C7F82834 		str	r3, [r7, #1064]
+ 890              	.L55:
+ 223:cybtldr_api.c **** 
+ 224:cybtldr_api.c ****         offset += subBufSize;
+ 891              		.loc 1 224 0
+ 892 0102 B7F82234 		ldrh	r3, [r7, #1058]
+ 893 0106 D7F82C24 		ldr	r2, [r7, #1068]
+ 894 010a 1344     		add	r3, r3, r2
+ 895 010c C7F82C34 		str	r3, [r7, #1068]
+ 896              	.L52:
+ 212:cybtldr_api.c ****     {
+ 897              		.loc 1 212 0
+ 898 0110 D7F82834 		ldr	r3, [r7, #1064]
+ 899 0114 002B     		cmp	r3, #0
+ 900 0116 0CD1     		bne	.L56
+ 212:cybtldr_api.c ****     {
+ 901              		.loc 1 212 0 is_stmt 0 discriminator 1
+ 902 0118 BB1D     		adds	r3, r7, #6
+ 903 011a 1A88     		ldrh	r2, [r3]
+ 904 011c D7F82C34 		ldr	r3, [r7, #1068]
+ 905 0120 D21A     		subs	r2, r2, r3
+ 906 0122 D7F82434 		ldr	r3, [r7, #1060]
+ 907 0126 1A44     		add	r2, r2, r3
+ 908 0128 314B     		ldr	r3, .L62
+ 909 012a 1B68     		ldr	r3, [r3]
+ 910 012c 1B69     		ldr	r3, [r3, #16]
+ 911 012e 9A42     		cmp	r2, r3
+ 912 0130 9AD8     		bhi	.L57
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 21
+
+
+ 913              	.L56:
+ 225:cybtldr_api.c ****     }
+ 226:cybtldr_api.c **** 
+ 227:cybtldr_api.c ****     if (CYRET_SUCCESS == err)
+ 914              		.loc 1 227 0 is_stmt 1
+ 915 0132 D7F82834 		ldr	r3, [r7, #1064]
+ 916 0136 002B     		cmp	r3, #0
+ 917 0138 52D1     		bne	.L58
+ 228:cybtldr_api.c ****     {
+ 229:cybtldr_api.c ****         subBufSize = (unsigned short)(size - offset);
+ 918              		.loc 1 229 0
+ 919 013a D7F82C34 		ldr	r3, [r7, #1068]
+ 920 013e 9BB2     		uxth	r3, r3
+ 921 0140 BA1D     		adds	r2, r7, #6
+ 922 0142 1288     		ldrh	r2, [r2]	@ movhi
+ 923 0144 D31A     		subs	r3, r2, r3
+ 924 0146 A7F82234 		strh	r3, [r7, #1058]	@ movhi
+ 230:cybtldr_api.c **** 
+ 231:cybtldr_api.c ****         err = CyBtldr_CreateProgramRowCmd(arrayID, rowNum, &buf[offset], subBufSize, inBuf, &inSize
+ 925              		.loc 1 231 0
+ 926 014a 07F10803 		add	r3, r7, #8
+ 927 014e 1A68     		ldr	r2, [r3]
+ 928 0150 D7F82C34 		ldr	r3, [r7, #1068]
+ 929 0154 1A44     		add	r2, r2, r3
+ 930 0156 B7F82244 		ldrh	r4, [r7, #1058]
+ 931 015a 07F10C03 		add	r3, r7, #12
+ 932 015e 1988     		ldrh	r1, [r3]
+ 933 0160 07F10F03 		add	r3, r7, #15
+ 934 0164 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 935 0166 07F11803 		add	r3, r7, #24
+ 936 016a 0293     		str	r3, [sp, #8]
+ 937 016c 07F11C03 		add	r3, r7, #28
+ 938 0170 0193     		str	r3, [sp, #4]
+ 939 0172 07F50873 		add	r3, r7, #544
+ 940 0176 0093     		str	r3, [sp]
+ 941 0178 2346     		mov	r3, r4
+ 942 017a FFF7FEFF 		bl	CyBtldr_CreateProgramRowCmd
+ 943 017e C7F82804 		str	r0, [r7, #1064]
+ 232:cybtldr_api.c ****         if (CYRET_SUCCESS == err)
+ 944              		.loc 1 232 0
+ 945 0182 D7F82834 		ldr	r3, [r7, #1064]
+ 946 0186 002B     		cmp	r3, #0
+ 947 0188 0ED1     		bne	.L59
+ 233:cybtldr_api.c ****             err = CyBtldr_TransferData(inBuf, inSize, outBuf, outSize);
+ 948              		.loc 1 233 0
+ 949 018a 07F11C03 		add	r3, r7, #28
+ 950 018e 1B68     		ldr	r3, [r3]
+ 951 0190 1946     		mov	r1, r3
+ 952 0192 07F11803 		add	r3, r7, #24
+ 953 0196 1B68     		ldr	r3, [r3]
+ 954 0198 07F12002 		add	r2, r7, #32
+ 955 019c 07F50870 		add	r0, r7, #544
+ 956 01a0 FFF7FEFF 		bl	CyBtldr_TransferData
+ 957 01a4 C7F82804 		str	r0, [r7, #1064]
+ 958              	.L59:
+ 234:cybtldr_api.c ****         if (CYRET_SUCCESS == err)
+ 959              		.loc 1 234 0
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 22
+
+
+ 960 01a8 D7F82834 		ldr	r3, [r7, #1064]
+ 961 01ac 002B     		cmp	r3, #0
+ 962 01ae 0BD1     		bne	.L60
+ 235:cybtldr_api.c ****             err = CyBtldr_ParseProgramRowCmdResult(outBuf, outSize, &status);
+ 963              		.loc 1 235 0
+ 964 01b0 07F11803 		add	r3, r7, #24
+ 965 01b4 1968     		ldr	r1, [r3]
+ 966 01b6 07F11702 		add	r2, r7, #23
+ 967 01ba 07F12003 		add	r3, r7, #32
+ 968 01be 1846     		mov	r0, r3
+ 969 01c0 FFF7FEFF 		bl	CyBtldr_ParseProgramRowCmdResult
+ 970 01c4 C7F82804 		str	r0, [r7, #1064]
+ 971              	.L60:
+ 236:cybtldr_api.c ****         if (CYRET_SUCCESS != status)
+ 972              		.loc 1 236 0
+ 973 01c8 07F11703 		add	r3, r7, #23
+ 974 01cc 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 975 01ce 002B     		cmp	r3, #0
+ 976 01d0 06D0     		beq	.L58
+ 237:cybtldr_api.c ****             err = status | CYRET_ERR_BTLDR_MASK;
+ 977              		.loc 1 237 0
+ 978 01d2 07F11703 		add	r3, r7, #23
+ 979 01d6 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 980 01d8 43F48043 		orr	r3, r3, #16384
+ 981 01dc C7F82834 		str	r3, [r7, #1064]
+ 982              	.L58:
+ 238:cybtldr_api.c ****     }
+ 239:cybtldr_api.c **** 
+ 240:cybtldr_api.c ****     return err;
+ 983              		.loc 1 240 0
+ 984 01e0 D7F82834 		ldr	r3, [r7, #1064]
+ 241:cybtldr_api.c **** }
+ 985              		.loc 1 241 0
+ 986 01e4 1846     		mov	r0, r3
+ 987 01e6 07F23447 		addw	r7, r7, #1076
+ 988              		.cfi_def_cfa_offset 12
+ 989 01ea BD46     		mov	sp, r7
+ 990              		.cfi_def_cfa_register 13
+ 991              		@ sp needed
+ 992 01ec 90BD     		pop	{r4, r7, pc}
+ 993              	.L63:
+ 994 01ee 00BF     		.align	2
+ 995              	.L62:
+ 996 01f0 00000000 		.word	g_comm
+ 997              		.cfi_endproc
+ 998              	.LFE7:
+ 999              		.size	CyBtldr_ProgramRow, .-CyBtldr_ProgramRow
+ 1000              		.section	.text.CyBtldr_EraseRow,"ax",%progbits
+ 1001              		.align	2
+ 1002              		.global	CyBtldr_EraseRow
+ 1003              		.thumb
+ 1004              		.thumb_func
+ 1005              		.type	CyBtldr_EraseRow, %function
+ 1006              	CyBtldr_EraseRow:
+ 1007              	.LFB8:
+ 242:cybtldr_api.c **** 
+ 243:cybtldr_api.c **** int CyBtldr_EraseRow(unsigned char arrayID, unsigned short rowNum)
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 23
+
+
+ 244:cybtldr_api.c **** {
+ 1008              		.loc 1 244 0
+ 1009              		.cfi_startproc
+ 1010              		@ args = 0, pretend = 0, frame = 1048
+ 1011              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1012 0000 90B5     		push	{r4, r7, lr}
+ 1013              		.cfi_def_cfa_offset 12
+ 1014              		.cfi_offset 4, -12
+ 1015              		.cfi_offset 7, -8
+ 1016              		.cfi_offset 14, -4
+ 1017 0002 ADF2244D 		subw	sp, sp, #1060
+ 1018              		.cfi_def_cfa_offset 1072
+ 1019 0006 02AF     		add	r7, sp, #8
+ 1020              		.cfi_def_cfa 7, 1064
+ 1021 0008 0246     		mov	r2, r0
+ 1022 000a FB1D     		adds	r3, r7, #7
+ 1023 000c 1A70     		strb	r2, [r3]
+ 1024 000e 3B1D     		adds	r3, r7, #4
+ 1025 0010 0A46     		mov	r2, r1	@ movhi
+ 1026 0012 1A80     		strh	r2, [r3]	@ movhi
+ 245:cybtldr_api.c ****     unsigned char inBuf[MAX_COMMAND_SIZE];
+ 246:cybtldr_api.c ****     unsigned char outBuf[MAX_COMMAND_SIZE];
+ 247:cybtldr_api.c ****     unsigned long inSize = 0;
+ 1027              		.loc 1 247 0
+ 1028 0014 07F11003 		add	r3, r7, #16
+ 1029 0018 0022     		movs	r2, #0
+ 1030 001a 1A60     		str	r2, [r3]
+ 248:cybtldr_api.c ****     unsigned long outSize = 0;
+ 1031              		.loc 1 248 0
+ 1032 001c 07F10C03 		add	r3, r7, #12
+ 1033 0020 0022     		movs	r2, #0
+ 1034 0022 1A60     		str	r2, [r3]
+ 249:cybtldr_api.c ****     unsigned char status = CYRET_SUCCESS;
+ 1035              		.loc 1 249 0
+ 1036 0024 07F10B03 		add	r3, r7, #11
+ 1037 0028 0022     		movs	r2, #0
+ 1038 002a 1A70     		strb	r2, [r3]
+ 250:cybtldr_api.c ****     int err = CYRET_SUCCESS;
+ 1039              		.loc 1 250 0
+ 1040 002c 0023     		movs	r3, #0
+ 1041 002e C7F81434 		str	r3, [r7, #1044]
+ 251:cybtldr_api.c ****     
+ 252:cybtldr_api.c ****     if (arrayID < MAX_FLASH_ARRAYS)
+ 1042              		.loc 1 252 0
+ 1043 0032 FB1D     		adds	r3, r7, #7
+ 1044 0034 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 1045 0036 3F2B     		cmp	r3, #63
+ 1046 0038 09D8     		bhi	.L65
+ 253:cybtldr_api.c ****         err = CyBtldr_ValidateRow(arrayID, rowNum);
+ 1047              		.loc 1 253 0
+ 1048 003a 3B1D     		adds	r3, r7, #4
+ 1049 003c 1A88     		ldrh	r2, [r3]
+ 1050 003e FB1D     		adds	r3, r7, #7
+ 1051 0040 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 1052 0042 1146     		mov	r1, r2
+ 1053 0044 1846     		mov	r0, r3
+ 1054 0046 FFF7FEFF 		bl	CyBtldr_ValidateRow
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 24
+
+
+ 1055 004a C7F81404 		str	r0, [r7, #1044]
+ 1056              	.L65:
+ 254:cybtldr_api.c ****     if (CYRET_SUCCESS == err)
+ 1057              		.loc 1 254 0
+ 1058 004e D7F81434 		ldr	r3, [r7, #1044]
+ 1059 0052 002B     		cmp	r3, #0
+ 1060 0054 0FD1     		bne	.L66
+ 255:cybtldr_api.c ****         err = CyBtldr_CreateEraseRowCmd(arrayID, rowNum, inBuf, &inSize, &outSize);
+ 1061              		.loc 1 255 0
+ 1062 0056 07F11004 		add	r4, r7, #16
+ 1063 005a 07F50572 		add	r2, r7, #532
+ 1064 005e 3B1D     		adds	r3, r7, #4
+ 1065 0060 1988     		ldrh	r1, [r3]
+ 1066 0062 FB1D     		adds	r3, r7, #7
+ 1067 0064 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 1068 0066 07F10C03 		add	r3, r7, #12
+ 1069 006a 0093     		str	r3, [sp]
+ 1070 006c 2346     		mov	r3, r4
+ 1071 006e FFF7FEFF 		bl	CyBtldr_CreateEraseRowCmd
+ 1072 0072 C7F81404 		str	r0, [r7, #1044]
+ 1073              	.L66:
+ 256:cybtldr_api.c ****     if (CYRET_SUCCESS == err)
+ 1074              		.loc 1 256 0
+ 1075 0076 D7F81434 		ldr	r3, [r7, #1044]
+ 1076 007a 002B     		cmp	r3, #0
+ 1077 007c 0ED1     		bne	.L67
+ 257:cybtldr_api.c ****         err = CyBtldr_TransferData(inBuf, inSize, outBuf, outSize);
+ 1078              		.loc 1 257 0
+ 1079 007e 07F11003 		add	r3, r7, #16
+ 1080 0082 1B68     		ldr	r3, [r3]
+ 1081 0084 1946     		mov	r1, r3
+ 1082 0086 07F10C03 		add	r3, r7, #12
+ 1083 008a 1B68     		ldr	r3, [r3]
+ 1084 008c 07F11402 		add	r2, r7, #20
+ 1085 0090 07F50570 		add	r0, r7, #532
+ 1086 0094 FFF7FEFF 		bl	CyBtldr_TransferData
+ 1087 0098 C7F81404 		str	r0, [r7, #1044]
+ 1088              	.L67:
+ 258:cybtldr_api.c ****     if (CYRET_SUCCESS == err)
+ 1089              		.loc 1 258 0
+ 1090 009c D7F81434 		ldr	r3, [r7, #1044]
+ 1091 00a0 002B     		cmp	r3, #0
+ 1092 00a2 0BD1     		bne	.L68
+ 259:cybtldr_api.c ****         err = CyBtldr_ParseEraseRowCmdResult(outBuf, outSize, &status);
+ 1093              		.loc 1 259 0
+ 1094 00a4 07F10C03 		add	r3, r7, #12
+ 1095 00a8 1968     		ldr	r1, [r3]
+ 1096 00aa 07F10B02 		add	r2, r7, #11
+ 1097 00ae 07F11403 		add	r3, r7, #20
+ 1098 00b2 1846     		mov	r0, r3
+ 1099 00b4 FFF7FEFF 		bl	CyBtldr_ParseEraseRowCmdResult
+ 1100 00b8 C7F81404 		str	r0, [r7, #1044]
+ 1101              	.L68:
+ 260:cybtldr_api.c ****     if (CYRET_SUCCESS != status)
+ 1102              		.loc 1 260 0
+ 1103 00bc 07F10B03 		add	r3, r7, #11
+ 1104 00c0 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 25
+
+
+ 1105 00c2 002B     		cmp	r3, #0
+ 1106 00c4 06D0     		beq	.L69
+ 261:cybtldr_api.c ****         err = status | CYRET_ERR_BTLDR_MASK;
+ 1107              		.loc 1 261 0
+ 1108 00c6 07F10B03 		add	r3, r7, #11
+ 1109 00ca 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 1110 00cc 43F48043 		orr	r3, r3, #16384
+ 1111 00d0 C7F81434 		str	r3, [r7, #1044]
+ 1112              	.L69:
+ 262:cybtldr_api.c **** 
+ 263:cybtldr_api.c ****     return err;
+ 1113              		.loc 1 263 0
+ 1114 00d4 D7F81434 		ldr	r3, [r7, #1044]
+ 264:cybtldr_api.c **** }
+ 1115              		.loc 1 264 0
+ 1116 00d8 1846     		mov	r0, r3
+ 1117 00da 07F21C47 		addw	r7, r7, #1052
+ 1118              		.cfi_def_cfa_offset 12
+ 1119 00de BD46     		mov	sp, r7
+ 1120              		.cfi_def_cfa_register 13
+ 1121              		@ sp needed
+ 1122 00e0 90BD     		pop	{r4, r7, pc}
+ 1123              		.cfi_endproc
+ 1124              	.LFE8:
+ 1125              		.size	CyBtldr_EraseRow, .-CyBtldr_EraseRow
+ 1126 00e2 00BF     		.section	.text.CyBtldr_VerifyRow,"ax",%progbits
+ 1127              		.align	2
+ 1128              		.global	CyBtldr_VerifyRow
+ 1129              		.thumb
+ 1130              		.thumb_func
+ 1131              		.type	CyBtldr_VerifyRow, %function
+ 1132              	CyBtldr_VerifyRow:
+ 1133              	.LFB9:
+ 265:cybtldr_api.c **** 
+ 266:cybtldr_api.c **** int CyBtldr_VerifyRow(unsigned char arrayID, unsigned short rowNum, unsigned char checksum)
+ 267:cybtldr_api.c **** {
+ 1134              		.loc 1 267 0
+ 1135              		.cfi_startproc
+ 1136              		@ args = 0, pretend = 0, frame = 1048
+ 1137              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1138 0000 90B5     		push	{r4, r7, lr}
+ 1139              		.cfi_def_cfa_offset 12
+ 1140              		.cfi_offset 4, -12
+ 1141              		.cfi_offset 7, -8
+ 1142              		.cfi_offset 14, -4
+ 1143 0002 ADF2244D 		subw	sp, sp, #1060
+ 1144              		.cfi_def_cfa_offset 1072
+ 1145 0006 02AF     		add	r7, sp, #8
+ 1146              		.cfi_def_cfa 7, 1064
+ 1147 0008 0446     		mov	r4, r0
+ 1148 000a 0846     		mov	r0, r1
+ 1149 000c 1146     		mov	r1, r2
+ 1150 000e FB1D     		adds	r3, r7, #7
+ 1151 0010 2246     		mov	r2, r4
+ 1152 0012 1A70     		strb	r2, [r3]
+ 1153 0014 3B1D     		adds	r3, r7, #4
+ 1154 0016 0246     		mov	r2, r0	@ movhi
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 26
+
+
+ 1155 0018 1A80     		strh	r2, [r3]	@ movhi
+ 1156 001a BB1D     		adds	r3, r7, #6
+ 1157 001c 0A46     		mov	r2, r1
+ 1158 001e 1A70     		strb	r2, [r3]
+ 268:cybtldr_api.c ****     unsigned char inBuf[MAX_COMMAND_SIZE];
+ 269:cybtldr_api.c ****     unsigned char outBuf[MAX_COMMAND_SIZE];
+ 270:cybtldr_api.c ****     unsigned long inSize = 0;
+ 1159              		.loc 1 270 0
+ 1160 0020 07F11003 		add	r3, r7, #16
+ 1161 0024 0022     		movs	r2, #0
+ 1162 0026 1A60     		str	r2, [r3]
+ 271:cybtldr_api.c ****     unsigned long outSize = 0;
+ 1163              		.loc 1 271 0
+ 1164 0028 07F10C03 		add	r3, r7, #12
+ 1165 002c 0022     		movs	r2, #0
+ 1166 002e 1A60     		str	r2, [r3]
+ 272:cybtldr_api.c ****     unsigned char rowChecksum = 0;
+ 1167              		.loc 1 272 0
+ 1168 0030 07F10B03 		add	r3, r7, #11
+ 1169 0034 0022     		movs	r2, #0
+ 1170 0036 1A70     		strb	r2, [r3]
+ 273:cybtldr_api.c ****     unsigned char status = CYRET_SUCCESS;
+ 1171              		.loc 1 273 0
+ 1172 0038 07F10A03 		add	r3, r7, #10
+ 1173 003c 0022     		movs	r2, #0
+ 1174 003e 1A70     		strb	r2, [r3]
+ 274:cybtldr_api.c ****     int err = CYRET_SUCCESS;
+ 1175              		.loc 1 274 0
+ 1176 0040 0023     		movs	r3, #0
+ 1177 0042 C7F81434 		str	r3, [r7, #1044]
+ 275:cybtldr_api.c ****     
+ 276:cybtldr_api.c ****     if (arrayID < MAX_FLASH_ARRAYS)
+ 1178              		.loc 1 276 0
+ 1179 0046 FB1D     		adds	r3, r7, #7
+ 1180 0048 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 1181 004a 3F2B     		cmp	r3, #63
+ 1182 004c 09D8     		bhi	.L72
+ 277:cybtldr_api.c ****         err = CyBtldr_ValidateRow(arrayID, rowNum);
+ 1183              		.loc 1 277 0
+ 1184 004e 3B1D     		adds	r3, r7, #4
+ 1185 0050 1A88     		ldrh	r2, [r3]
+ 1186 0052 FB1D     		adds	r3, r7, #7
+ 1187 0054 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 1188 0056 1146     		mov	r1, r2
+ 1189 0058 1846     		mov	r0, r3
+ 1190 005a FFF7FEFF 		bl	CyBtldr_ValidateRow
+ 1191 005e C7F81404 		str	r0, [r7, #1044]
+ 1192              	.L72:
+ 278:cybtldr_api.c ****     if (CYRET_SUCCESS == err)
+ 1193              		.loc 1 278 0
+ 1194 0062 D7F81434 		ldr	r3, [r7, #1044]
+ 1195 0066 002B     		cmp	r3, #0
+ 1196 0068 0FD1     		bne	.L73
+ 279:cybtldr_api.c ****         err = CyBtldr_CreateVerifyRowCmd(arrayID, rowNum, inBuf, &inSize, &outSize);
+ 1197              		.loc 1 279 0
+ 1198 006a 07F11004 		add	r4, r7, #16
+ 1199 006e 07F50572 		add	r2, r7, #532
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 27
+
+
+ 1200 0072 3B1D     		adds	r3, r7, #4
+ 1201 0074 1988     		ldrh	r1, [r3]
+ 1202 0076 FB1D     		adds	r3, r7, #7
+ 1203 0078 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 1204 007a 07F10C03 		add	r3, r7, #12
+ 1205 007e 0093     		str	r3, [sp]
+ 1206 0080 2346     		mov	r3, r4
+ 1207 0082 FFF7FEFF 		bl	CyBtldr_CreateVerifyRowCmd
+ 1208 0086 C7F81404 		str	r0, [r7, #1044]
+ 1209              	.L73:
+ 280:cybtldr_api.c ****     if (CYRET_SUCCESS == err)
+ 1210              		.loc 1 280 0
+ 1211 008a D7F81434 		ldr	r3, [r7, #1044]
+ 1212 008e 002B     		cmp	r3, #0
+ 1213 0090 0ED1     		bne	.L74
+ 281:cybtldr_api.c ****         err = CyBtldr_TransferData(inBuf, inSize, outBuf, outSize);
+ 1214              		.loc 1 281 0
+ 1215 0092 07F11003 		add	r3, r7, #16
+ 1216 0096 1B68     		ldr	r3, [r3]
+ 1217 0098 1946     		mov	r1, r3
+ 1218 009a 07F10C03 		add	r3, r7, #12
+ 1219 009e 1B68     		ldr	r3, [r3]
+ 1220 00a0 07F11402 		add	r2, r7, #20
+ 1221 00a4 07F50570 		add	r0, r7, #532
+ 1222 00a8 FFF7FEFF 		bl	CyBtldr_TransferData
+ 1223 00ac C7F81404 		str	r0, [r7, #1044]
+ 1224              	.L74:
+ 282:cybtldr_api.c ****     if (CYRET_SUCCESS == err)
+ 1225              		.loc 1 282 0
+ 1226 00b0 D7F81434 		ldr	r3, [r7, #1044]
+ 1227 00b4 002B     		cmp	r3, #0
+ 1228 00b6 0CD1     		bne	.L75
+ 283:cybtldr_api.c ****         err = CyBtldr_ParseVerifyRowCmdResult(outBuf, outSize, &rowChecksum, &status);
+ 1229              		.loc 1 283 0
+ 1230 00b8 07F10C03 		add	r3, r7, #12
+ 1231 00bc 1968     		ldr	r1, [r3]
+ 1232 00be 07F10A03 		add	r3, r7, #10
+ 1233 00c2 07F10B02 		add	r2, r7, #11
+ 1234 00c6 07F11400 		add	r0, r7, #20
+ 1235 00ca FFF7FEFF 		bl	CyBtldr_ParseVerifyRowCmdResult
+ 1236 00ce C7F81404 		str	r0, [r7, #1044]
+ 1237              	.L75:
+ 284:cybtldr_api.c ****     if (CYRET_SUCCESS != status)
+ 1238              		.loc 1 284 0
+ 1239 00d2 07F10A03 		add	r3, r7, #10
+ 1240 00d6 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 1241 00d8 002B     		cmp	r3, #0
+ 1242 00da 06D0     		beq	.L76
+ 285:cybtldr_api.c ****         err = status | CYRET_ERR_BTLDR_MASK;
+ 1243              		.loc 1 285 0
+ 1244 00dc 07F10A03 		add	r3, r7, #10
+ 1245 00e0 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 1246 00e2 43F48043 		orr	r3, r3, #16384
+ 1247 00e6 C7F81434 		str	r3, [r7, #1044]
+ 1248              	.L76:
+ 286:cybtldr_api.c ****     if ((CYRET_SUCCESS == err) && (rowChecksum != checksum))
+ 1249              		.loc 1 286 0
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 28
+
+
+ 1250 00ea D7F81434 		ldr	r3, [r7, #1044]
+ 1251 00ee 002B     		cmp	r3, #0
+ 1252 00f0 09D1     		bne	.L77
+ 1253              		.loc 1 286 0 is_stmt 0 discriminator 1
+ 1254 00f2 07F10B03 		add	r3, r7, #11
+ 1255 00f6 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 1256 00f8 BA1D     		adds	r2, r7, #6
+ 1257 00fa 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 1258 00fc 9A42     		cmp	r2, r3
+ 1259 00fe 02D0     		beq	.L77
+ 287:cybtldr_api.c ****         err = CYRET_ERR_CHECKSUM;
+ 1260              		.loc 1 287 0 is_stmt 1
+ 1261 0100 0823     		movs	r3, #8
+ 1262 0102 C7F81434 		str	r3, [r7, #1044]
+ 1263              	.L77:
+ 288:cybtldr_api.c **** 
+ 289:cybtldr_api.c ****     return err;
+ 1264              		.loc 1 289 0
+ 1265 0106 D7F81434 		ldr	r3, [r7, #1044]
+ 290:cybtldr_api.c **** }
+ 1266              		.loc 1 290 0
+ 1267 010a 1846     		mov	r0, r3
+ 1268 010c 07F21C47 		addw	r7, r7, #1052
+ 1269              		.cfi_def_cfa_offset 12
+ 1270 0110 BD46     		mov	sp, r7
+ 1271              		.cfi_def_cfa_register 13
+ 1272              		@ sp needed
+ 1273 0112 90BD     		pop	{r4, r7, pc}
+ 1274              		.cfi_endproc
+ 1275              	.LFE9:
+ 1276              		.size	CyBtldr_VerifyRow, .-CyBtldr_VerifyRow
+ 1277              		.section	.text.CyBtldr_VerifyApplication,"ax",%progbits
+ 1278              		.align	2
+ 1279              		.global	CyBtldr_VerifyApplication
+ 1280              		.thumb
+ 1281              		.thumb_func
+ 1282              		.type	CyBtldr_VerifyApplication, %function
+ 1283              	CyBtldr_VerifyApplication:
+ 1284              	.LFB10:
+ 291:cybtldr_api.c **** 
+ 292:cybtldr_api.c **** int CyBtldr_VerifyApplication(void)
+ 293:cybtldr_api.c **** {
+ 1285              		.loc 1 293 0
+ 1286              		.cfi_startproc
+ 1287              		@ args = 0, pretend = 0, frame = 1040
+ 1288              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1289 0000 80B5     		push	{r7, lr}
+ 1290              		.cfi_def_cfa_offset 8
+ 1291              		.cfi_offset 7, -8
+ 1292              		.cfi_offset 14, -4
+ 1293 0002 ADF5826D 		sub	sp, sp, #1040
+ 1294              		.cfi_def_cfa_offset 1048
+ 1295 0006 00AF     		add	r7, sp, #0
+ 1296              		.cfi_def_cfa_register 7
+ 294:cybtldr_api.c ****     unsigned char inBuf[MAX_COMMAND_SIZE];
+ 295:cybtldr_api.c ****     unsigned char outBuf[MAX_COMMAND_SIZE];
+ 296:cybtldr_api.c ****     unsigned long inSize = 0;
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 29
+
+
+ 1297              		.loc 1 296 0
+ 1298 0008 07F10803 		add	r3, r7, #8
+ 1299 000c 0022     		movs	r2, #0
+ 1300 000e 1A60     		str	r2, [r3]
+ 297:cybtldr_api.c ****     unsigned long outSize = 0;
+ 1301              		.loc 1 297 0
+ 1302 0010 3B1D     		adds	r3, r7, #4
+ 1303 0012 0022     		movs	r2, #0
+ 1304 0014 1A60     		str	r2, [r3]
+ 298:cybtldr_api.c ****     unsigned char checksumValid = 0;
+ 1305              		.loc 1 298 0
+ 1306 0016 FB1C     		adds	r3, r7, #3
+ 1307 0018 0022     		movs	r2, #0
+ 1308 001a 1A70     		strb	r2, [r3]
+ 299:cybtldr_api.c ****     unsigned char status = CYRET_SUCCESS;
+ 1309              		.loc 1 299 0
+ 1310 001c BB1C     		adds	r3, r7, #2
+ 1311 001e 0022     		movs	r2, #0
+ 1312 0020 1A70     		strb	r2, [r3]
+ 300:cybtldr_api.c **** 
+ 301:cybtldr_api.c ****     int err = CyBtldr_CreateVerifyChecksumCmd(inBuf, &inSize, &outSize);
+ 1313              		.loc 1 301 0
+ 1314 0022 3A1D     		adds	r2, r7, #4
+ 1315 0024 07F10801 		add	r1, r7, #8
+ 1316 0028 07F50373 		add	r3, r7, #524
+ 1317 002c 1846     		mov	r0, r3
+ 1318 002e FFF7FEFF 		bl	CyBtldr_CreateVerifyChecksumCmd
+ 1319 0032 C7F80C04 		str	r0, [r7, #1036]
+ 302:cybtldr_api.c ****     if (CYRET_SUCCESS == err)
+ 1320              		.loc 1 302 0
+ 1321 0036 D7F80C34 		ldr	r3, [r7, #1036]
+ 1322 003a 002B     		cmp	r3, #0
+ 1323 003c 0DD1     		bne	.L80
+ 303:cybtldr_api.c ****         err = CyBtldr_TransferData(inBuf, inSize, outBuf, outSize);
+ 1324              		.loc 1 303 0
+ 1325 003e 07F10803 		add	r3, r7, #8
+ 1326 0042 1B68     		ldr	r3, [r3]
+ 1327 0044 1946     		mov	r1, r3
+ 1328 0046 3B1D     		adds	r3, r7, #4
+ 1329 0048 1B68     		ldr	r3, [r3]
+ 1330 004a 07F10C02 		add	r2, r7, #12
+ 1331 004e 07F50370 		add	r0, r7, #524
+ 1332 0052 FFF7FEFF 		bl	CyBtldr_TransferData
+ 1333 0056 C7F80C04 		str	r0, [r7, #1036]
+ 1334              	.L80:
+ 304:cybtldr_api.c ****     if (CYRET_SUCCESS == err)
+ 1335              		.loc 1 304 0
+ 1336 005a D7F80C34 		ldr	r3, [r7, #1036]
+ 1337 005e 002B     		cmp	r3, #0
+ 1338 0060 09D1     		bne	.L81
+ 305:cybtldr_api.c ****         err = CyBtldr_ParseVerifyChecksumCmdResult(outBuf, outSize, &checksumValid, &status);
+ 1339              		.loc 1 305 0
+ 1340 0062 3B1D     		adds	r3, r7, #4
+ 1341 0064 1968     		ldr	r1, [r3]
+ 1342 0066 BB1C     		adds	r3, r7, #2
+ 1343 0068 FA1C     		adds	r2, r7, #3
+ 1344 006a 07F10C00 		add	r0, r7, #12
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 30
+
+
+ 1345 006e FFF7FEFF 		bl	CyBtldr_ParseVerifyChecksumCmdResult
+ 1346 0072 C7F80C04 		str	r0, [r7, #1036]
+ 1347              	.L81:
+ 306:cybtldr_api.c ****     if (CYRET_SUCCESS != status)
+ 1348              		.loc 1 306 0
+ 1349 0076 BB1C     		adds	r3, r7, #2
+ 1350 0078 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 1351 007a 002B     		cmp	r3, #0
+ 1352 007c 05D0     		beq	.L82
+ 307:cybtldr_api.c ****         err = status | CYRET_ERR_BTLDR_MASK;
+ 1353              		.loc 1 307 0
+ 1354 007e BB1C     		adds	r3, r7, #2
+ 1355 0080 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 1356 0082 43F48043 		orr	r3, r3, #16384
+ 1357 0086 C7F80C34 		str	r3, [r7, #1036]
+ 1358              	.L82:
+ 308:cybtldr_api.c ****     if ((CYRET_SUCCESS == err) && (!checksumValid))
+ 1359              		.loc 1 308 0
+ 1360 008a D7F80C34 		ldr	r3, [r7, #1036]
+ 1361 008e 002B     		cmp	r3, #0
+ 1362 0090 06D1     		bne	.L83
+ 1363              		.loc 1 308 0 is_stmt 0 discriminator 1
+ 1364 0092 FB1C     		adds	r3, r7, #3
+ 1365 0094 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 1366 0096 002B     		cmp	r3, #0
+ 1367 0098 02D1     		bne	.L83
+ 309:cybtldr_api.c ****         err = CYRET_ERR_CHECKSUM;
+ 1368              		.loc 1 309 0 is_stmt 1
+ 1369 009a 0823     		movs	r3, #8
+ 1370 009c C7F80C34 		str	r3, [r7, #1036]
+ 1371              	.L83:
+ 310:cybtldr_api.c **** 
+ 311:cybtldr_api.c ****     return err;
+ 1372              		.loc 1 311 0
+ 1373 00a0 D7F80C34 		ldr	r3, [r7, #1036]
+ 312:cybtldr_api.c **** }
+ 1374              		.loc 1 312 0
+ 1375 00a4 1846     		mov	r0, r3
+ 1376 00a6 07F58267 		add	r7, r7, #1040
+ 1377              		.cfi_def_cfa_offset 8
+ 1378 00aa BD46     		mov	sp, r7
+ 1379              		.cfi_def_cfa_register 13
+ 1380              		@ sp needed
+ 1381 00ac 80BD     		pop	{r7, pc}
+ 1382              		.cfi_endproc
+ 1383              	.LFE10:
+ 1384              		.size	CyBtldr_VerifyApplication, .-CyBtldr_VerifyApplication
+ 1385 00ae 00BF     		.text
+ 1386              	.Letext0:
+ 1387              		.file 2 "cybtldr_api.h"
+ 1388              		.section	.debug_info,"",%progbits
+ 1389              	.Ldebug_info0:
+ 1390 0000 6D070000 		.4byte	0x76d
+ 1391 0004 0400     		.2byte	0x4
+ 1392 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 1393 000a 04       		.byte	0x4
+ 1394 000b 01       		.uleb128 0x1
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 31
+
+
+ 1395 000c 15000000 		.4byte	.LASF56
+ 1396 0010 0C       		.byte	0xc
+ 1397 0011 48010000 		.4byte	.LASF57
+ 1398 0015 B4000000 		.4byte	.LASF58
+ 1399 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 1400 001d 00000000 		.4byte	0
+ 1401 0021 00000000 		.4byte	.Ldebug_line0
+ 1402 0025 02       		.uleb128 0x2
+ 1403 0026 01       		.byte	0x1
+ 1404 0027 06       		.byte	0x6
+ 1405 0028 30010000 		.4byte	.LASF0
+ 1406 002c 02       		.uleb128 0x2
+ 1407 002d 01       		.byte	0x1
+ 1408 002e 08       		.byte	0x8
+ 1409 002f B6020000 		.4byte	.LASF1
+ 1410 0033 02       		.uleb128 0x2
+ 1411 0034 02       		.byte	0x2
+ 1412 0035 05       		.byte	0x5
+ 1413 0036 C4020000 		.4byte	.LASF2
+ 1414 003a 02       		.uleb128 0x2
+ 1415 003b 02       		.byte	0x2
+ 1416 003c 07       		.byte	0x7
+ 1417 003d 25020000 		.4byte	.LASF3
+ 1418 0041 02       		.uleb128 0x2
+ 1419 0042 04       		.byte	0x4
+ 1420 0043 05       		.byte	0x5
+ 1421 0044 92010000 		.4byte	.LASF4
+ 1422 0048 02       		.uleb128 0x2
+ 1423 0049 04       		.byte	0x4
+ 1424 004a 07       		.byte	0x7
+ 1425 004b 00020000 		.4byte	.LASF5
+ 1426 004f 02       		.uleb128 0x2
+ 1427 0050 08       		.byte	0x8
+ 1428 0051 05       		.byte	0x5
+ 1429 0052 22010000 		.4byte	.LASF6
+ 1430 0056 02       		.uleb128 0x2
+ 1431 0057 08       		.byte	0x8
+ 1432 0058 07       		.byte	0x7
+ 1433 0059 56010000 		.4byte	.LASF7
+ 1434 005d 03       		.uleb128 0x3
+ 1435 005e 04       		.byte	0x4
+ 1436 005f 05       		.byte	0x5
+ 1437 0060 696E7400 		.ascii	"int\000"
+ 1438 0064 02       		.uleb128 0x2
+ 1439 0065 04       		.byte	0x4
+ 1440 0066 07       		.byte	0x7
+ 1441 0067 F3010000 		.4byte	.LASF8
+ 1442 006b 02       		.uleb128 0x2
+ 1443 006c 08       		.byte	0x8
+ 1444 006d 04       		.byte	0x4
+ 1445 006e 5A020000 		.4byte	.LASF9
+ 1446 0072 02       		.uleb128 0x2
+ 1447 0073 04       		.byte	0x4
+ 1448 0074 07       		.byte	0x7
+ 1449 0075 51020000 		.4byte	.LASF10
+ 1450 0079 04       		.uleb128 0x4
+ 1451 007a 04       		.byte	0x4
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 32
+
+
+ 1452 007b 2C000000 		.4byte	0x2c
+ 1453 007f 02       		.uleb128 0x2
+ 1454 0080 01       		.byte	0x1
+ 1455 0081 08       		.byte	0x8
+ 1456 0082 E9020000 		.4byte	.LASF11
+ 1457 0086 05       		.uleb128 0x5
+ 1458 0087 14       		.byte	0x14
+ 1459 0088 02       		.byte	0x2
+ 1460 0089 13       		.byte	0x13
+ 1461 008a CB000000 		.4byte	0xcb
+ 1462 008e 06       		.uleb128 0x6
+ 1463 008f 1D030000 		.4byte	.LASF12
+ 1464 0093 02       		.byte	0x2
+ 1465 0094 16       		.byte	0x16
+ 1466 0095 D0000000 		.4byte	0xd0
+ 1467 0099 00       		.byte	0
+ 1468 009a 06       		.uleb128 0x6
+ 1469 009b D1030000 		.4byte	.LASF13
+ 1470 009f 02       		.byte	0x2
+ 1471 00a0 18       		.byte	0x18
+ 1472 00a1 D0000000 		.4byte	0xd0
+ 1473 00a5 04       		.byte	0x4
+ 1474 00a6 06       		.uleb128 0x6
+ 1475 00a7 D7010000 		.4byte	.LASF14
+ 1476 00ab 02       		.byte	0x2
+ 1477 00ac 1A       		.byte	0x1a
+ 1478 00ad EA000000 		.4byte	0xea
+ 1479 00b1 08       		.byte	0x8
+ 1480 00b2 06       		.uleb128 0x6
+ 1481 00b3 D7020000 		.4byte	.LASF15
+ 1482 00b7 02       		.byte	0x2
+ 1483 00b8 1C       		.byte	0x1c
+ 1484 00b9 EA000000 		.4byte	0xea
+ 1485 00bd 0C       		.byte	0xc
+ 1486 00be 06       		.uleb128 0x6
+ 1487 00bf 95020000 		.4byte	.LASF16
+ 1488 00c3 02       		.byte	0x2
+ 1489 00c4 1E       		.byte	0x1e
+ 1490 00c5 64000000 		.4byte	0x64
+ 1491 00c9 10       		.byte	0x10
+ 1492 00ca 00       		.byte	0
+ 1493 00cb 07       		.uleb128 0x7
+ 1494 00cc 5D000000 		.4byte	0x5d
+ 1495 00d0 04       		.uleb128 0x4
+ 1496 00d1 04       		.byte	0x4
+ 1497 00d2 CB000000 		.4byte	0xcb
+ 1498 00d6 08       		.uleb128 0x8
+ 1499 00d7 5D000000 		.4byte	0x5d
+ 1500 00db EA000000 		.4byte	0xea
+ 1501 00df 09       		.uleb128 0x9
+ 1502 00e0 79000000 		.4byte	0x79
+ 1503 00e4 09       		.uleb128 0x9
+ 1504 00e5 5D000000 		.4byte	0x5d
+ 1505 00e9 00       		.byte	0
+ 1506 00ea 04       		.uleb128 0x4
+ 1507 00eb 04       		.byte	0x4
+ 1508 00ec D6000000 		.4byte	0xd6
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 33
+
+
+ 1509 00f0 0A       		.uleb128 0xa
+ 1510 00f1 B6030000 		.4byte	.LASF59
+ 1511 00f5 02       		.byte	0x2
+ 1512 00f6 1F       		.byte	0x1f
+ 1513 00f7 86000000 		.4byte	0x86
+ 1514 00fb 0B       		.uleb128 0xb
+ 1515 00fc 6C030000 		.4byte	.LASF21
+ 1516 0100 01       		.byte	0x1
+ 1517 0101 17       		.byte	0x17
+ 1518 0102 5D000000 		.4byte	0x5d
+ 1519 0106 00000000 		.4byte	.LFB1
+ 1520 010a 4C000000 		.4byte	.LFE1-.LFB1
+ 1521 010e 01       		.uleb128 0x1
+ 1522 010f 9C       		.byte	0x9c
+ 1523 0110 5B010000 		.4byte	0x15b
+ 1524 0114 0C       		.uleb128 0xc
+ 1525 0115 00040000 		.4byte	.LASF17
+ 1526 0119 01       		.byte	0x1
+ 1527 011a 17       		.byte	0x17
+ 1528 011b 79000000 		.4byte	0x79
+ 1529 011f 02       		.uleb128 0x2
+ 1530 0120 91       		.byte	0x91
+ 1531 0121 6C       		.sleb128 -20
+ 1532 0122 0C       		.uleb128 0xc
+ 1533 0123 1B010000 		.4byte	.LASF18
+ 1534 0127 01       		.byte	0x1
+ 1535 0128 17       		.byte	0x17
+ 1536 0129 5D000000 		.4byte	0x5d
+ 1537 012d 02       		.uleb128 0x2
+ 1538 012e 91       		.byte	0x91
+ 1539 012f 68       		.sleb128 -24
+ 1540 0130 0C       		.uleb128 0xc
+ 1541 0131 AF020000 		.4byte	.LASF19
+ 1542 0135 01       		.byte	0x1
+ 1543 0136 17       		.byte	0x17
+ 1544 0137 79000000 		.4byte	0x79
+ 1545 013b 02       		.uleb128 0x2
+ 1546 013c 91       		.byte	0x91
+ 1547 013d 64       		.sleb128 -28
+ 1548 013e 0C       		.uleb128 0xc
+ 1549 013f 66020000 		.4byte	.LASF20
+ 1550 0143 01       		.byte	0x1
+ 1551 0144 17       		.byte	0x17
+ 1552 0145 5D000000 		.4byte	0x5d
+ 1553 0149 02       		.uleb128 0x2
+ 1554 014a 91       		.byte	0x91
+ 1555 014b 60       		.sleb128 -32
+ 1556 014c 0D       		.uleb128 0xd
+ 1557 014d 65727200 		.ascii	"err\000"
+ 1558 0151 01       		.byte	0x1
+ 1559 0152 19       		.byte	0x19
+ 1560 0153 5D000000 		.4byte	0x5d
+ 1561 0157 02       		.uleb128 0x2
+ 1562 0158 91       		.byte	0x91
+ 1563 0159 74       		.sleb128 -12
+ 1564 015a 00       		.byte	0
+ 1565 015b 0B       		.uleb128 0xb
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 34
+
+
+ 1566 015c C3010000 		.4byte	.LASF22
+ 1567 0160 01       		.byte	0x1
+ 1568 0161 24       		.byte	0x24
+ 1569 0162 5D000000 		.4byte	0x5d
+ 1570 0166 00000000 		.4byte	.LFB2
+ 1571 016a 60010000 		.4byte	.LFE2-.LFB2
+ 1572 016e 01       		.uleb128 0x1
+ 1573 016f 9C       		.byte	0x9c
+ 1574 0170 06020000 		.4byte	0x206
+ 1575 0174 0C       		.uleb128 0xc
+ 1576 0175 A6010000 		.4byte	.LASF23
+ 1577 0179 01       		.byte	0x1
+ 1578 017a 24       		.byte	0x24
+ 1579 017b 2C000000 		.4byte	0x2c
+ 1580 017f 03       		.uleb128 0x3
+ 1581 0180 91       		.byte	0x91
+ 1582 0181 D777     		.sleb128 -1065
+ 1583 0183 0C       		.uleb128 0xc
+ 1584 0184 09000000 		.4byte	.LASF24
+ 1585 0188 01       		.byte	0x1
+ 1586 0189 24       		.byte	0x24
+ 1587 018a 3A000000 		.4byte	0x3a
+ 1588 018e 03       		.uleb128 0x3
+ 1589 018f 91       		.byte	0x91
+ 1590 0190 D477     		.sleb128 -1068
+ 1591 0192 0E       		.uleb128 0xe
+ 1592 0193 1B010000 		.4byte	.LASF18
+ 1593 0197 01       		.byte	0x1
+ 1594 0198 26       		.byte	0x26
+ 1595 0199 48000000 		.4byte	0x48
+ 1596 019d 02       		.uleb128 0x2
+ 1597 019e 91       		.byte	0x91
+ 1598 019f 68       		.sleb128 -24
+ 1599 01a0 0E       		.uleb128 0xe
+ 1600 01a1 66020000 		.4byte	.LASF20
+ 1601 01a5 01       		.byte	0x1
+ 1602 01a6 27       		.byte	0x27
+ 1603 01a7 48000000 		.4byte	0x48
+ 1604 01ab 02       		.uleb128 0x2
+ 1605 01ac 91       		.byte	0x91
+ 1606 01ad 64       		.sleb128 -28
+ 1607 01ae 0E       		.uleb128 0xe
+ 1608 01af 6E020000 		.4byte	.LASF25
+ 1609 01b3 01       		.byte	0x1
+ 1610 01b4 28       		.byte	0x28
+ 1611 01b5 3A000000 		.4byte	0x3a
+ 1612 01b9 02       		.uleb128 0x2
+ 1613 01ba 91       		.byte	0x91
+ 1614 01bb 62       		.sleb128 -30
+ 1615 01bc 0E       		.uleb128 0xe
+ 1616 01bd 4A020000 		.4byte	.LASF26
+ 1617 01c1 01       		.byte	0x1
+ 1618 01c2 29       		.byte	0x29
+ 1619 01c3 3A000000 		.4byte	0x3a
+ 1620 01c7 02       		.uleb128 0x2
+ 1621 01c8 91       		.byte	0x91
+ 1622 01c9 60       		.sleb128 -32
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 35
+
+
+ 1623 01ca 0E       		.uleb128 0xe
+ 1624 01cb 00040000 		.4byte	.LASF17
+ 1625 01cf 01       		.byte	0x1
+ 1626 01d0 2A       		.byte	0x2a
+ 1627 01d1 06020000 		.4byte	0x206
+ 1628 01d5 03       		.uleb128 0x3
+ 1629 01d6 91       		.byte	0x91
+ 1630 01d7 E07B     		.sleb128 -544
+ 1631 01d9 0E       		.uleb128 0xe
+ 1632 01da AF020000 		.4byte	.LASF19
+ 1633 01de 01       		.byte	0x1
+ 1634 01df 2B       		.byte	0x2b
+ 1635 01e0 06020000 		.4byte	0x206
+ 1636 01e4 03       		.uleb128 0x3
+ 1637 01e5 91       		.byte	0x91
+ 1638 01e6 E077     		.sleb128 -1056
+ 1639 01e8 0E       		.uleb128 0xe
+ 1640 01e9 5E030000 		.4byte	.LASF27
+ 1641 01ed 01       		.byte	0x1
+ 1642 01ee 2C       		.byte	0x2c
+ 1643 01ef 2C000000 		.4byte	0x2c
+ 1644 01f3 03       		.uleb128 0x3
+ 1645 01f4 91       		.byte	0x91
+ 1646 01f5 DF77     		.sleb128 -1057
+ 1647 01f7 0D       		.uleb128 0xd
+ 1648 01f8 65727200 		.ascii	"err\000"
+ 1649 01fc 01       		.byte	0x1
+ 1650 01fd 2D       		.byte	0x2d
+ 1651 01fe 5D000000 		.4byte	0x5d
+ 1652 0202 02       		.uleb128 0x2
+ 1653 0203 91       		.byte	0x91
+ 1654 0204 6C       		.sleb128 -20
+ 1655 0205 00       		.byte	0
+ 1656 0206 0F       		.uleb128 0xf
+ 1657 0207 2C000000 		.4byte	0x2c
+ 1658 020b 17020000 		.4byte	0x217
+ 1659 020f 10       		.uleb128 0x10
+ 1660 0210 72000000 		.4byte	0x72
+ 1661 0214 FF01     		.2byte	0x1ff
+ 1662 0216 00       		.byte	0
+ 1663 0217 0B       		.uleb128 0xb
+ 1664 0218 E1030000 		.4byte	.LASF28
+ 1665 021c 01       		.byte	0x1
+ 1666 021d 52       		.byte	0x52
+ 1667 021e 5D000000 		.4byte	0x5d
+ 1668 0222 00000000 		.4byte	.LFB3
+ 1669 0226 84010000 		.4byte	.LFE3-.LFB3
+ 1670 022a 01       		.uleb128 0x1
+ 1671 022b 9C       		.byte	0x9c
+ 1672 022c 09030000 		.4byte	0x309
+ 1673 0230 0C       		.uleb128 0xc
+ 1674 0231 10000000 		.4byte	.LASF29
+ 1675 0235 01       		.byte	0x1
+ 1676 0236 52       		.byte	0x52
+ 1677 0237 09030000 		.4byte	0x309
+ 1678 023b 03       		.uleb128 0x3
+ 1679 023c 91       		.byte	0x91
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 36
+
+
+ 1680 023d CC77     		.sleb128 -1076
+ 1681 023f 0C       		.uleb128 0xc
+ 1682 0240 05030000 		.4byte	.LASF30
+ 1683 0244 01       		.byte	0x1
+ 1684 0245 52       		.byte	0x52
+ 1685 0246 48000000 		.4byte	0x48
+ 1686 024a 03       		.uleb128 0x3
+ 1687 024b 91       		.byte	0x91
+ 1688 024c C877     		.sleb128 -1080
+ 1689 024e 0C       		.uleb128 0xc
+ 1690 024f 0D030000 		.4byte	.LASF31
+ 1691 0253 01       		.byte	0x1
+ 1692 0254 52       		.byte	0x52
+ 1693 0255 2C000000 		.4byte	0x2c
+ 1694 0259 03       		.uleb128 0x3
+ 1695 025a 91       		.byte	0x91
+ 1696 025b C777     		.sleb128 -1081
+ 1697 025d 0C       		.uleb128 0xc
+ 1698 025e 15010000 		.4byte	.LASF32
+ 1699 0262 01       		.byte	0x1
+ 1700 0263 52       		.byte	0x52
+ 1701 0264 0F030000 		.4byte	0x30f
+ 1702 0268 03       		.uleb128 0x3
+ 1703 0269 91       		.byte	0x91
+ 1704 026a C077     		.sleb128 -1088
+ 1705 026c 0E       		.uleb128 0xe
+ 1706 026d AE010000 		.4byte	.LASF33
+ 1707 0271 01       		.byte	0x1
+ 1708 0272 54       		.byte	0x54
+ 1709 0273 15030000 		.4byte	0x315
+ 1710 0277 02       		.uleb128 0x2
+ 1711 0278 91       		.byte	0x91
+ 1712 0279 64       		.sleb128 -28
+ 1713 027a 0E       		.uleb128 0xe
+ 1714 027b 9E030000 		.4byte	.LASF34
+ 1715 027f 01       		.byte	0x1
+ 1716 0280 55       		.byte	0x55
+ 1717 0281 15030000 		.4byte	0x315
+ 1718 0285 02       		.uleb128 0x2
+ 1719 0286 91       		.byte	0x91
+ 1720 0287 60       		.sleb128 -32
+ 1721 0288 0D       		.uleb128 0xd
+ 1722 0289 6900     		.ascii	"i\000"
+ 1723 028b 01       		.byte	0x1
+ 1724 028c 56       		.byte	0x56
+ 1725 028d 48000000 		.4byte	0x48
+ 1726 0291 02       		.uleb128 0x2
+ 1727 0292 91       		.byte	0x91
+ 1728 0293 6C       		.sleb128 -20
+ 1729 0294 0E       		.uleb128 0xe
+ 1730 0295 1B010000 		.4byte	.LASF18
+ 1731 0299 01       		.byte	0x1
+ 1732 029a 57       		.byte	0x57
+ 1733 029b 48000000 		.4byte	0x48
+ 1734 029f 02       		.uleb128 0x2
+ 1735 02a0 91       		.byte	0x91
+ 1736 02a1 5C       		.sleb128 -36
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 37
+
+
+ 1737 02a2 0E       		.uleb128 0xe
+ 1738 02a3 66020000 		.4byte	.LASF20
+ 1739 02a7 01       		.byte	0x1
+ 1740 02a8 58       		.byte	0x58
+ 1741 02a9 48000000 		.4byte	0x48
+ 1742 02ad 02       		.uleb128 0x2
+ 1743 02ae 91       		.byte	0x91
+ 1744 02af 58       		.sleb128 -40
+ 1745 02b0 0E       		.uleb128 0xe
+ 1746 02b1 A5020000 		.4byte	.LASF35
+ 1747 02b5 01       		.byte	0x1
+ 1748 02b6 59       		.byte	0x59
+ 1749 02b7 48000000 		.4byte	0x48
+ 1750 02bb 02       		.uleb128 0x2
+ 1751 02bc 91       		.byte	0x91
+ 1752 02bd 54       		.sleb128 -44
+ 1753 02be 0E       		.uleb128 0xe
+ 1754 02bf 00040000 		.4byte	.LASF17
+ 1755 02c3 01       		.byte	0x1
+ 1756 02c4 5A       		.byte	0x5a
+ 1757 02c5 06020000 		.4byte	0x206
+ 1758 02c9 03       		.uleb128 0x3
+ 1759 02ca 91       		.byte	0x91
+ 1760 02cb D47B     		.sleb128 -556
+ 1761 02cd 0E       		.uleb128 0xe
+ 1762 02ce AF020000 		.4byte	.LASF19
+ 1763 02d2 01       		.byte	0x1
+ 1764 02d3 5B       		.byte	0x5b
+ 1765 02d4 06020000 		.4byte	0x206
+ 1766 02d8 03       		.uleb128 0x3
+ 1767 02d9 91       		.byte	0x91
+ 1768 02da D477     		.sleb128 -1068
+ 1769 02dc 0E       		.uleb128 0xe
+ 1770 02dd FA020000 		.4byte	.LASF36
+ 1771 02e1 01       		.byte	0x1
+ 1772 02e2 5C       		.byte	0x5c
+ 1773 02e3 2C000000 		.4byte	0x2c
+ 1774 02e7 03       		.uleb128 0x3
+ 1775 02e8 91       		.byte	0x91
+ 1776 02e9 D377     		.sleb128 -1069
+ 1777 02eb 0E       		.uleb128 0xe
+ 1778 02ec 5E030000 		.4byte	.LASF27
+ 1779 02f0 01       		.byte	0x1
+ 1780 02f1 5D       		.byte	0x5d
+ 1781 02f2 2C000000 		.4byte	0x2c
+ 1782 02f6 03       		.uleb128 0x3
+ 1783 02f7 91       		.byte	0x91
+ 1784 02f8 D277     		.sleb128 -1070
+ 1785 02fa 0D       		.uleb128 0xd
+ 1786 02fb 65727200 		.ascii	"err\000"
+ 1787 02ff 01       		.byte	0x1
+ 1788 0300 5E       		.byte	0x5e
+ 1789 0301 5D000000 		.4byte	0x5d
+ 1790 0305 02       		.uleb128 0x2
+ 1791 0306 91       		.byte	0x91
+ 1792 0307 68       		.sleb128 -24
+ 1793 0308 00       		.byte	0
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 38
+
+
+ 1794 0309 04       		.uleb128 0x4
+ 1795 030a 04       		.byte	0x4
+ 1796 030b F0000000 		.4byte	0xf0
+ 1797 030f 04       		.uleb128 0x4
+ 1798 0310 04       		.byte	0x4
+ 1799 0311 48000000 		.4byte	0x48
+ 1800 0315 11       		.uleb128 0x11
+ 1801 0316 48000000 		.4byte	0x48
+ 1802 031a 0B       		.uleb128 0xb
+ 1803 031b 41030000 		.4byte	.LASF37
+ 1804 031f 01       		.byte	0x1
+ 1805 0320 7D       		.byte	0x7d
+ 1806 0321 5D000000 		.4byte	0x5d
+ 1807 0325 00000000 		.4byte	.LFB4
+ 1808 0329 C4000000 		.4byte	.LFE4-.LFB4
+ 1809 032d 01       		.uleb128 0x1
+ 1810 032e 9C       		.byte	0x9c
+ 1811 032f B8030000 		.4byte	0x3b8
+ 1812 0333 0C       		.uleb128 0xc
+ 1813 0334 75020000 		.4byte	.LASF38
+ 1814 0338 01       		.byte	0x1
+ 1815 0339 7D       		.byte	0x7d
+ 1816 033a 2C000000 		.4byte	0x2c
+ 1817 033e 03       		.uleb128 0x3
+ 1818 033f 91       		.byte	0x91
+ 1819 0340 DF77     		.sleb128 -1057
+ 1820 0342 0C       		.uleb128 0xc
+ 1821 0343 E1020000 		.4byte	.LASF39
+ 1822 0347 01       		.byte	0x1
+ 1823 0348 7D       		.byte	0x7d
+ 1824 0349 79000000 		.4byte	0x79
+ 1825 034d 03       		.uleb128 0x3
+ 1826 034e 91       		.byte	0x91
+ 1827 034f D877     		.sleb128 -1064
+ 1828 0351 0C       		.uleb128 0xc
+ 1829 0352 CE020000 		.4byte	.LASF40
+ 1830 0356 01       		.byte	0x1
+ 1831 0357 7D       		.byte	0x7d
+ 1832 0358 79000000 		.4byte	0x79
+ 1833 035c 03       		.uleb128 0x3
+ 1834 035d 91       		.byte	0x91
+ 1835 035e D477     		.sleb128 -1068
+ 1836 0360 0E       		.uleb128 0xe
+ 1837 0361 1B010000 		.4byte	.LASF18
+ 1838 0365 01       		.byte	0x1
+ 1839 0366 7F       		.byte	0x7f
+ 1840 0367 48000000 		.4byte	0x48
+ 1841 036b 02       		.uleb128 0x2
+ 1842 036c 91       		.byte	0x91
+ 1843 036d 68       		.sleb128 -24
+ 1844 036e 0E       		.uleb128 0xe
+ 1845 036f 66020000 		.4byte	.LASF20
+ 1846 0373 01       		.byte	0x1
+ 1847 0374 80       		.byte	0x80
+ 1848 0375 48000000 		.4byte	0x48
+ 1849 0379 02       		.uleb128 0x2
+ 1850 037a 91       		.byte	0x91
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 39
+
+
+ 1851 037b 64       		.sleb128 -28
+ 1852 037c 0E       		.uleb128 0xe
+ 1853 037d 00040000 		.4byte	.LASF17
+ 1854 0381 01       		.byte	0x1
+ 1855 0382 81       		.byte	0x81
+ 1856 0383 06020000 		.4byte	0x206
+ 1857 0387 03       		.uleb128 0x3
+ 1858 0388 91       		.byte	0x91
+ 1859 0389 E47B     		.sleb128 -540
+ 1860 038b 0E       		.uleb128 0xe
+ 1861 038c AF020000 		.4byte	.LASF19
+ 1862 0390 01       		.byte	0x1
+ 1863 0391 82       		.byte	0x82
+ 1864 0392 06020000 		.4byte	0x206
+ 1865 0396 03       		.uleb128 0x3
+ 1866 0397 91       		.byte	0x91
+ 1867 0398 E477     		.sleb128 -1052
+ 1868 039a 0E       		.uleb128 0xe
+ 1869 039b 5E030000 		.4byte	.LASF27
+ 1870 039f 01       		.byte	0x1
+ 1871 03a0 83       		.byte	0x83
+ 1872 03a1 2C000000 		.4byte	0x2c
+ 1873 03a5 03       		.uleb128 0x3
+ 1874 03a6 91       		.byte	0x91
+ 1875 03a7 E377     		.sleb128 -1053
+ 1876 03a9 0D       		.uleb128 0xd
+ 1877 03aa 65727200 		.ascii	"err\000"
+ 1878 03ae 01       		.byte	0x1
+ 1879 03af 84       		.byte	0x84
+ 1880 03b0 5D000000 		.4byte	0x5d
+ 1881 03b4 02       		.uleb128 0x2
+ 1882 03b5 91       		.byte	0x91
+ 1883 03b6 6C       		.sleb128 -20
+ 1884 03b7 00       		.byte	0
+ 1885 03b8 0B       		.uleb128 0xb
+ 1886 03b9 75010000 		.4byte	.LASF41
+ 1887 03bd 01       		.byte	0x1
+ 1888 03be 95       		.byte	0x95
+ 1889 03bf 5D000000 		.4byte	0x5d
+ 1890 03c3 00000000 		.4byte	.LFB5
+ 1891 03c7 AA000000 		.4byte	.LFE5-.LFB5
+ 1892 03cb 01       		.uleb128 0x1
+ 1893 03cc 9C       		.byte	0x9c
+ 1894 03cd 38040000 		.4byte	0x438
+ 1895 03d1 0C       		.uleb128 0xc
+ 1896 03d2 75020000 		.4byte	.LASF38
+ 1897 03d6 01       		.byte	0x1
+ 1898 03d7 95       		.byte	0x95
+ 1899 03d8 2C000000 		.4byte	0x2c
+ 1900 03dc 03       		.uleb128 0x3
+ 1901 03dd 91       		.byte	0x91
+ 1902 03de DF77     		.sleb128 -1057
+ 1903 03e0 0E       		.uleb128 0xe
+ 1904 03e1 1B010000 		.4byte	.LASF18
+ 1905 03e5 01       		.byte	0x1
+ 1906 03e6 97       		.byte	0x97
+ 1907 03e7 48000000 		.4byte	0x48
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 40
+
+
+ 1908 03eb 02       		.uleb128 0x2
+ 1909 03ec 91       		.byte	0x91
+ 1910 03ed 68       		.sleb128 -24
+ 1911 03ee 0E       		.uleb128 0xe
+ 1912 03ef 66020000 		.4byte	.LASF20
+ 1913 03f3 01       		.byte	0x1
+ 1914 03f4 98       		.byte	0x98
+ 1915 03f5 48000000 		.4byte	0x48
+ 1916 03f9 02       		.uleb128 0x2
+ 1917 03fa 91       		.byte	0x91
+ 1918 03fb 64       		.sleb128 -28
+ 1919 03fc 0E       		.uleb128 0xe
+ 1920 03fd 00040000 		.4byte	.LASF17
+ 1921 0401 01       		.byte	0x1
+ 1922 0402 99       		.byte	0x99
+ 1923 0403 06020000 		.4byte	0x206
+ 1924 0407 03       		.uleb128 0x3
+ 1925 0408 91       		.byte	0x91
+ 1926 0409 E47B     		.sleb128 -540
+ 1927 040b 0E       		.uleb128 0xe
+ 1928 040c AF020000 		.4byte	.LASF19
+ 1929 0410 01       		.byte	0x1
+ 1930 0411 9A       		.byte	0x9a
+ 1931 0412 06020000 		.4byte	0x206
+ 1932 0416 03       		.uleb128 0x3
+ 1933 0417 91       		.byte	0x91
+ 1934 0418 E477     		.sleb128 -1052
+ 1935 041a 0E       		.uleb128 0xe
+ 1936 041b 5E030000 		.4byte	.LASF27
+ 1937 041f 01       		.byte	0x1
+ 1938 0420 9B       		.byte	0x9b
+ 1939 0421 2C000000 		.4byte	0x2c
+ 1940 0425 03       		.uleb128 0x3
+ 1941 0426 91       		.byte	0x91
+ 1942 0427 E377     		.sleb128 -1053
+ 1943 0429 0D       		.uleb128 0xd
+ 1944 042a 65727200 		.ascii	"err\000"
+ 1945 042e 01       		.byte	0x1
+ 1946 042f 9C       		.byte	0x9c
+ 1947 0430 5D000000 		.4byte	0x5d
+ 1948 0434 02       		.uleb128 0x2
+ 1949 0435 91       		.byte	0x91
+ 1950 0436 6C       		.sleb128 -20
+ 1951 0437 00       		.byte	0
+ 1952 0438 0B       		.uleb128 0xb
+ 1953 0439 81030000 		.4byte	.LASF42
+ 1954 043d 01       		.byte	0x1
+ 1955 043e AD       		.byte	0xad
+ 1956 043f 5D000000 		.4byte	0x5d
+ 1957 0443 00000000 		.4byte	.LFB6
+ 1958 0447 7C000000 		.4byte	.LFE6-.LFB6
+ 1959 044b 01       		.uleb128 0x1
+ 1960 044c 9C       		.byte	0x9c
+ 1961 044d 8B040000 		.4byte	0x48b
+ 1962 0451 0E       		.uleb128 0xe
+ 1963 0452 1B010000 		.4byte	.LASF18
+ 1964 0456 01       		.byte	0x1
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 41
+
+
+ 1965 0457 AF       		.byte	0xaf
+ 1966 0458 48000000 		.4byte	0x48
+ 1967 045c 02       		.uleb128 0x2
+ 1968 045d 91       		.byte	0x91
+ 1969 045e 70       		.sleb128 -16
+ 1970 045f 0E       		.uleb128 0xe
+ 1971 0460 66020000 		.4byte	.LASF20
+ 1972 0464 01       		.byte	0x1
+ 1973 0465 B0       		.byte	0xb0
+ 1974 0466 48000000 		.4byte	0x48
+ 1975 046a 02       		.uleb128 0x2
+ 1976 046b 91       		.byte	0x91
+ 1977 046c 6C       		.sleb128 -20
+ 1978 046d 0E       		.uleb128 0xe
+ 1979 046e 00040000 		.4byte	.LASF17
+ 1980 0472 01       		.byte	0x1
+ 1981 0473 B1       		.byte	0xb1
+ 1982 0474 06020000 		.4byte	0x206
+ 1983 0478 03       		.uleb128 0x3
+ 1984 0479 91       		.byte	0x91
+ 1985 047a EC7B     		.sleb128 -532
+ 1986 047c 0D       		.uleb128 0xd
+ 1987 047d 65727200 		.ascii	"err\000"
+ 1988 0481 01       		.byte	0x1
+ 1989 0482 B3       		.byte	0xb3
+ 1990 0483 5D000000 		.4byte	0x5d
+ 1991 0487 02       		.uleb128 0x2
+ 1992 0488 91       		.byte	0x91
+ 1993 0489 74       		.sleb128 -12
+ 1994 048a 00       		.byte	0
+ 1995 048b 0B       		.uleb128 0xb
+ 1996 048c E0010000 		.4byte	.LASF43
+ 1997 0490 01       		.byte	0x1
+ 1998 0491 C3       		.byte	0xc3
+ 1999 0492 5D000000 		.4byte	0x5d
+ 2000 0496 00000000 		.4byte	.LFB7
+ 2001 049a F4010000 		.4byte	.LFE7-.LFB7
+ 2002 049e 01       		.uleb128 0x1
+ 2003 049f 9C       		.byte	0x9c
+ 2004 04a0 64050000 		.4byte	0x564
+ 2005 04a4 0C       		.uleb128 0xc
+ 2006 04a5 6D010000 		.4byte	.LASF44
+ 2007 04a9 01       		.byte	0x1
+ 2008 04aa C3       		.byte	0xc3
+ 2009 04ab 2C000000 		.4byte	0x2c
+ 2010 04af 03       		.uleb128 0x3
+ 2011 04b0 91       		.byte	0x91
+ 2012 04b1 CF77     		.sleb128 -1073
+ 2013 04b3 0C       		.uleb128 0xc
+ 2014 04b4 09000000 		.4byte	.LASF24
+ 2015 04b8 01       		.byte	0x1
+ 2016 04b9 C3       		.byte	0xc3
+ 2017 04ba 3A000000 		.4byte	0x3a
+ 2018 04be 03       		.uleb128 0x3
+ 2019 04bf 91       		.byte	0x91
+ 2020 04c0 CC77     		.sleb128 -1076
+ 2021 04c2 12       		.uleb128 0x12
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 42
+
+
+ 2022 04c3 62756600 		.ascii	"buf\000"
+ 2023 04c7 01       		.byte	0x1
+ 2024 04c8 C3       		.byte	0xc3
+ 2025 04c9 79000000 		.4byte	0x79
+ 2026 04cd 03       		.uleb128 0x3
+ 2027 04ce 91       		.byte	0x91
+ 2028 04cf C877     		.sleb128 -1080
+ 2029 04d1 0C       		.uleb128 0xc
+ 2030 04d2 20020000 		.4byte	.LASF45
+ 2031 04d6 01       		.byte	0x1
+ 2032 04d7 C3       		.byte	0xc3
+ 2033 04d8 3A000000 		.4byte	0x3a
+ 2034 04dc 03       		.uleb128 0x3
+ 2035 04dd 91       		.byte	0x91
+ 2036 04de C677     		.sleb128 -1082
+ 2037 04e0 0E       		.uleb128 0xe
+ 2038 04e1 2C030000 		.4byte	.LASF46
+ 2039 04e5 01       		.byte	0x1
+ 2040 04e6 C5       		.byte	0xc5
+ 2041 04e7 64050000 		.4byte	0x564
+ 2042 04eb 02       		.uleb128 0x2
+ 2043 04ec 91       		.byte	0x91
+ 2044 04ed 64       		.sleb128 -28
+ 2045 04ee 0E       		.uleb128 0xe
+ 2046 04ef 00040000 		.4byte	.LASF17
+ 2047 04f3 01       		.byte	0x1
+ 2048 04f4 C7       		.byte	0xc7
+ 2049 04f5 06020000 		.4byte	0x206
+ 2050 04f9 03       		.uleb128 0x3
+ 2051 04fa 91       		.byte	0x91
+ 2052 04fb E07B     		.sleb128 -544
+ 2053 04fd 0E       		.uleb128 0xe
+ 2054 04fe AF020000 		.4byte	.LASF19
+ 2055 0502 01       		.byte	0x1
+ 2056 0503 C8       		.byte	0xc8
+ 2057 0504 06020000 		.4byte	0x206
+ 2058 0508 03       		.uleb128 0x3
+ 2059 0509 91       		.byte	0x91
+ 2060 050a E077     		.sleb128 -1056
+ 2061 050c 0E       		.uleb128 0xe
+ 2062 050d 1B010000 		.4byte	.LASF18
+ 2063 0511 01       		.byte	0x1
+ 2064 0512 C9       		.byte	0xc9
+ 2065 0513 48000000 		.4byte	0x48
+ 2066 0517 03       		.uleb128 0x3
+ 2067 0518 91       		.byte	0x91
+ 2068 0519 DC77     		.sleb128 -1060
+ 2069 051b 0E       		.uleb128 0xe
+ 2070 051c 66020000 		.4byte	.LASF20
+ 2071 0520 01       		.byte	0x1
+ 2072 0521 CA       		.byte	0xca
+ 2073 0522 48000000 		.4byte	0x48
+ 2074 0526 03       		.uleb128 0x3
+ 2075 0527 91       		.byte	0x91
+ 2076 0528 D877     		.sleb128 -1064
+ 2077 052a 0E       		.uleb128 0xe
+ 2078 052b 16030000 		.4byte	.LASF47
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 43
+
+
+ 2079 052f 01       		.byte	0x1
+ 2080 0530 CB       		.byte	0xcb
+ 2081 0531 48000000 		.4byte	0x48
+ 2082 0535 02       		.uleb128 0x2
+ 2083 0536 91       		.byte	0x91
+ 2084 0537 6C       		.sleb128 -20
+ 2085 0538 0E       		.uleb128 0xe
+ 2086 0539 9B010000 		.4byte	.LASF48
+ 2087 053d 01       		.byte	0x1
+ 2088 053e CC       		.byte	0xcc
+ 2089 053f 3A000000 		.4byte	0x3a
+ 2090 0543 02       		.uleb128 0x2
+ 2091 0544 91       		.byte	0x91
+ 2092 0545 62       		.sleb128 -30
+ 2093 0546 0E       		.uleb128 0xe
+ 2094 0547 5E030000 		.4byte	.LASF27
+ 2095 054b 01       		.byte	0x1
+ 2096 054c CD       		.byte	0xcd
+ 2097 054d 2C000000 		.4byte	0x2c
+ 2098 0551 03       		.uleb128 0x3
+ 2099 0552 91       		.byte	0x91
+ 2100 0553 D777     		.sleb128 -1065
+ 2101 0555 0D       		.uleb128 0xd
+ 2102 0556 65727200 		.ascii	"err\000"
+ 2103 055a 01       		.byte	0x1
+ 2104 055b CE       		.byte	0xce
+ 2105 055c 5D000000 		.4byte	0x5d
+ 2106 0560 02       		.uleb128 0x2
+ 2107 0561 91       		.byte	0x91
+ 2108 0562 68       		.sleb128 -24
+ 2109 0563 00       		.byte	0
+ 2110 0564 11       		.uleb128 0x11
+ 2111 0565 5D000000 		.4byte	0x5d
+ 2112 0569 0B       		.uleb128 0xb
+ 2113 056a A3000000 		.4byte	.LASF49
+ 2114 056e 01       		.byte	0x1
+ 2115 056f F3       		.byte	0xf3
+ 2116 0570 5D000000 		.4byte	0x5d
+ 2117 0574 00000000 		.4byte	.LFB8
+ 2118 0578 E2000000 		.4byte	.LFE8-.LFB8
+ 2119 057c 01       		.uleb128 0x1
+ 2120 057d 9C       		.byte	0x9c
+ 2121 057e FA050000 		.4byte	0x5fa
+ 2122 0582 0C       		.uleb128 0xc
+ 2123 0583 6D010000 		.4byte	.LASF44
+ 2124 0587 01       		.byte	0x1
+ 2125 0588 F3       		.byte	0xf3
+ 2126 0589 2C000000 		.4byte	0x2c
+ 2127 058d 03       		.uleb128 0x3
+ 2128 058e 91       		.byte	0x91
+ 2129 058f DF77     		.sleb128 -1057
+ 2130 0591 0C       		.uleb128 0xc
+ 2131 0592 09000000 		.4byte	.LASF24
+ 2132 0596 01       		.byte	0x1
+ 2133 0597 F3       		.byte	0xf3
+ 2134 0598 3A000000 		.4byte	0x3a
+ 2135 059c 03       		.uleb128 0x3
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 44
+
+
+ 2136 059d 91       		.byte	0x91
+ 2137 059e DC77     		.sleb128 -1060
+ 2138 05a0 0E       		.uleb128 0xe
+ 2139 05a1 00040000 		.4byte	.LASF17
+ 2140 05a5 01       		.byte	0x1
+ 2141 05a6 F5       		.byte	0xf5
+ 2142 05a7 06020000 		.4byte	0x206
+ 2143 05ab 03       		.uleb128 0x3
+ 2144 05ac 91       		.byte	0x91
+ 2145 05ad EC7B     		.sleb128 -532
+ 2146 05af 0E       		.uleb128 0xe
+ 2147 05b0 AF020000 		.4byte	.LASF19
+ 2148 05b4 01       		.byte	0x1
+ 2149 05b5 F6       		.byte	0xf6
+ 2150 05b6 06020000 		.4byte	0x206
+ 2151 05ba 03       		.uleb128 0x3
+ 2152 05bb 91       		.byte	0x91
+ 2153 05bc EC77     		.sleb128 -1044
+ 2154 05be 0E       		.uleb128 0xe
+ 2155 05bf 1B010000 		.4byte	.LASF18
+ 2156 05c3 01       		.byte	0x1
+ 2157 05c4 F7       		.byte	0xf7
+ 2158 05c5 48000000 		.4byte	0x48
+ 2159 05c9 03       		.uleb128 0x3
+ 2160 05ca 91       		.byte	0x91
+ 2161 05cb E877     		.sleb128 -1048
+ 2162 05cd 0E       		.uleb128 0xe
+ 2163 05ce 66020000 		.4byte	.LASF20
+ 2164 05d2 01       		.byte	0x1
+ 2165 05d3 F8       		.byte	0xf8
+ 2166 05d4 48000000 		.4byte	0x48
+ 2167 05d8 03       		.uleb128 0x3
+ 2168 05d9 91       		.byte	0x91
+ 2169 05da E477     		.sleb128 -1052
+ 2170 05dc 0E       		.uleb128 0xe
+ 2171 05dd 5E030000 		.4byte	.LASF27
+ 2172 05e1 01       		.byte	0x1
+ 2173 05e2 F9       		.byte	0xf9
+ 2174 05e3 2C000000 		.4byte	0x2c
+ 2175 05e7 03       		.uleb128 0x3
+ 2176 05e8 91       		.byte	0x91
+ 2177 05e9 E377     		.sleb128 -1053
+ 2178 05eb 0D       		.uleb128 0xd
+ 2179 05ec 65727200 		.ascii	"err\000"
+ 2180 05f0 01       		.byte	0x1
+ 2181 05f1 FA       		.byte	0xfa
+ 2182 05f2 5D000000 		.4byte	0x5d
+ 2183 05f6 02       		.uleb128 0x2
+ 2184 05f7 91       		.byte	0x91
+ 2185 05f8 6C       		.sleb128 -20
+ 2186 05f9 00       		.byte	0
+ 2187 05fa 13       		.uleb128 0x13
+ 2188 05fb 38020000 		.4byte	.LASF50
+ 2189 05ff 01       		.byte	0x1
+ 2190 0600 0A01     		.2byte	0x10a
+ 2191 0602 5D000000 		.4byte	0x5d
+ 2192 0606 00000000 		.4byte	.LFB9
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 45
+
+
+ 2193 060a 14010000 		.4byte	.LFE9-.LFB9
+ 2194 060e 01       		.uleb128 0x1
+ 2195 060f 9C       		.byte	0x9c
+ 2196 0610 B4060000 		.4byte	0x6b4
+ 2197 0614 14       		.uleb128 0x14
+ 2198 0615 6D010000 		.4byte	.LASF44
+ 2199 0619 01       		.byte	0x1
+ 2200 061a 0A01     		.2byte	0x10a
+ 2201 061c 2C000000 		.4byte	0x2c
+ 2202 0620 03       		.uleb128 0x3
+ 2203 0621 91       		.byte	0x91
+ 2204 0622 DF77     		.sleb128 -1057
+ 2205 0624 14       		.uleb128 0x14
+ 2206 0625 09000000 		.4byte	.LASF24
+ 2207 0629 01       		.byte	0x1
+ 2208 062a 0A01     		.2byte	0x10a
+ 2209 062c 3A000000 		.4byte	0x3a
+ 2210 0630 03       		.uleb128 0x3
+ 2211 0631 91       		.byte	0x91
+ 2212 0632 DC77     		.sleb128 -1060
+ 2213 0634 14       		.uleb128 0x14
+ 2214 0635 00000000 		.4byte	.LASF51
+ 2215 0639 01       		.byte	0x1
+ 2216 063a 0A01     		.2byte	0x10a
+ 2217 063c 2C000000 		.4byte	0x2c
+ 2218 0640 03       		.uleb128 0x3
+ 2219 0641 91       		.byte	0x91
+ 2220 0642 DE77     		.sleb128 -1058
+ 2221 0644 15       		.uleb128 0x15
+ 2222 0645 00040000 		.4byte	.LASF17
+ 2223 0649 01       		.byte	0x1
+ 2224 064a 0C01     		.2byte	0x10c
+ 2225 064c 06020000 		.4byte	0x206
+ 2226 0650 03       		.uleb128 0x3
+ 2227 0651 91       		.byte	0x91
+ 2228 0652 EC7B     		.sleb128 -532
+ 2229 0654 15       		.uleb128 0x15
+ 2230 0655 AF020000 		.4byte	.LASF19
+ 2231 0659 01       		.byte	0x1
+ 2232 065a 0D01     		.2byte	0x10d
+ 2233 065c 06020000 		.4byte	0x206
+ 2234 0660 03       		.uleb128 0x3
+ 2235 0661 91       		.byte	0x91
+ 2236 0662 EC77     		.sleb128 -1044
+ 2237 0664 15       		.uleb128 0x15
+ 2238 0665 1B010000 		.4byte	.LASF18
+ 2239 0669 01       		.byte	0x1
+ 2240 066a 0E01     		.2byte	0x10e
+ 2241 066c 48000000 		.4byte	0x48
+ 2242 0670 03       		.uleb128 0x3
+ 2243 0671 91       		.byte	0x91
+ 2244 0672 E877     		.sleb128 -1048
+ 2245 0674 15       		.uleb128 0x15
+ 2246 0675 66020000 		.4byte	.LASF20
+ 2247 0679 01       		.byte	0x1
+ 2248 067a 0F01     		.2byte	0x10f
+ 2249 067c 48000000 		.4byte	0x48
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 46
+
+
+ 2250 0680 03       		.uleb128 0x3
+ 2251 0681 91       		.byte	0x91
+ 2252 0682 E477     		.sleb128 -1052
+ 2253 0684 15       		.uleb128 0x15
+ 2254 0685 3C010000 		.4byte	.LASF52
+ 2255 0689 01       		.byte	0x1
+ 2256 068a 1001     		.2byte	0x110
+ 2257 068c 2C000000 		.4byte	0x2c
+ 2258 0690 03       		.uleb128 0x3
+ 2259 0691 91       		.byte	0x91
+ 2260 0692 E377     		.sleb128 -1053
+ 2261 0694 15       		.uleb128 0x15
+ 2262 0695 5E030000 		.4byte	.LASF27
+ 2263 0699 01       		.byte	0x1
+ 2264 069a 1101     		.2byte	0x111
+ 2265 069c 2C000000 		.4byte	0x2c
+ 2266 06a0 03       		.uleb128 0x3
+ 2267 06a1 91       		.byte	0x91
+ 2268 06a2 E277     		.sleb128 -1054
+ 2269 06a4 16       		.uleb128 0x16
+ 2270 06a5 65727200 		.ascii	"err\000"
+ 2271 06a9 01       		.byte	0x1
+ 2272 06aa 1201     		.2byte	0x112
+ 2273 06ac 5D000000 		.4byte	0x5d
+ 2274 06b0 02       		.uleb128 0x2
+ 2275 06b1 91       		.byte	0x91
+ 2276 06b2 6C       		.sleb128 -20
+ 2277 06b3 00       		.byte	0
+ 2278 06b4 13       		.uleb128 0x13
+ 2279 06b5 7B020000 		.4byte	.LASF53
+ 2280 06b9 01       		.byte	0x1
+ 2281 06ba 2401     		.2byte	0x124
+ 2282 06bc 5D000000 		.4byte	0x5d
+ 2283 06c0 00000000 		.4byte	.LFB10
+ 2284 06c4 AE000000 		.4byte	.LFE10-.LFB10
+ 2285 06c8 01       		.uleb128 0x1
+ 2286 06c9 9C       		.byte	0x9c
+ 2287 06ca 3E070000 		.4byte	0x73e
+ 2288 06ce 15       		.uleb128 0x15
+ 2289 06cf 00040000 		.4byte	.LASF17
+ 2290 06d3 01       		.byte	0x1
+ 2291 06d4 2601     		.2byte	0x126
+ 2292 06d6 06020000 		.4byte	0x206
+ 2293 06da 03       		.uleb128 0x3
+ 2294 06db 91       		.byte	0x91
+ 2295 06dc F47B     		.sleb128 -524
+ 2296 06de 15       		.uleb128 0x15
+ 2297 06df AF020000 		.4byte	.LASF19
+ 2298 06e3 01       		.byte	0x1
+ 2299 06e4 2701     		.2byte	0x127
+ 2300 06e6 06020000 		.4byte	0x206
+ 2301 06ea 03       		.uleb128 0x3
+ 2302 06eb 91       		.byte	0x91
+ 2303 06ec F477     		.sleb128 -1036
+ 2304 06ee 15       		.uleb128 0x15
+ 2305 06ef 1B010000 		.4byte	.LASF18
+ 2306 06f3 01       		.byte	0x1
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 47
+
+
+ 2307 06f4 2801     		.2byte	0x128
+ 2308 06f6 48000000 		.4byte	0x48
+ 2309 06fa 03       		.uleb128 0x3
+ 2310 06fb 91       		.byte	0x91
+ 2311 06fc F077     		.sleb128 -1040
+ 2312 06fe 15       		.uleb128 0x15
+ 2313 06ff 66020000 		.4byte	.LASF20
+ 2314 0703 01       		.byte	0x1
+ 2315 0704 2901     		.2byte	0x129
+ 2316 0706 48000000 		.4byte	0x48
+ 2317 070a 03       		.uleb128 0x3
+ 2318 070b 91       		.byte	0x91
+ 2319 070c EC77     		.sleb128 -1044
+ 2320 070e 15       		.uleb128 0x15
+ 2321 070f 12020000 		.4byte	.LASF54
+ 2322 0713 01       		.byte	0x1
+ 2323 0714 2A01     		.2byte	0x12a
+ 2324 0716 2C000000 		.4byte	0x2c
+ 2325 071a 03       		.uleb128 0x3
+ 2326 071b 91       		.byte	0x91
+ 2327 071c EB77     		.sleb128 -1045
+ 2328 071e 15       		.uleb128 0x15
+ 2329 071f 5E030000 		.4byte	.LASF27
+ 2330 0723 01       		.byte	0x1
+ 2331 0724 2B01     		.2byte	0x12b
+ 2332 0726 2C000000 		.4byte	0x2c
+ 2333 072a 03       		.uleb128 0x3
+ 2334 072b 91       		.byte	0x91
+ 2335 072c EA77     		.sleb128 -1046
+ 2336 072e 16       		.uleb128 0x16
+ 2337 072f 65727200 		.ascii	"err\000"
+ 2338 0733 01       		.byte	0x1
+ 2339 0734 2D01     		.2byte	0x12d
+ 2340 0736 5D000000 		.4byte	0x5d
+ 2341 073a 02       		.uleb128 0x2
+ 2342 073b 91       		.byte	0x91
+ 2343 073c 74       		.sleb128 -12
+ 2344 073d 00       		.byte	0
+ 2345 073e 0E       		.uleb128 0xe
+ 2346 073f 65030000 		.4byte	.LASF55
+ 2347 0743 01       		.byte	0x1
+ 2348 0744 15       		.byte	0x15
+ 2349 0745 09030000 		.4byte	0x309
+ 2350 0749 05       		.uleb128 0x5
+ 2351 074a 03       		.byte	0x3
+ 2352 074b 00000000 		.4byte	g_comm
+ 2353 074f 0F       		.uleb128 0xf
+ 2354 0750 48000000 		.4byte	0x48
+ 2355 0754 5F070000 		.4byte	0x75f
+ 2356 0758 17       		.uleb128 0x17
+ 2357 0759 72000000 		.4byte	0x72
+ 2358 075d 3F       		.byte	0x3f
+ 2359 075e 00       		.byte	0
+ 2360 075f 18       		.uleb128 0x18
+ 2361 0760 EE020000 		.4byte	.LASF60
+ 2362 0764 01       		.byte	0x1
+ 2363 0765 14       		.byte	0x14
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 48
+
+
+ 2364 0766 4F070000 		.4byte	0x74f
+ 2365 076a 05       		.uleb128 0x5
+ 2366 076b 03       		.byte	0x3
+ 2367 076c 00000000 		.4byte	g_validRows
+ 2368 0770 00       		.byte	0
+ 2369              		.section	.debug_abbrev,"",%progbits
+ 2370              	.Ldebug_abbrev0:
+ 2371 0000 01       		.uleb128 0x1
+ 2372 0001 11       		.uleb128 0x11
+ 2373 0002 01       		.byte	0x1
+ 2374 0003 25       		.uleb128 0x25
+ 2375 0004 0E       		.uleb128 0xe
+ 2376 0005 13       		.uleb128 0x13
+ 2377 0006 0B       		.uleb128 0xb
+ 2378 0007 03       		.uleb128 0x3
+ 2379 0008 0E       		.uleb128 0xe
+ 2380 0009 1B       		.uleb128 0x1b
+ 2381 000a 0E       		.uleb128 0xe
+ 2382 000b 55       		.uleb128 0x55
+ 2383 000c 17       		.uleb128 0x17
+ 2384 000d 11       		.uleb128 0x11
+ 2385 000e 01       		.uleb128 0x1
+ 2386 000f 10       		.uleb128 0x10
+ 2387 0010 17       		.uleb128 0x17
+ 2388 0011 00       		.byte	0
+ 2389 0012 00       		.byte	0
+ 2390 0013 02       		.uleb128 0x2
+ 2391 0014 24       		.uleb128 0x24
+ 2392 0015 00       		.byte	0
+ 2393 0016 0B       		.uleb128 0xb
+ 2394 0017 0B       		.uleb128 0xb
+ 2395 0018 3E       		.uleb128 0x3e
+ 2396 0019 0B       		.uleb128 0xb
+ 2397 001a 03       		.uleb128 0x3
+ 2398 001b 0E       		.uleb128 0xe
+ 2399 001c 00       		.byte	0
+ 2400 001d 00       		.byte	0
+ 2401 001e 03       		.uleb128 0x3
+ 2402 001f 24       		.uleb128 0x24
+ 2403 0020 00       		.byte	0
+ 2404 0021 0B       		.uleb128 0xb
+ 2405 0022 0B       		.uleb128 0xb
+ 2406 0023 3E       		.uleb128 0x3e
+ 2407 0024 0B       		.uleb128 0xb
+ 2408 0025 03       		.uleb128 0x3
+ 2409 0026 08       		.uleb128 0x8
+ 2410 0027 00       		.byte	0
+ 2411 0028 00       		.byte	0
+ 2412 0029 04       		.uleb128 0x4
+ 2413 002a 0F       		.uleb128 0xf
+ 2414 002b 00       		.byte	0
+ 2415 002c 0B       		.uleb128 0xb
+ 2416 002d 0B       		.uleb128 0xb
+ 2417 002e 49       		.uleb128 0x49
+ 2418 002f 13       		.uleb128 0x13
+ 2419 0030 00       		.byte	0
+ 2420 0031 00       		.byte	0
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 49
+
+
+ 2421 0032 05       		.uleb128 0x5
+ 2422 0033 13       		.uleb128 0x13
+ 2423 0034 01       		.byte	0x1
+ 2424 0035 0B       		.uleb128 0xb
+ 2425 0036 0B       		.uleb128 0xb
+ 2426 0037 3A       		.uleb128 0x3a
+ 2427 0038 0B       		.uleb128 0xb
+ 2428 0039 3B       		.uleb128 0x3b
+ 2429 003a 0B       		.uleb128 0xb
+ 2430 003b 01       		.uleb128 0x1
+ 2431 003c 13       		.uleb128 0x13
+ 2432 003d 00       		.byte	0
+ 2433 003e 00       		.byte	0
+ 2434 003f 06       		.uleb128 0x6
+ 2435 0040 0D       		.uleb128 0xd
+ 2436 0041 00       		.byte	0
+ 2437 0042 03       		.uleb128 0x3
+ 2438 0043 0E       		.uleb128 0xe
+ 2439 0044 3A       		.uleb128 0x3a
+ 2440 0045 0B       		.uleb128 0xb
+ 2441 0046 3B       		.uleb128 0x3b
+ 2442 0047 0B       		.uleb128 0xb
+ 2443 0048 49       		.uleb128 0x49
+ 2444 0049 13       		.uleb128 0x13
+ 2445 004a 38       		.uleb128 0x38
+ 2446 004b 0B       		.uleb128 0xb
+ 2447 004c 00       		.byte	0
+ 2448 004d 00       		.byte	0
+ 2449 004e 07       		.uleb128 0x7
+ 2450 004f 15       		.uleb128 0x15
+ 2451 0050 00       		.byte	0
+ 2452 0051 27       		.uleb128 0x27
+ 2453 0052 19       		.uleb128 0x19
+ 2454 0053 49       		.uleb128 0x49
+ 2455 0054 13       		.uleb128 0x13
+ 2456 0055 00       		.byte	0
+ 2457 0056 00       		.byte	0
+ 2458 0057 08       		.uleb128 0x8
+ 2459 0058 15       		.uleb128 0x15
+ 2460 0059 01       		.byte	0x1
+ 2461 005a 27       		.uleb128 0x27
+ 2462 005b 19       		.uleb128 0x19
+ 2463 005c 49       		.uleb128 0x49
+ 2464 005d 13       		.uleb128 0x13
+ 2465 005e 01       		.uleb128 0x1
+ 2466 005f 13       		.uleb128 0x13
+ 2467 0060 00       		.byte	0
+ 2468 0061 00       		.byte	0
+ 2469 0062 09       		.uleb128 0x9
+ 2470 0063 05       		.uleb128 0x5
+ 2471 0064 00       		.byte	0
+ 2472 0065 49       		.uleb128 0x49
+ 2473 0066 13       		.uleb128 0x13
+ 2474 0067 00       		.byte	0
+ 2475 0068 00       		.byte	0
+ 2476 0069 0A       		.uleb128 0xa
+ 2477 006a 16       		.uleb128 0x16
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 50
+
+
+ 2478 006b 00       		.byte	0
+ 2479 006c 03       		.uleb128 0x3
+ 2480 006d 0E       		.uleb128 0xe
+ 2481 006e 3A       		.uleb128 0x3a
+ 2482 006f 0B       		.uleb128 0xb
+ 2483 0070 3B       		.uleb128 0x3b
+ 2484 0071 0B       		.uleb128 0xb
+ 2485 0072 49       		.uleb128 0x49
+ 2486 0073 13       		.uleb128 0x13
+ 2487 0074 00       		.byte	0
+ 2488 0075 00       		.byte	0
+ 2489 0076 0B       		.uleb128 0xb
+ 2490 0077 2E       		.uleb128 0x2e
+ 2491 0078 01       		.byte	0x1
+ 2492 0079 3F       		.uleb128 0x3f
+ 2493 007a 19       		.uleb128 0x19
+ 2494 007b 03       		.uleb128 0x3
+ 2495 007c 0E       		.uleb128 0xe
+ 2496 007d 3A       		.uleb128 0x3a
+ 2497 007e 0B       		.uleb128 0xb
+ 2498 007f 3B       		.uleb128 0x3b
+ 2499 0080 0B       		.uleb128 0xb
+ 2500 0081 27       		.uleb128 0x27
+ 2501 0082 19       		.uleb128 0x19
+ 2502 0083 49       		.uleb128 0x49
+ 2503 0084 13       		.uleb128 0x13
+ 2504 0085 11       		.uleb128 0x11
+ 2505 0086 01       		.uleb128 0x1
+ 2506 0087 12       		.uleb128 0x12
+ 2507 0088 06       		.uleb128 0x6
+ 2508 0089 40       		.uleb128 0x40
+ 2509 008a 18       		.uleb128 0x18
+ 2510 008b 9642     		.uleb128 0x2116
+ 2511 008d 19       		.uleb128 0x19
+ 2512 008e 01       		.uleb128 0x1
+ 2513 008f 13       		.uleb128 0x13
+ 2514 0090 00       		.byte	0
+ 2515 0091 00       		.byte	0
+ 2516 0092 0C       		.uleb128 0xc
+ 2517 0093 05       		.uleb128 0x5
+ 2518 0094 00       		.byte	0
+ 2519 0095 03       		.uleb128 0x3
+ 2520 0096 0E       		.uleb128 0xe
+ 2521 0097 3A       		.uleb128 0x3a
+ 2522 0098 0B       		.uleb128 0xb
+ 2523 0099 3B       		.uleb128 0x3b
+ 2524 009a 0B       		.uleb128 0xb
+ 2525 009b 49       		.uleb128 0x49
+ 2526 009c 13       		.uleb128 0x13
+ 2527 009d 02       		.uleb128 0x2
+ 2528 009e 18       		.uleb128 0x18
+ 2529 009f 00       		.byte	0
+ 2530 00a0 00       		.byte	0
+ 2531 00a1 0D       		.uleb128 0xd
+ 2532 00a2 34       		.uleb128 0x34
+ 2533 00a3 00       		.byte	0
+ 2534 00a4 03       		.uleb128 0x3
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 51
+
+
+ 2535 00a5 08       		.uleb128 0x8
+ 2536 00a6 3A       		.uleb128 0x3a
+ 2537 00a7 0B       		.uleb128 0xb
+ 2538 00a8 3B       		.uleb128 0x3b
+ 2539 00a9 0B       		.uleb128 0xb
+ 2540 00aa 49       		.uleb128 0x49
+ 2541 00ab 13       		.uleb128 0x13
+ 2542 00ac 02       		.uleb128 0x2
+ 2543 00ad 18       		.uleb128 0x18
+ 2544 00ae 00       		.byte	0
+ 2545 00af 00       		.byte	0
+ 2546 00b0 0E       		.uleb128 0xe
+ 2547 00b1 34       		.uleb128 0x34
+ 2548 00b2 00       		.byte	0
+ 2549 00b3 03       		.uleb128 0x3
+ 2550 00b4 0E       		.uleb128 0xe
+ 2551 00b5 3A       		.uleb128 0x3a
+ 2552 00b6 0B       		.uleb128 0xb
+ 2553 00b7 3B       		.uleb128 0x3b
+ 2554 00b8 0B       		.uleb128 0xb
+ 2555 00b9 49       		.uleb128 0x49
+ 2556 00ba 13       		.uleb128 0x13
+ 2557 00bb 02       		.uleb128 0x2
+ 2558 00bc 18       		.uleb128 0x18
+ 2559 00bd 00       		.byte	0
+ 2560 00be 00       		.byte	0
+ 2561 00bf 0F       		.uleb128 0xf
+ 2562 00c0 01       		.uleb128 0x1
+ 2563 00c1 01       		.byte	0x1
+ 2564 00c2 49       		.uleb128 0x49
+ 2565 00c3 13       		.uleb128 0x13
+ 2566 00c4 01       		.uleb128 0x1
+ 2567 00c5 13       		.uleb128 0x13
+ 2568 00c6 00       		.byte	0
+ 2569 00c7 00       		.byte	0
+ 2570 00c8 10       		.uleb128 0x10
+ 2571 00c9 21       		.uleb128 0x21
+ 2572 00ca 00       		.byte	0
+ 2573 00cb 49       		.uleb128 0x49
+ 2574 00cc 13       		.uleb128 0x13
+ 2575 00cd 2F       		.uleb128 0x2f
+ 2576 00ce 05       		.uleb128 0x5
+ 2577 00cf 00       		.byte	0
+ 2578 00d0 00       		.byte	0
+ 2579 00d1 11       		.uleb128 0x11
+ 2580 00d2 26       		.uleb128 0x26
+ 2581 00d3 00       		.byte	0
+ 2582 00d4 49       		.uleb128 0x49
+ 2583 00d5 13       		.uleb128 0x13
+ 2584 00d6 00       		.byte	0
+ 2585 00d7 00       		.byte	0
+ 2586 00d8 12       		.uleb128 0x12
+ 2587 00d9 05       		.uleb128 0x5
+ 2588 00da 00       		.byte	0
+ 2589 00db 03       		.uleb128 0x3
+ 2590 00dc 08       		.uleb128 0x8
+ 2591 00dd 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 52
+
+
+ 2592 00de 0B       		.uleb128 0xb
+ 2593 00df 3B       		.uleb128 0x3b
+ 2594 00e0 0B       		.uleb128 0xb
+ 2595 00e1 49       		.uleb128 0x49
+ 2596 00e2 13       		.uleb128 0x13
+ 2597 00e3 02       		.uleb128 0x2
+ 2598 00e4 18       		.uleb128 0x18
+ 2599 00e5 00       		.byte	0
+ 2600 00e6 00       		.byte	0
+ 2601 00e7 13       		.uleb128 0x13
+ 2602 00e8 2E       		.uleb128 0x2e
+ 2603 00e9 01       		.byte	0x1
+ 2604 00ea 3F       		.uleb128 0x3f
+ 2605 00eb 19       		.uleb128 0x19
+ 2606 00ec 03       		.uleb128 0x3
+ 2607 00ed 0E       		.uleb128 0xe
+ 2608 00ee 3A       		.uleb128 0x3a
+ 2609 00ef 0B       		.uleb128 0xb
+ 2610 00f0 3B       		.uleb128 0x3b
+ 2611 00f1 05       		.uleb128 0x5
+ 2612 00f2 27       		.uleb128 0x27
+ 2613 00f3 19       		.uleb128 0x19
+ 2614 00f4 49       		.uleb128 0x49
+ 2615 00f5 13       		.uleb128 0x13
+ 2616 00f6 11       		.uleb128 0x11
+ 2617 00f7 01       		.uleb128 0x1
+ 2618 00f8 12       		.uleb128 0x12
+ 2619 00f9 06       		.uleb128 0x6
+ 2620 00fa 40       		.uleb128 0x40
+ 2621 00fb 18       		.uleb128 0x18
+ 2622 00fc 9642     		.uleb128 0x2116
+ 2623 00fe 19       		.uleb128 0x19
+ 2624 00ff 01       		.uleb128 0x1
+ 2625 0100 13       		.uleb128 0x13
+ 2626 0101 00       		.byte	0
+ 2627 0102 00       		.byte	0
+ 2628 0103 14       		.uleb128 0x14
+ 2629 0104 05       		.uleb128 0x5
+ 2630 0105 00       		.byte	0
+ 2631 0106 03       		.uleb128 0x3
+ 2632 0107 0E       		.uleb128 0xe
+ 2633 0108 3A       		.uleb128 0x3a
+ 2634 0109 0B       		.uleb128 0xb
+ 2635 010a 3B       		.uleb128 0x3b
+ 2636 010b 05       		.uleb128 0x5
+ 2637 010c 49       		.uleb128 0x49
+ 2638 010d 13       		.uleb128 0x13
+ 2639 010e 02       		.uleb128 0x2
+ 2640 010f 18       		.uleb128 0x18
+ 2641 0110 00       		.byte	0
+ 2642 0111 00       		.byte	0
+ 2643 0112 15       		.uleb128 0x15
+ 2644 0113 34       		.uleb128 0x34
+ 2645 0114 00       		.byte	0
+ 2646 0115 03       		.uleb128 0x3
+ 2647 0116 0E       		.uleb128 0xe
+ 2648 0117 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 53
+
+
+ 2649 0118 0B       		.uleb128 0xb
+ 2650 0119 3B       		.uleb128 0x3b
+ 2651 011a 05       		.uleb128 0x5
+ 2652 011b 49       		.uleb128 0x49
+ 2653 011c 13       		.uleb128 0x13
+ 2654 011d 02       		.uleb128 0x2
+ 2655 011e 18       		.uleb128 0x18
+ 2656 011f 00       		.byte	0
+ 2657 0120 00       		.byte	0
+ 2658 0121 16       		.uleb128 0x16
+ 2659 0122 34       		.uleb128 0x34
+ 2660 0123 00       		.byte	0
+ 2661 0124 03       		.uleb128 0x3
+ 2662 0125 08       		.uleb128 0x8
+ 2663 0126 3A       		.uleb128 0x3a
+ 2664 0127 0B       		.uleb128 0xb
+ 2665 0128 3B       		.uleb128 0x3b
+ 2666 0129 05       		.uleb128 0x5
+ 2667 012a 49       		.uleb128 0x49
+ 2668 012b 13       		.uleb128 0x13
+ 2669 012c 02       		.uleb128 0x2
+ 2670 012d 18       		.uleb128 0x18
+ 2671 012e 00       		.byte	0
+ 2672 012f 00       		.byte	0
+ 2673 0130 17       		.uleb128 0x17
+ 2674 0131 21       		.uleb128 0x21
+ 2675 0132 00       		.byte	0
+ 2676 0133 49       		.uleb128 0x49
+ 2677 0134 13       		.uleb128 0x13
+ 2678 0135 2F       		.uleb128 0x2f
+ 2679 0136 0B       		.uleb128 0xb
+ 2680 0137 00       		.byte	0
+ 2681 0138 00       		.byte	0
+ 2682 0139 18       		.uleb128 0x18
+ 2683 013a 34       		.uleb128 0x34
+ 2684 013b 00       		.byte	0
+ 2685 013c 03       		.uleb128 0x3
+ 2686 013d 0E       		.uleb128 0xe
+ 2687 013e 3A       		.uleb128 0x3a
+ 2688 013f 0B       		.uleb128 0xb
+ 2689 0140 3B       		.uleb128 0x3b
+ 2690 0141 0B       		.uleb128 0xb
+ 2691 0142 49       		.uleb128 0x49
+ 2692 0143 13       		.uleb128 0x13
+ 2693 0144 3F       		.uleb128 0x3f
+ 2694 0145 19       		.uleb128 0x19
+ 2695 0146 02       		.uleb128 0x2
+ 2696 0147 18       		.uleb128 0x18
+ 2697 0148 00       		.byte	0
+ 2698 0149 00       		.byte	0
+ 2699 014a 00       		.byte	0
+ 2700              		.section	.debug_aranges,"",%progbits
+ 2701 0000 64000000 		.4byte	0x64
+ 2702 0004 0200     		.2byte	0x2
+ 2703 0006 00000000 		.4byte	.Ldebug_info0
+ 2704 000a 04       		.byte	0x4
+ 2705 000b 00       		.byte	0
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 54
+
+
+ 2706 000c 0000     		.2byte	0
+ 2707 000e 0000     		.2byte	0
+ 2708 0010 00000000 		.4byte	.LFB1
+ 2709 0014 4C000000 		.4byte	.LFE1-.LFB1
+ 2710 0018 00000000 		.4byte	.LFB2
+ 2711 001c 60010000 		.4byte	.LFE2-.LFB2
+ 2712 0020 00000000 		.4byte	.LFB3
+ 2713 0024 84010000 		.4byte	.LFE3-.LFB3
+ 2714 0028 00000000 		.4byte	.LFB4
+ 2715 002c C4000000 		.4byte	.LFE4-.LFB4
+ 2716 0030 00000000 		.4byte	.LFB5
+ 2717 0034 AA000000 		.4byte	.LFE5-.LFB5
+ 2718 0038 00000000 		.4byte	.LFB6
+ 2719 003c 7C000000 		.4byte	.LFE6-.LFB6
+ 2720 0040 00000000 		.4byte	.LFB7
+ 2721 0044 F4010000 		.4byte	.LFE7-.LFB7
+ 2722 0048 00000000 		.4byte	.LFB8
+ 2723 004c E2000000 		.4byte	.LFE8-.LFB8
+ 2724 0050 00000000 		.4byte	.LFB9
+ 2725 0054 14010000 		.4byte	.LFE9-.LFB9
+ 2726 0058 00000000 		.4byte	.LFB10
+ 2727 005c AE000000 		.4byte	.LFE10-.LFB10
+ 2728 0060 00000000 		.4byte	0
+ 2729 0064 00000000 		.4byte	0
+ 2730              		.section	.debug_ranges,"",%progbits
+ 2731              	.Ldebug_ranges0:
+ 2732 0000 00000000 		.4byte	.LFB1
+ 2733 0004 4C000000 		.4byte	.LFE1
+ 2734 0008 00000000 		.4byte	.LFB2
+ 2735 000c 60010000 		.4byte	.LFE2
+ 2736 0010 00000000 		.4byte	.LFB3
+ 2737 0014 84010000 		.4byte	.LFE3
+ 2738 0018 00000000 		.4byte	.LFB4
+ 2739 001c C4000000 		.4byte	.LFE4
+ 2740 0020 00000000 		.4byte	.LFB5
+ 2741 0024 AA000000 		.4byte	.LFE5
+ 2742 0028 00000000 		.4byte	.LFB6
+ 2743 002c 7C000000 		.4byte	.LFE6
+ 2744 0030 00000000 		.4byte	.LFB7
+ 2745 0034 F4010000 		.4byte	.LFE7
+ 2746 0038 00000000 		.4byte	.LFB8
+ 2747 003c E2000000 		.4byte	.LFE8
+ 2748 0040 00000000 		.4byte	.LFB9
+ 2749 0044 14010000 		.4byte	.LFE9
+ 2750 0048 00000000 		.4byte	.LFB10
+ 2751 004c AE000000 		.4byte	.LFE10
+ 2752 0050 00000000 		.4byte	0
+ 2753 0054 00000000 		.4byte	0
+ 2754              		.section	.debug_line,"",%progbits
+ 2755              	.Ldebug_line0:
+ 2756 0000 C3010000 		.section	.debug_str,"MS",%progbits,1
+ 2756      02003500 
+ 2756      00000201 
+ 2756      FB0E0D00 
+ 2756      01010101 
+ 2757              	.LASF51:
+ 2758 0000 63686563 		.ascii	"checksum\000"
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 55
+
+
+ 2758      6B73756D 
+ 2758      00
+ 2759              	.LASF24:
+ 2760 0009 726F774E 		.ascii	"rowNum\000"
+ 2760      756D00
+ 2761              	.LASF29:
+ 2762 0010 636F6D6D 		.ascii	"comm\000"
+ 2762      00
+ 2763              	.LASF56:
+ 2764 0015 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 2764      43313120 
+ 2764      352E342E 
+ 2764      31203230 
+ 2764      31363036 
+ 2765 0048 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 2765      20726576 
+ 2765      6973696F 
+ 2765      6E203233 
+ 2765      37373135 
+ 2766 007b 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 2766      66756E63 
+ 2766      74696F6E 
+ 2766      2D736563 
+ 2766      74696F6E 
+ 2767              	.LASF49:
+ 2768 00a3 43794274 		.ascii	"CyBtldr_EraseRow\000"
+ 2768      6C64725F 
+ 2768      45726173 
+ 2768      65526F77 
+ 2768      00
+ 2769              	.LASF58:
+ 2770 00b4 433A5C55 		.ascii	"C:\\Users\\Henry Kou\\Documents\\PSoC Creator\\Eige"
+ 2770      73657273 
+ 2770      5C48656E 
+ 2770      7279204B 
+ 2770      6F755C44 
+ 2771 00e2 6E626F61 		.ascii	"nboard_bootloading\\P01A_485_Boot_Host_Simple.cydsn"
+ 2771      72645F62 
+ 2771      6F6F746C 
+ 2771      6F616469 
+ 2771      6E675C50 
+ 2772 0114 00       		.ascii	"\000"
+ 2773              	.LASF32:
+ 2774 0115 626C5665 		.ascii	"blVer\000"
+ 2774      7200
+ 2775              	.LASF18:
+ 2776 011b 696E5369 		.ascii	"inSize\000"
+ 2776      7A6500
+ 2777              	.LASF6:
+ 2778 0122 6C6F6E67 		.ascii	"long long int\000"
+ 2778      206C6F6E 
+ 2778      6720696E 
+ 2778      7400
+ 2779              	.LASF0:
+ 2780 0130 7369676E 		.ascii	"signed char\000"
+ 2780      65642063 
+ 2780      68617200 
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 56
+
+
+ 2781              	.LASF52:
+ 2782 013c 726F7743 		.ascii	"rowChecksum\000"
+ 2782      6865636B 
+ 2782      73756D00 
+ 2783              	.LASF57:
+ 2784 0148 63796274 		.ascii	"cybtldr_api.c\000"
+ 2784      6C64725F 
+ 2784      6170692E 
+ 2784      6300
+ 2785              	.LASF7:
+ 2786 0156 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 2786      206C6F6E 
+ 2786      6720756E 
+ 2786      7369676E 
+ 2786      65642069 
+ 2787              	.LASF44:
+ 2788 016d 61727261 		.ascii	"arrayID\000"
+ 2788      79494400 
+ 2789              	.LASF41:
+ 2790 0175 43794274 		.ascii	"CyBtldr_SetApplicationStatus\000"
+ 2790      6C64725F 
+ 2790      53657441 
+ 2790      70706C69 
+ 2790      63617469 
+ 2791              	.LASF4:
+ 2792 0192 6C6F6E67 		.ascii	"long int\000"
+ 2792      20696E74 
+ 2792      00
+ 2793              	.LASF48:
+ 2794 019b 73756242 		.ascii	"subBufSize\000"
+ 2794      75665369 
+ 2794      7A6500
+ 2795              	.LASF23:
+ 2796 01a6 61727261 		.ascii	"arrayId\000"
+ 2796      79496400 
+ 2797              	.LASF33:
+ 2798 01ae 53555050 		.ascii	"SUPPORTED_BOOTLOADER\000"
+ 2798      4F525445 
+ 2798      445F424F 
+ 2798      4F544C4F 
+ 2798      41444552 
+ 2799              	.LASF22:
+ 2800 01c3 43794274 		.ascii	"CyBtldr_ValidateRow\000"
+ 2800      6C64725F 
+ 2800      56616C69 
+ 2800      64617465 
+ 2800      526F7700 
+ 2801              	.LASF14:
+ 2802 01d7 52656164 		.ascii	"ReadData\000"
+ 2802      44617461 
+ 2802      00
+ 2803              	.LASF43:
+ 2804 01e0 43794274 		.ascii	"CyBtldr_ProgramRow\000"
+ 2804      6C64725F 
+ 2804      50726F67 
+ 2804      72616D52 
+ 2804      6F7700
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 57
+
+
+ 2805              	.LASF8:
+ 2806 01f3 756E7369 		.ascii	"unsigned int\000"
+ 2806      676E6564 
+ 2806      20696E74 
+ 2806      00
+ 2807              	.LASF5:
+ 2808 0200 6C6F6E67 		.ascii	"long unsigned int\000"
+ 2808      20756E73 
+ 2808      69676E65 
+ 2808      6420696E 
+ 2808      7400
+ 2809              	.LASF54:
+ 2810 0212 63686563 		.ascii	"checksumValid\000"
+ 2810      6B73756D 
+ 2810      56616C69 
+ 2810      6400
+ 2811              	.LASF45:
+ 2812 0220 73697A65 		.ascii	"size\000"
+ 2812      00
+ 2813              	.LASF3:
+ 2814 0225 73686F72 		.ascii	"short unsigned int\000"
+ 2814      7420756E 
+ 2814      7369676E 
+ 2814      65642069 
+ 2814      6E7400
+ 2815              	.LASF50:
+ 2816 0238 43794274 		.ascii	"CyBtldr_VerifyRow\000"
+ 2816      6C64725F 
+ 2816      56657269 
+ 2816      6679526F 
+ 2816      7700
+ 2817              	.LASF26:
+ 2818 024a 6D617852 		.ascii	"maxRow\000"
+ 2818      6F7700
+ 2819              	.LASF10:
+ 2820 0251 73697A65 		.ascii	"sizetype\000"
+ 2820      74797065 
+ 2820      00
+ 2821              	.LASF9:
+ 2822 025a 6C6F6E67 		.ascii	"long double\000"
+ 2822      20646F75 
+ 2822      626C6500 
+ 2823              	.LASF20:
+ 2824 0266 6F757453 		.ascii	"outSize\000"
+ 2824      697A6500 
+ 2825              	.LASF25:
+ 2826 026e 6D696E52 		.ascii	"minRow\000"
+ 2826      6F7700
+ 2827              	.LASF38:
+ 2828 0275 61707049 		.ascii	"appID\000"
+ 2828      4400
+ 2829              	.LASF53:
+ 2830 027b 43794274 		.ascii	"CyBtldr_VerifyApplication\000"
+ 2830      6C64725F 
+ 2830      56657269 
+ 2830      66794170 
+ 2830      706C6963 
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 58
+
+
+ 2831              	.LASF16:
+ 2832 0295 4D617854 		.ascii	"MaxTransferSize\000"
+ 2832      72616E73 
+ 2832      66657253 
+ 2832      697A6500 
+ 2833              	.LASF35:
+ 2834 02a5 73696C69 		.ascii	"siliconId\000"
+ 2834      636F6E49 
+ 2834      6400
+ 2835              	.LASF19:
+ 2836 02af 6F757442 		.ascii	"outBuf\000"
+ 2836      756600
+ 2837              	.LASF1:
+ 2838 02b6 756E7369 		.ascii	"unsigned char\000"
+ 2838      676E6564 
+ 2838      20636861 
+ 2838      7200
+ 2839              	.LASF2:
+ 2840 02c4 73686F72 		.ascii	"short int\000"
+ 2840      7420696E 
+ 2840      7400
+ 2841              	.LASF40:
+ 2842 02ce 69734163 		.ascii	"isActive\000"
+ 2842      74697665 
+ 2842      00
+ 2843              	.LASF15:
+ 2844 02d7 57726974 		.ascii	"WriteData\000"
+ 2844      65446174 
+ 2844      6100
+ 2845              	.LASF39:
+ 2846 02e1 69735661 		.ascii	"isValid\000"
+ 2846      6C696400 
+ 2847              	.LASF11:
+ 2848 02e9 63686172 		.ascii	"char\000"
+ 2848      00
+ 2849              	.LASF60:
+ 2850 02ee 675F7661 		.ascii	"g_validRows\000"
+ 2850      6C696452 
+ 2850      6F777300 
+ 2851              	.LASF36:
+ 2852 02fa 73696C69 		.ascii	"siliconRev\000"
+ 2852      636F6E52 
+ 2852      657600
+ 2853              	.LASF30:
+ 2854 0305 65787053 		.ascii	"expSiId\000"
+ 2854      69496400 
+ 2855              	.LASF31:
+ 2856 030d 65787053 		.ascii	"expSiRev\000"
+ 2856      69526576 
+ 2856      00
+ 2857              	.LASF47:
+ 2858 0316 6F666673 		.ascii	"offset\000"
+ 2858      657400
+ 2859              	.LASF12:
+ 2860 031d 4F70656E 		.ascii	"OpenConnection\000"
+ 2860      436F6E6E 
+ 2860      65637469 
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 59
+
+
+ 2860      6F6E00
+ 2861              	.LASF46:
+ 2862 032c 5452414E 		.ascii	"TRANSFER_HEADER_SIZE\000"
+ 2862      53464552 
+ 2862      5F484541 
+ 2862      4445525F 
+ 2862      53495A45 
+ 2863              	.LASF37:
+ 2864 0341 43794274 		.ascii	"CyBtldr_GetApplicationStatus\000"
+ 2864      6C64725F 
+ 2864      47657441 
+ 2864      70706C69 
+ 2864      63617469 
+ 2865              	.LASF27:
+ 2866 035e 73746174 		.ascii	"status\000"
+ 2866      757300
+ 2867              	.LASF55:
+ 2868 0365 675F636F 		.ascii	"g_comm\000"
+ 2868      6D6D00
+ 2869              	.LASF21:
+ 2870 036c 43794274 		.ascii	"CyBtldr_TransferData\000"
+ 2870      6C64725F 
+ 2870      5472616E 
+ 2870      73666572 
+ 2870      44617461 
+ 2871              	.LASF42:
+ 2872 0381 43794274 		.ascii	"CyBtldr_EndBootloadOperation\000"
+ 2872      6C64725F 
+ 2872      456E6442 
+ 2872      6F6F746C 
+ 2872      6F61644F 
+ 2873              	.LASF34:
+ 2874 039e 424F4F54 		.ascii	"BOOTLOADER_VERSION_MASK\000"
+ 2874      4C4F4144 
+ 2874      45525F56 
+ 2874      45525349 
+ 2874      4F4E5F4D 
+ 2875              	.LASF59:
+ 2876 03b6 43794274 		.ascii	"CyBtldr_CommunicationsData\000"
+ 2876      6C64725F 
+ 2876      436F6D6D 
+ 2876      756E6963 
+ 2876      6174696F 
+ 2877              	.LASF13:
+ 2878 03d1 436C6F73 		.ascii	"CloseConnection\000"
+ 2878      65436F6E 
+ 2878      6E656374 
+ 2878      696F6E00 
+ 2879              	.LASF28:
+ 2880 03e1 43794274 		.ascii	"CyBtldr_StartBootloadOperation\000"
+ 2880      6C64725F 
+ 2880      53746172 
+ 2880      74426F6F 
+ 2880      746C6F61 
+ 2881              	.LASF17:
+ 2882 0400 696E4275 		.ascii	"inBuf\000"
+ 2882      6600
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\ccK7BKsh.s 			page 60
+
+
+ 2883              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

@@ -1,0 +1,1147 @@
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\cc9dnCD9.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"Upstream_485_INT.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.Upstream_485_RXISR,"ax",%progbits
+  20              		.align	2
+  21              		.global	Upstream_485_RXISR
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	Upstream_485_RXISR, %function
+  25              	Upstream_485_RXISR:
+  26              	.LFB0:
+  27              		.file 1 "Generated_Source\\PSoC5\\Upstream_485_INT.c"
+   1:Generated_Source\PSoC5/Upstream_485_INT.c **** /*******************************************************************************
+   2:Generated_Source\PSoC5/Upstream_485_INT.c **** * File Name: Upstream_485INT.c
+   3:Generated_Source\PSoC5/Upstream_485_INT.c **** * Version 2.50
+   4:Generated_Source\PSoC5/Upstream_485_INT.c **** *
+   5:Generated_Source\PSoC5/Upstream_485_INT.c **** * Description:
+   6:Generated_Source\PSoC5/Upstream_485_INT.c **** *  This file provides all Interrupt Service functionality of the UART component
+   7:Generated_Source\PSoC5/Upstream_485_INT.c **** *
+   8:Generated_Source\PSoC5/Upstream_485_INT.c **** ********************************************************************************
+   9:Generated_Source\PSoC5/Upstream_485_INT.c **** * Copyright 2008-2015, Cypress Semiconductor Corporation.  All rights reserved.
+  10:Generated_Source\PSoC5/Upstream_485_INT.c **** * You may use this file only in accordance with the license, terms, conditions,
+  11:Generated_Source\PSoC5/Upstream_485_INT.c **** * disclaimers, and limitations in the end user license agreement accompanying
+  12:Generated_Source\PSoC5/Upstream_485_INT.c **** * the software package with which this file was provided.
+  13:Generated_Source\PSoC5/Upstream_485_INT.c **** *******************************************************************************/
+  14:Generated_Source\PSoC5/Upstream_485_INT.c **** 
+  15:Generated_Source\PSoC5/Upstream_485_INT.c **** #include "Upstream_485.h"
+  16:Generated_Source\PSoC5/Upstream_485_INT.c **** #include "cyapicallbacks.h"
+  17:Generated_Source\PSoC5/Upstream_485_INT.c **** 
+  18:Generated_Source\PSoC5/Upstream_485_INT.c **** 
+  19:Generated_Source\PSoC5/Upstream_485_INT.c **** /***************************************
+  20:Generated_Source\PSoC5/Upstream_485_INT.c **** * Custom Declarations
+  21:Generated_Source\PSoC5/Upstream_485_INT.c **** ***************************************/
+  22:Generated_Source\PSoC5/Upstream_485_INT.c **** /* `#START CUSTOM_DECLARATIONS` Place your declaration here */
+  23:Generated_Source\PSoC5/Upstream_485_INT.c **** 
+  24:Generated_Source\PSoC5/Upstream_485_INT.c **** /* `#END` */
+  25:Generated_Source\PSoC5/Upstream_485_INT.c **** 
+  26:Generated_Source\PSoC5/Upstream_485_INT.c **** #if (Upstream_485_RX_INTERRUPT_ENABLED && (Upstream_485_RX_ENABLED || Upstream_485_HD_ENABLED))
+  27:Generated_Source\PSoC5/Upstream_485_INT.c ****     /*******************************************************************************
+  28:Generated_Source\PSoC5/Upstream_485_INT.c ****     * Function Name: Upstream_485_RXISR
+  29:Generated_Source\PSoC5/Upstream_485_INT.c ****     ********************************************************************************
+  30:Generated_Source\PSoC5/Upstream_485_INT.c ****     *
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\cc9dnCD9.s 			page 2
+
+
+  31:Generated_Source\PSoC5/Upstream_485_INT.c ****     * Summary:
+  32:Generated_Source\PSoC5/Upstream_485_INT.c ****     *  Interrupt Service Routine for RX portion of the UART
+  33:Generated_Source\PSoC5/Upstream_485_INT.c ****     *
+  34:Generated_Source\PSoC5/Upstream_485_INT.c ****     * Parameters:
+  35:Generated_Source\PSoC5/Upstream_485_INT.c ****     *  None.
+  36:Generated_Source\PSoC5/Upstream_485_INT.c ****     *
+  37:Generated_Source\PSoC5/Upstream_485_INT.c ****     * Return:
+  38:Generated_Source\PSoC5/Upstream_485_INT.c ****     *  None.
+  39:Generated_Source\PSoC5/Upstream_485_INT.c ****     *
+  40:Generated_Source\PSoC5/Upstream_485_INT.c ****     * Global Variables:
+  41:Generated_Source\PSoC5/Upstream_485_INT.c ****     *  Upstream_485_rxBuffer - RAM buffer pointer for save received data.
+  42:Generated_Source\PSoC5/Upstream_485_INT.c ****     *  Upstream_485_rxBufferWrite - cyclic index for write to rxBuffer,
+  43:Generated_Source\PSoC5/Upstream_485_INT.c ****     *     increments after each byte saved to buffer.
+  44:Generated_Source\PSoC5/Upstream_485_INT.c ****     *  Upstream_485_rxBufferRead - cyclic index for read from rxBuffer,
+  45:Generated_Source\PSoC5/Upstream_485_INT.c ****     *     checked to detect overflow condition.
+  46:Generated_Source\PSoC5/Upstream_485_INT.c ****     *  Upstream_485_rxBufferOverflow - software overflow flag. Set to one
+  47:Generated_Source\PSoC5/Upstream_485_INT.c ****     *     when Upstream_485_rxBufferWrite index overtakes
+  48:Generated_Source\PSoC5/Upstream_485_INT.c ****     *     Upstream_485_rxBufferRead index.
+  49:Generated_Source\PSoC5/Upstream_485_INT.c ****     *  Upstream_485_rxBufferLoopDetect - additional variable to detect overflow.
+  50:Generated_Source\PSoC5/Upstream_485_INT.c ****     *     Set to one when Upstream_485_rxBufferWrite is equal to
+  51:Generated_Source\PSoC5/Upstream_485_INT.c ****     *    Upstream_485_rxBufferRead
+  52:Generated_Source\PSoC5/Upstream_485_INT.c ****     *  Upstream_485_rxAddressMode - this variable contains the Address mode,
+  53:Generated_Source\PSoC5/Upstream_485_INT.c ****     *     selected in customizer or set by UART_SetRxAddressMode() API.
+  54:Generated_Source\PSoC5/Upstream_485_INT.c ****     *  Upstream_485_rxAddressDetected - set to 1 when correct address received,
+  55:Generated_Source\PSoC5/Upstream_485_INT.c ****     *     and analysed to store following addressed data bytes to the buffer.
+  56:Generated_Source\PSoC5/Upstream_485_INT.c ****     *     When not correct address received, set to 0 to skip following data bytes.
+  57:Generated_Source\PSoC5/Upstream_485_INT.c ****     *
+  58:Generated_Source\PSoC5/Upstream_485_INT.c ****     *******************************************************************************/
+  59:Generated_Source\PSoC5/Upstream_485_INT.c ****     CY_ISR(Upstream_485_RXISR)
+  60:Generated_Source\PSoC5/Upstream_485_INT.c ****     {
+  28              		.loc 1 60 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 8
+  31              		@ frame_needed = 1, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+  33 0000 80B4     		push	{r7}
+  34              		.cfi_def_cfa_offset 4
+  35              		.cfi_offset 7, -4
+  36 0002 83B0     		sub	sp, sp, #12
+  37              		.cfi_def_cfa_offset 16
+  38 0004 00AF     		add	r7, sp, #0
+  39              		.cfi_def_cfa_register 7
+  61:Generated_Source\PSoC5/Upstream_485_INT.c ****         uint8 readData;
+  62:Generated_Source\PSoC5/Upstream_485_INT.c ****         uint8 readStatus;
+  63:Generated_Source\PSoC5/Upstream_485_INT.c ****         uint8 increment_pointer = 0u;
+  40              		.loc 1 63 0
+  41 0006 0023     		movs	r3, #0
+  42 0008 FB71     		strb	r3, [r7, #7]
+  43              	.L6:
+  64:Generated_Source\PSoC5/Upstream_485_INT.c **** 
+  65:Generated_Source\PSoC5/Upstream_485_INT.c ****     #if(CY_PSOC3)
+  66:Generated_Source\PSoC5/Upstream_485_INT.c ****         uint8 int_en;
+  67:Generated_Source\PSoC5/Upstream_485_INT.c ****     #endif /* (CY_PSOC3) */
+  68:Generated_Source\PSoC5/Upstream_485_INT.c **** 
+  69:Generated_Source\PSoC5/Upstream_485_INT.c ****     #ifdef Upstream_485_RXISR_ENTRY_CALLBACK
+  70:Generated_Source\PSoC5/Upstream_485_INT.c ****         Upstream_485_RXISR_EntryCallback();
+  71:Generated_Source\PSoC5/Upstream_485_INT.c ****     #endif /* Upstream_485_RXISR_ENTRY_CALLBACK */
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\cc9dnCD9.s 			page 3
+
+
+  72:Generated_Source\PSoC5/Upstream_485_INT.c **** 
+  73:Generated_Source\PSoC5/Upstream_485_INT.c ****         /* User code required at start of ISR */
+  74:Generated_Source\PSoC5/Upstream_485_INT.c ****         /* `#START Upstream_485_RXISR_START` */
+  75:Generated_Source\PSoC5/Upstream_485_INT.c **** 
+  76:Generated_Source\PSoC5/Upstream_485_INT.c ****         /* `#END` */
+  77:Generated_Source\PSoC5/Upstream_485_INT.c **** 
+  78:Generated_Source\PSoC5/Upstream_485_INT.c ****     #if(CY_PSOC3)   /* Make sure nested interrupt is enabled */
+  79:Generated_Source\PSoC5/Upstream_485_INT.c ****         int_en = EA;
+  80:Generated_Source\PSoC5/Upstream_485_INT.c ****         CyGlobalIntEnable;
+  81:Generated_Source\PSoC5/Upstream_485_INT.c ****     #endif /* (CY_PSOC3) */
+  82:Generated_Source\PSoC5/Upstream_485_INT.c **** 
+  83:Generated_Source\PSoC5/Upstream_485_INT.c ****         do
+  84:Generated_Source\PSoC5/Upstream_485_INT.c ****         {
+  85:Generated_Source\PSoC5/Upstream_485_INT.c ****             /* Read receiver status register */
+  86:Generated_Source\PSoC5/Upstream_485_INT.c ****             readStatus = Upstream_485_RXSTATUS_REG;
+  44              		.loc 1 86 0
+  45 000a 2C4B     		ldr	r3, .L7
+  46 000c 1B78     		ldrb	r3, [r3]
+  47 000e BB71     		strb	r3, [r7, #6]
+  87:Generated_Source\PSoC5/Upstream_485_INT.c ****             /* Copy the same status to readData variable for backward compatibility support 
+  88:Generated_Source\PSoC5/Upstream_485_INT.c ****             *  of the user code in Upstream_485_RXISR_ERROR` section. 
+  89:Generated_Source\PSoC5/Upstream_485_INT.c ****             */
+  90:Generated_Source\PSoC5/Upstream_485_INT.c ****             readData = readStatus;
+  48              		.loc 1 90 0
+  49 0010 BB79     		ldrb	r3, [r7, #6]
+  50 0012 7B71     		strb	r3, [r7, #5]
+  91:Generated_Source\PSoC5/Upstream_485_INT.c **** 
+  92:Generated_Source\PSoC5/Upstream_485_INT.c ****             if((readStatus & (Upstream_485_RX_STS_BREAK | 
+  93:Generated_Source\PSoC5/Upstream_485_INT.c ****                             Upstream_485_RX_STS_PAR_ERROR |
+  94:Generated_Source\PSoC5/Upstream_485_INT.c ****                             Upstream_485_RX_STS_STOP_ERROR | 
+  95:Generated_Source\PSoC5/Upstream_485_INT.c ****                             Upstream_485_RX_STS_OVERRUN)) != 0u)
+  51              		.loc 1 95 0
+  52 0014 BB79     		ldrb	r3, [r7, #6]	@ zero_extendqisi2
+  53 0016 03F01E03 		and	r3, r3, #30
+  92:Generated_Source\PSoC5/Upstream_485_INT.c ****                             Upstream_485_RX_STS_PAR_ERROR |
+  54              		.loc 1 92 0
+  55 001a 002B     		cmp	r3, #0
+  56 001c 0CD0     		beq	.L2
+  96:Generated_Source\PSoC5/Upstream_485_INT.c ****             {
+  97:Generated_Source\PSoC5/Upstream_485_INT.c ****                 /* ERROR handling. */
+  98:Generated_Source\PSoC5/Upstream_485_INT.c ****                 Upstream_485_errorStatus |= readStatus & ( Upstream_485_RX_STS_BREAK | 
+  57              		.loc 1 98 0
+  58 001e 97F90630 		ldrsb	r3, [r7, #6]
+  59 0022 03F01E03 		and	r3, r3, #30
+  60 0026 5AB2     		sxtb	r2, r3
+  61 0028 254B     		ldr	r3, .L7+4
+  62 002a 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  63 002c 5BB2     		sxtb	r3, r3
+  64 002e 1343     		orrs	r3, r3, r2
+  65 0030 5BB2     		sxtb	r3, r3
+  66 0032 DAB2     		uxtb	r2, r3
+  67 0034 224B     		ldr	r3, .L7+4
+  68 0036 1A70     		strb	r2, [r3]
+  69              	.L2:
+  99:Generated_Source\PSoC5/Upstream_485_INT.c ****                                                             Upstream_485_RX_STS_PAR_ERROR | 
+ 100:Generated_Source\PSoC5/Upstream_485_INT.c ****                                                             Upstream_485_RX_STS_STOP_ERROR | 
+ 101:Generated_Source\PSoC5/Upstream_485_INT.c ****                                                             Upstream_485_RX_STS_OVERRUN);
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\cc9dnCD9.s 			page 4
+
+
+ 102:Generated_Source\PSoC5/Upstream_485_INT.c ****                 /* `#START Upstream_485_RXISR_ERROR` */
+ 103:Generated_Source\PSoC5/Upstream_485_INT.c **** 
+ 104:Generated_Source\PSoC5/Upstream_485_INT.c ****                 /* `#END` */
+ 105:Generated_Source\PSoC5/Upstream_485_INT.c ****                 
+ 106:Generated_Source\PSoC5/Upstream_485_INT.c ****             #ifdef Upstream_485_RXISR_ERROR_CALLBACK
+ 107:Generated_Source\PSoC5/Upstream_485_INT.c ****                 Upstream_485_RXISR_ERROR_Callback();
+ 108:Generated_Source\PSoC5/Upstream_485_INT.c ****             #endif /* Upstream_485_RXISR_ERROR_CALLBACK */
+ 109:Generated_Source\PSoC5/Upstream_485_INT.c ****             }
+ 110:Generated_Source\PSoC5/Upstream_485_INT.c ****             
+ 111:Generated_Source\PSoC5/Upstream_485_INT.c ****             if((readStatus & Upstream_485_RX_STS_FIFO_NOTEMPTY) != 0u)
+  70              		.loc 1 111 0
+  71 0038 BB79     		ldrb	r3, [r7, #6]	@ zero_extendqisi2
+  72 003a 03F02003 		and	r3, r3, #32
+  73 003e 002B     		cmp	r3, #0
+  74 0040 31D0     		beq	.L3
+ 112:Generated_Source\PSoC5/Upstream_485_INT.c ****             {
+ 113:Generated_Source\PSoC5/Upstream_485_INT.c ****                 /* Read data from the RX data register */
+ 114:Generated_Source\PSoC5/Upstream_485_INT.c ****                 readData = Upstream_485_RXDATA_REG;
+  75              		.loc 1 114 0
+  76 0042 204B     		ldr	r3, .L7+8
+  77 0044 1B78     		ldrb	r3, [r3]
+  78 0046 7B71     		strb	r3, [r7, #5]
+ 115:Generated_Source\PSoC5/Upstream_485_INT.c ****             #if (Upstream_485_RXHW_ADDRESS_ENABLED)
+ 116:Generated_Source\PSoC5/Upstream_485_INT.c ****                 if(Upstream_485_rxAddressMode == (uint8)Upstream_485__B_UART__AM_SW_DETECT_TO_BUFFE
+ 117:Generated_Source\PSoC5/Upstream_485_INT.c ****                 {
+ 118:Generated_Source\PSoC5/Upstream_485_INT.c ****                     if((readStatus & Upstream_485_RX_STS_MRKSPC) != 0u)
+ 119:Generated_Source\PSoC5/Upstream_485_INT.c ****                     {
+ 120:Generated_Source\PSoC5/Upstream_485_INT.c ****                         if ((readStatus & Upstream_485_RX_STS_ADDR_MATCH) != 0u)
+ 121:Generated_Source\PSoC5/Upstream_485_INT.c ****                         {
+ 122:Generated_Source\PSoC5/Upstream_485_INT.c ****                             Upstream_485_rxAddressDetected = 1u;
+ 123:Generated_Source\PSoC5/Upstream_485_INT.c ****                         }
+ 124:Generated_Source\PSoC5/Upstream_485_INT.c ****                         else
+ 125:Generated_Source\PSoC5/Upstream_485_INT.c ****                         {
+ 126:Generated_Source\PSoC5/Upstream_485_INT.c ****                             Upstream_485_rxAddressDetected = 0u;
+ 127:Generated_Source\PSoC5/Upstream_485_INT.c ****                         }
+ 128:Generated_Source\PSoC5/Upstream_485_INT.c ****                     }
+ 129:Generated_Source\PSoC5/Upstream_485_INT.c ****                     if(Upstream_485_rxAddressDetected != 0u)
+ 130:Generated_Source\PSoC5/Upstream_485_INT.c ****                     {   /* Store only addressed data */
+ 131:Generated_Source\PSoC5/Upstream_485_INT.c ****                         Upstream_485_rxBuffer[Upstream_485_rxBufferWrite] = readData;
+ 132:Generated_Source\PSoC5/Upstream_485_INT.c ****                         increment_pointer = 1u;
+ 133:Generated_Source\PSoC5/Upstream_485_INT.c ****                     }
+ 134:Generated_Source\PSoC5/Upstream_485_INT.c ****                 }
+ 135:Generated_Source\PSoC5/Upstream_485_INT.c ****                 else /* Without software addressing */
+ 136:Generated_Source\PSoC5/Upstream_485_INT.c ****                 {
+ 137:Generated_Source\PSoC5/Upstream_485_INT.c ****                     Upstream_485_rxBuffer[Upstream_485_rxBufferWrite] = readData;
+ 138:Generated_Source\PSoC5/Upstream_485_INT.c ****                     increment_pointer = 1u;
+ 139:Generated_Source\PSoC5/Upstream_485_INT.c ****                 }
+ 140:Generated_Source\PSoC5/Upstream_485_INT.c ****             #else  /* Without addressing */
+ 141:Generated_Source\PSoC5/Upstream_485_INT.c ****                 Upstream_485_rxBuffer[Upstream_485_rxBufferWrite] = readData;
+  79              		.loc 1 141 0
+  80 0048 1F4B     		ldr	r3, .L7+12
+  81 004a 1B78     		ldrb	r3, [r3]
+  82 004c DBB2     		uxtb	r3, r3
+  83 004e 1946     		mov	r1, r3
+  84 0050 1E4A     		ldr	r2, .L7+16
+  85 0052 7B79     		ldrb	r3, [r7, #5]
+  86 0054 5354     		strb	r3, [r2, r1]
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\cc9dnCD9.s 			page 5
+
+
+ 142:Generated_Source\PSoC5/Upstream_485_INT.c ****                 increment_pointer = 1u;
+  87              		.loc 1 142 0
+  88 0056 0123     		movs	r3, #1
+  89 0058 FB71     		strb	r3, [r7, #7]
+ 143:Generated_Source\PSoC5/Upstream_485_INT.c ****             #endif /* (Upstream_485_RXHW_ADDRESS_ENABLED) */
+ 144:Generated_Source\PSoC5/Upstream_485_INT.c **** 
+ 145:Generated_Source\PSoC5/Upstream_485_INT.c ****                 /* Do not increment buffer pointer when skip not addressed data */
+ 146:Generated_Source\PSoC5/Upstream_485_INT.c ****                 if(increment_pointer != 0u)
+  90              		.loc 1 146 0
+  91 005a FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+  92 005c 002B     		cmp	r3, #0
+  93 005e 22D0     		beq	.L3
+ 147:Generated_Source\PSoC5/Upstream_485_INT.c ****                 {
+ 148:Generated_Source\PSoC5/Upstream_485_INT.c ****                     if(Upstream_485_rxBufferLoopDetect != 0u)
+  94              		.loc 1 148 0
+  95 0060 1B4B     		ldr	r3, .L7+20
+  96 0062 1B78     		ldrb	r3, [r3]
+  97 0064 DBB2     		uxtb	r3, r3
+  98 0066 002B     		cmp	r3, #0
+  99 0068 02D0     		beq	.L4
+ 149:Generated_Source\PSoC5/Upstream_485_INT.c ****                     {   /* Set Software Buffer status Overflow */
+ 150:Generated_Source\PSoC5/Upstream_485_INT.c ****                         Upstream_485_rxBufferOverflow = 1u;
+ 100              		.loc 1 150 0
+ 101 006a 1A4B     		ldr	r3, .L7+24
+ 102 006c 0122     		movs	r2, #1
+ 103 006e 1A70     		strb	r2, [r3]
+ 104              	.L4:
+ 151:Generated_Source\PSoC5/Upstream_485_INT.c ****                     }
+ 152:Generated_Source\PSoC5/Upstream_485_INT.c ****                     /* Set next pointer. */
+ 153:Generated_Source\PSoC5/Upstream_485_INT.c ****                     Upstream_485_rxBufferWrite++;
+ 105              		.loc 1 153 0
+ 106 0070 154B     		ldr	r3, .L7+12
+ 107 0072 1B78     		ldrb	r3, [r3]
+ 108 0074 DBB2     		uxtb	r3, r3
+ 109 0076 0133     		adds	r3, r3, #1
+ 110 0078 DAB2     		uxtb	r2, r3
+ 111 007a 134B     		ldr	r3, .L7+12
+ 112 007c 1A70     		strb	r2, [r3]
+ 154:Generated_Source\PSoC5/Upstream_485_INT.c **** 
+ 155:Generated_Source\PSoC5/Upstream_485_INT.c ****                     /* Check pointer for a loop condition */
+ 156:Generated_Source\PSoC5/Upstream_485_INT.c ****                     if(Upstream_485_rxBufferWrite >= Upstream_485_RX_BUFFER_SIZE)
+ 113              		.loc 1 156 0
+ 114 007e 124B     		ldr	r3, .L7+12
+ 115 0080 1B78     		ldrb	r3, [r3]
+ 116 0082 DBB2     		uxtb	r3, r3
+ 117 0084 5BB2     		sxtb	r3, r3
+ 118 0086 002B     		cmp	r3, #0
+ 119 0088 02DA     		bge	.L5
+ 157:Generated_Source\PSoC5/Upstream_485_INT.c ****                     {
+ 158:Generated_Source\PSoC5/Upstream_485_INT.c ****                         Upstream_485_rxBufferWrite = 0u;
+ 120              		.loc 1 158 0
+ 121 008a 0F4B     		ldr	r3, .L7+12
+ 122 008c 0022     		movs	r2, #0
+ 123 008e 1A70     		strb	r2, [r3]
+ 124              	.L5:
+ 159:Generated_Source\PSoC5/Upstream_485_INT.c ****                     }
+ 160:Generated_Source\PSoC5/Upstream_485_INT.c **** 
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\cc9dnCD9.s 			page 6
+
+
+ 161:Generated_Source\PSoC5/Upstream_485_INT.c ****                     /* Detect pre-overload condition and set flag */
+ 162:Generated_Source\PSoC5/Upstream_485_INT.c ****                     if(Upstream_485_rxBufferWrite == Upstream_485_rxBufferRead)
+ 125              		.loc 1 162 0
+ 126 0090 0D4B     		ldr	r3, .L7+12
+ 127 0092 1B78     		ldrb	r3, [r3]
+ 128 0094 DAB2     		uxtb	r2, r3
+ 129 0096 104B     		ldr	r3, .L7+28
+ 130 0098 1B78     		ldrb	r3, [r3]
+ 131 009a DBB2     		uxtb	r3, r3
+ 132 009c 9A42     		cmp	r2, r3
+ 133 009e 02D1     		bne	.L3
+ 163:Generated_Source\PSoC5/Upstream_485_INT.c ****                     {
+ 164:Generated_Source\PSoC5/Upstream_485_INT.c ****                         Upstream_485_rxBufferLoopDetect = 1u;
+ 134              		.loc 1 164 0
+ 135 00a0 0B4B     		ldr	r3, .L7+20
+ 136 00a2 0122     		movs	r2, #1
+ 137 00a4 1A70     		strb	r2, [r3]
+ 138              	.L3:
+ 165:Generated_Source\PSoC5/Upstream_485_INT.c ****                         /* When Hardware Flow Control selected */
+ 166:Generated_Source\PSoC5/Upstream_485_INT.c ****                         #if (Upstream_485_FLOW_CONTROL != 0u)
+ 167:Generated_Source\PSoC5/Upstream_485_INT.c ****                             /* Disable RX interrupt mask, it is enabled when user read data from th
+ 168:Generated_Source\PSoC5/Upstream_485_INT.c ****                             Upstream_485_RXSTATUS_MASK_REG  &= (uint8)~Upstream_485_RX_STS_FIFO_NOT
+ 169:Generated_Source\PSoC5/Upstream_485_INT.c ****                             CyIntClearPending(Upstream_485_RX_VECT_NUM);
+ 170:Generated_Source\PSoC5/Upstream_485_INT.c ****                             break; /* Break the reading of the FIFO loop, leave the data there for 
+ 171:Generated_Source\PSoC5/Upstream_485_INT.c ****                         #endif /* (Upstream_485_FLOW_CONTROL != 0u) */
+ 172:Generated_Source\PSoC5/Upstream_485_INT.c ****                     }
+ 173:Generated_Source\PSoC5/Upstream_485_INT.c ****                 }
+ 174:Generated_Source\PSoC5/Upstream_485_INT.c ****             }
+ 175:Generated_Source\PSoC5/Upstream_485_INT.c ****         }while((readStatus & Upstream_485_RX_STS_FIFO_NOTEMPTY) != 0u);
+ 139              		.loc 1 175 0
+ 140 00a6 BB79     		ldrb	r3, [r7, #6]	@ zero_extendqisi2
+ 141 00a8 03F02003 		and	r3, r3, #32
+ 142 00ac 002B     		cmp	r3, #0
+ 143 00ae ACD1     		bne	.L6
+ 176:Generated_Source\PSoC5/Upstream_485_INT.c **** 
+ 177:Generated_Source\PSoC5/Upstream_485_INT.c ****         /* User code required at end of ISR (Optional) */
+ 178:Generated_Source\PSoC5/Upstream_485_INT.c ****         /* `#START Upstream_485_RXISR_END` */
+ 179:Generated_Source\PSoC5/Upstream_485_INT.c **** 
+ 180:Generated_Source\PSoC5/Upstream_485_INT.c ****         /* `#END` */
+ 181:Generated_Source\PSoC5/Upstream_485_INT.c **** 
+ 182:Generated_Source\PSoC5/Upstream_485_INT.c ****     #ifdef Upstream_485_RXISR_EXIT_CALLBACK
+ 183:Generated_Source\PSoC5/Upstream_485_INT.c ****         Upstream_485_RXISR_ExitCallback();
+ 184:Generated_Source\PSoC5/Upstream_485_INT.c ****     #endif /* Upstream_485_RXISR_EXIT_CALLBACK */
+ 185:Generated_Source\PSoC5/Upstream_485_INT.c **** 
+ 186:Generated_Source\PSoC5/Upstream_485_INT.c ****     #if(CY_PSOC3)
+ 187:Generated_Source\PSoC5/Upstream_485_INT.c ****         EA = int_en;
+ 188:Generated_Source\PSoC5/Upstream_485_INT.c ****     #endif /* (CY_PSOC3) */
+ 189:Generated_Source\PSoC5/Upstream_485_INT.c ****     }
+ 144              		.loc 1 189 0
+ 145 00b0 00BF     		nop
+ 146 00b2 0C37     		adds	r7, r7, #12
+ 147              		.cfi_def_cfa_offset 4
+ 148 00b4 BD46     		mov	sp, r7
+ 149              		.cfi_def_cfa_register 13
+ 150              		@ sp needed
+ 151 00b6 80BC     		pop	{r7}
+ 152              		.cfi_restore 7
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\cc9dnCD9.s 			page 7
+
+
+ 153              		.cfi_def_cfa_offset 0
+ 154 00b8 7047     		bx	lr
+ 155              	.L8:
+ 156 00ba 00BF     		.align	2
+ 157              	.L7:
+ 158 00bc 69650040 		.word	1073767785
+ 159 00c0 00000000 		.word	Upstream_485_errorStatus
+ 160 00c4 48650040 		.word	1073767752
+ 161 00c8 00000000 		.word	Upstream_485_rxBufferWrite
+ 162 00cc 00000000 		.word	Upstream_485_rxBuffer
+ 163 00d0 00000000 		.word	Upstream_485_rxBufferLoopDetect
+ 164 00d4 00000000 		.word	Upstream_485_rxBufferOverflow
+ 165 00d8 00000000 		.word	Upstream_485_rxBufferRead
+ 166              		.cfi_endproc
+ 167              	.LFE0:
+ 168              		.size	Upstream_485_RXISR, .-Upstream_485_RXISR
+ 169              		.section	.text.Upstream_485_TXISR,"ax",%progbits
+ 170              		.align	2
+ 171              		.global	Upstream_485_TXISR
+ 172              		.thumb
+ 173              		.thumb_func
+ 174              		.type	Upstream_485_TXISR, %function
+ 175              	Upstream_485_TXISR:
+ 176              	.LFB1:
+ 190:Generated_Source\PSoC5/Upstream_485_INT.c ****     
+ 191:Generated_Source\PSoC5/Upstream_485_INT.c **** #endif /* (Upstream_485_RX_INTERRUPT_ENABLED && (Upstream_485_RX_ENABLED || Upstream_485_HD_ENABLED
+ 192:Generated_Source\PSoC5/Upstream_485_INT.c **** 
+ 193:Generated_Source\PSoC5/Upstream_485_INT.c **** 
+ 194:Generated_Source\PSoC5/Upstream_485_INT.c **** #if (Upstream_485_TX_INTERRUPT_ENABLED && Upstream_485_TX_ENABLED)
+ 195:Generated_Source\PSoC5/Upstream_485_INT.c ****     /*******************************************************************************
+ 196:Generated_Source\PSoC5/Upstream_485_INT.c ****     * Function Name: Upstream_485_TXISR
+ 197:Generated_Source\PSoC5/Upstream_485_INT.c ****     ********************************************************************************
+ 198:Generated_Source\PSoC5/Upstream_485_INT.c ****     *
+ 199:Generated_Source\PSoC5/Upstream_485_INT.c ****     * Summary:
+ 200:Generated_Source\PSoC5/Upstream_485_INT.c ****     * Interrupt Service Routine for the TX portion of the UART
+ 201:Generated_Source\PSoC5/Upstream_485_INT.c ****     *
+ 202:Generated_Source\PSoC5/Upstream_485_INT.c ****     * Parameters:
+ 203:Generated_Source\PSoC5/Upstream_485_INT.c ****     *  None.
+ 204:Generated_Source\PSoC5/Upstream_485_INT.c ****     *
+ 205:Generated_Source\PSoC5/Upstream_485_INT.c ****     * Return:
+ 206:Generated_Source\PSoC5/Upstream_485_INT.c ****     *  None.
+ 207:Generated_Source\PSoC5/Upstream_485_INT.c ****     *
+ 208:Generated_Source\PSoC5/Upstream_485_INT.c ****     * Global Variables:
+ 209:Generated_Source\PSoC5/Upstream_485_INT.c ****     *  Upstream_485_txBuffer - RAM buffer pointer for transmit data from.
+ 210:Generated_Source\PSoC5/Upstream_485_INT.c ****     *  Upstream_485_txBufferRead - cyclic index for read and transmit data
+ 211:Generated_Source\PSoC5/Upstream_485_INT.c ****     *     from txBuffer, increments after each transmitted byte.
+ 212:Generated_Source\PSoC5/Upstream_485_INT.c ****     *  Upstream_485_rxBufferWrite - cyclic index for write to txBuffer,
+ 213:Generated_Source\PSoC5/Upstream_485_INT.c ****     *     checked to detect available for transmission bytes.
+ 214:Generated_Source\PSoC5/Upstream_485_INT.c ****     *
+ 215:Generated_Source\PSoC5/Upstream_485_INT.c ****     *******************************************************************************/
+ 216:Generated_Source\PSoC5/Upstream_485_INT.c ****     CY_ISR(Upstream_485_TXISR)
+ 217:Generated_Source\PSoC5/Upstream_485_INT.c ****     {
+ 177              		.loc 1 217 0
+ 178              		.cfi_startproc
+ 179              		@ args = 0, pretend = 0, frame = 0
+ 180              		@ frame_needed = 1, uses_anonymous_args = 0
+ 181              		@ link register save eliminated.
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\cc9dnCD9.s 			page 8
+
+
+ 182 0000 80B4     		push	{r7}
+ 183              		.cfi_def_cfa_offset 4
+ 184              		.cfi_offset 7, -4
+ 185 0002 00AF     		add	r7, sp, #0
+ 186              		.cfi_def_cfa_register 7
+ 218:Generated_Source\PSoC5/Upstream_485_INT.c ****     #if(CY_PSOC3)
+ 219:Generated_Source\PSoC5/Upstream_485_INT.c ****         uint8 int_en;
+ 220:Generated_Source\PSoC5/Upstream_485_INT.c ****     #endif /* (CY_PSOC3) */
+ 221:Generated_Source\PSoC5/Upstream_485_INT.c **** 
+ 222:Generated_Source\PSoC5/Upstream_485_INT.c ****     #ifdef Upstream_485_TXISR_ENTRY_CALLBACK
+ 223:Generated_Source\PSoC5/Upstream_485_INT.c ****         Upstream_485_TXISR_EntryCallback();
+ 224:Generated_Source\PSoC5/Upstream_485_INT.c ****     #endif /* Upstream_485_TXISR_ENTRY_CALLBACK */
+ 225:Generated_Source\PSoC5/Upstream_485_INT.c **** 
+ 226:Generated_Source\PSoC5/Upstream_485_INT.c ****         /* User code required at start of ISR */
+ 227:Generated_Source\PSoC5/Upstream_485_INT.c ****         /* `#START Upstream_485_TXISR_START` */
+ 228:Generated_Source\PSoC5/Upstream_485_INT.c **** 
+ 229:Generated_Source\PSoC5/Upstream_485_INT.c ****         /* `#END` */
+ 230:Generated_Source\PSoC5/Upstream_485_INT.c **** 
+ 231:Generated_Source\PSoC5/Upstream_485_INT.c ****     #if(CY_PSOC3)   /* Make sure nested interrupt is enabled */
+ 232:Generated_Source\PSoC5/Upstream_485_INT.c ****         int_en = EA;
+ 233:Generated_Source\PSoC5/Upstream_485_INT.c ****         CyGlobalIntEnable;
+ 234:Generated_Source\PSoC5/Upstream_485_INT.c ****     #endif /* (CY_PSOC3) */
+ 235:Generated_Source\PSoC5/Upstream_485_INT.c **** 
+ 236:Generated_Source\PSoC5/Upstream_485_INT.c ****         while((Upstream_485_txBufferRead != Upstream_485_txBufferWrite) &&
+ 187              		.loc 1 236 0
+ 188 0004 18E0     		b	.L10
+ 189              	.L13:
+ 237:Generated_Source\PSoC5/Upstream_485_INT.c ****              ((Upstream_485_TXSTATUS_REG & Upstream_485_TX_STS_FIFO_FULL) == 0u))
+ 238:Generated_Source\PSoC5/Upstream_485_INT.c ****         {
+ 239:Generated_Source\PSoC5/Upstream_485_INT.c ****             /* Check pointer wrap around */
+ 240:Generated_Source\PSoC5/Upstream_485_INT.c ****             if(Upstream_485_txBufferRead >= Upstream_485_TX_BUFFER_SIZE)
+ 190              		.loc 1 240 0
+ 191 0006 154B     		ldr	r3, .L15
+ 192 0008 1B78     		ldrb	r3, [r3]
+ 193 000a DBB2     		uxtb	r3, r3
+ 194 000c 5BB2     		sxtb	r3, r3
+ 195 000e 002B     		cmp	r3, #0
+ 196 0010 02DA     		bge	.L11
+ 241:Generated_Source\PSoC5/Upstream_485_INT.c ****             {
+ 242:Generated_Source\PSoC5/Upstream_485_INT.c ****                 Upstream_485_txBufferRead = 0u;
+ 197              		.loc 1 242 0
+ 198 0012 124B     		ldr	r3, .L15
+ 199 0014 0022     		movs	r2, #0
+ 200 0016 1A70     		strb	r2, [r3]
+ 201              	.L11:
+ 243:Generated_Source\PSoC5/Upstream_485_INT.c ****             }
+ 244:Generated_Source\PSoC5/Upstream_485_INT.c **** 
+ 245:Generated_Source\PSoC5/Upstream_485_INT.c ****             Upstream_485_TXDATA_REG = Upstream_485_txBuffer[Upstream_485_txBufferRead];
+ 202              		.loc 1 245 0
+ 203 0018 114B     		ldr	r3, .L15+4
+ 204 001a 104A     		ldr	r2, .L15
+ 205 001c 1278     		ldrb	r2, [r2]
+ 206 001e D2B2     		uxtb	r2, r2
+ 207 0020 1146     		mov	r1, r2
+ 208 0022 104A     		ldr	r2, .L15+8
+ 209 0024 525C     		ldrb	r2, [r2, r1]
+ 210 0026 D2B2     		uxtb	r2, r2
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\cc9dnCD9.s 			page 9
+
+
+ 211 0028 1A70     		strb	r2, [r3]
+ 246:Generated_Source\PSoC5/Upstream_485_INT.c **** 
+ 247:Generated_Source\PSoC5/Upstream_485_INT.c ****             /* Set next pointer */
+ 248:Generated_Source\PSoC5/Upstream_485_INT.c ****             Upstream_485_txBufferRead++;
+ 212              		.loc 1 248 0
+ 213 002a 0C4B     		ldr	r3, .L15
+ 214 002c 1B78     		ldrb	r3, [r3]
+ 215 002e DBB2     		uxtb	r3, r3
+ 216 0030 0133     		adds	r3, r3, #1
+ 217 0032 DAB2     		uxtb	r2, r3
+ 218 0034 094B     		ldr	r3, .L15
+ 219 0036 1A70     		strb	r2, [r3]
+ 220              	.L10:
+ 236:Generated_Source\PSoC5/Upstream_485_INT.c ****              ((Upstream_485_TXSTATUS_REG & Upstream_485_TX_STS_FIFO_FULL) == 0u))
+ 221              		.loc 1 236 0
+ 222 0038 084B     		ldr	r3, .L15
+ 223 003a 1B78     		ldrb	r3, [r3]
+ 224 003c DAB2     		uxtb	r2, r3
+ 225 003e 0A4B     		ldr	r3, .L15+12
+ 226 0040 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 227 0042 9A42     		cmp	r2, r3
+ 228 0044 06D0     		beq	.L14
+ 237:Generated_Source\PSoC5/Upstream_485_INT.c ****         {
+ 229              		.loc 1 237 0 discriminator 1
+ 230 0046 094B     		ldr	r3, .L15+16
+ 231 0048 1B78     		ldrb	r3, [r3]
+ 232 004a DBB2     		uxtb	r3, r3
+ 233 004c 03F00403 		and	r3, r3, #4
+ 236:Generated_Source\PSoC5/Upstream_485_INT.c ****              ((Upstream_485_TXSTATUS_REG & Upstream_485_TX_STS_FIFO_FULL) == 0u))
+ 234              		.loc 1 236 0 discriminator 1
+ 235 0050 002B     		cmp	r3, #0
+ 236 0052 D8D0     		beq	.L13
+ 237              	.L14:
+ 249:Generated_Source\PSoC5/Upstream_485_INT.c ****         }
+ 250:Generated_Source\PSoC5/Upstream_485_INT.c **** 
+ 251:Generated_Source\PSoC5/Upstream_485_INT.c ****         /* User code required at end of ISR (Optional) */
+ 252:Generated_Source\PSoC5/Upstream_485_INT.c ****         /* `#START Upstream_485_TXISR_END` */
+ 253:Generated_Source\PSoC5/Upstream_485_INT.c **** 
+ 254:Generated_Source\PSoC5/Upstream_485_INT.c ****         /* `#END` */
+ 255:Generated_Source\PSoC5/Upstream_485_INT.c **** 
+ 256:Generated_Source\PSoC5/Upstream_485_INT.c ****     #ifdef Upstream_485_TXISR_EXIT_CALLBACK
+ 257:Generated_Source\PSoC5/Upstream_485_INT.c ****         Upstream_485_TXISR_ExitCallback();
+ 258:Generated_Source\PSoC5/Upstream_485_INT.c ****     #endif /* Upstream_485_TXISR_EXIT_CALLBACK */
+ 259:Generated_Source\PSoC5/Upstream_485_INT.c **** 
+ 260:Generated_Source\PSoC5/Upstream_485_INT.c ****     #if(CY_PSOC3)
+ 261:Generated_Source\PSoC5/Upstream_485_INT.c ****         EA = int_en;
+ 262:Generated_Source\PSoC5/Upstream_485_INT.c ****     #endif /* (CY_PSOC3) */
+ 263:Generated_Source\PSoC5/Upstream_485_INT.c ****    }
+ 238              		.loc 1 263 0
+ 239 0054 00BF     		nop
+ 240 0056 BD46     		mov	sp, r7
+ 241              		.cfi_def_cfa_register 13
+ 242              		@ sp needed
+ 243 0058 80BC     		pop	{r7}
+ 244              		.cfi_restore 7
+ 245              		.cfi_def_cfa_offset 0
+ 246 005a 7047     		bx	lr
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\cc9dnCD9.s 			page 10
+
+
+ 247              	.L16:
+ 248              		.align	2
+ 249              	.L15:
+ 250 005c 00000000 		.word	Upstream_485_txBufferRead
+ 251 0060 4B650040 		.word	1073767755
+ 252 0064 00000000 		.word	Upstream_485_txBuffer
+ 253 0068 00000000 		.word	Upstream_485_txBufferWrite
+ 254 006c 6B650040 		.word	1073767787
+ 255              		.cfi_endproc
+ 256              	.LFE1:
+ 257              		.size	Upstream_485_TXISR, .-Upstream_485_TXISR
+ 258              		.text
+ 259              	.Letext0:
+ 260              		.file 2 "Generated_Source\\PSoC5\\cytypes.h"
+ 261              		.file 3 "Generated_Source\\PSoC5\\Upstream_485.h"
+ 262              		.section	.debug_info,"",%progbits
+ 263              	.Ldebug_info0:
+ 264 0000 7F010000 		.4byte	0x17f
+ 265 0004 0400     		.2byte	0x4
+ 266 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 267 000a 04       		.byte	0x4
+ 268 000b 01       		.uleb128 0x1
+ 269 000c 1E000000 		.4byte	.LASF28
+ 270 0010 0C       		.byte	0xc
+ 271 0011 B0020000 		.4byte	.LASF29
+ 272 0015 1C020000 		.4byte	.LASF30
+ 273 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 274 001d 00000000 		.4byte	0
+ 275 0021 00000000 		.4byte	.Ldebug_line0
+ 276 0025 02       		.uleb128 0x2
+ 277 0026 01       		.byte	0x1
+ 278 0027 06       		.byte	0x6
+ 279 0028 F4020000 		.4byte	.LASF0
+ 280 002c 02       		.uleb128 0x2
+ 281 002d 01       		.byte	0x1
+ 282 002e 08       		.byte	0x8
+ 283 002f 3A010000 		.4byte	.LASF1
+ 284 0033 02       		.uleb128 0x2
+ 285 0034 02       		.byte	0x2
+ 286 0035 05       		.byte	0x5
+ 287 0036 A6020000 		.4byte	.LASF2
+ 288 003a 02       		.uleb128 0x2
+ 289 003b 02       		.byte	0x2
+ 290 003c 07       		.byte	0x7
+ 291 003d B2000000 		.4byte	.LASF3
+ 292 0041 02       		.uleb128 0x2
+ 293 0042 04       		.byte	0x4
+ 294 0043 05       		.byte	0x5
+ 295 0044 DA020000 		.4byte	.LASF4
+ 296 0048 02       		.uleb128 0x2
+ 297 0049 04       		.byte	0x4
+ 298 004a 07       		.byte	0x7
+ 299 004b 4D010000 		.4byte	.LASF5
+ 300 004f 02       		.uleb128 0x2
+ 301 0050 08       		.byte	0x8
+ 302 0051 05       		.byte	0x5
+ 303 0052 0E020000 		.4byte	.LASF6
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\cc9dnCD9.s 			page 11
+
+
+ 304 0056 02       		.uleb128 0x2
+ 305 0057 08       		.byte	0x8
+ 306 0058 07       		.byte	0x7
+ 307 0059 C1010000 		.4byte	.LASF7
+ 308 005d 03       		.uleb128 0x3
+ 309 005e 04       		.byte	0x4
+ 310 005f 05       		.byte	0x5
+ 311 0060 696E7400 		.ascii	"int\000"
+ 312 0064 02       		.uleb128 0x2
+ 313 0065 04       		.byte	0x4
+ 314 0066 07       		.byte	0x7
+ 315 0067 B4010000 		.4byte	.LASF8
+ 316 006b 04       		.uleb128 0x4
+ 317 006c 5F010000 		.4byte	.LASF12
+ 318 0070 02       		.byte	0x2
+ 319 0071 E401     		.2byte	0x1e4
+ 320 0073 2C000000 		.4byte	0x2c
+ 321 0077 02       		.uleb128 0x2
+ 322 0078 04       		.byte	0x4
+ 323 0079 04       		.byte	0x4
+ 324 007a AC000000 		.4byte	.LASF9
+ 325 007e 02       		.uleb128 0x2
+ 326 007f 08       		.byte	0x8
+ 327 0080 04       		.byte	0x4
+ 328 0081 92010000 		.4byte	.LASF10
+ 329 0085 02       		.uleb128 0x2
+ 330 0086 01       		.byte	0x1
+ 331 0087 08       		.byte	0x8
+ 332 0088 E3020000 		.4byte	.LASF11
+ 333 008c 04       		.uleb128 0x4
+ 334 008d 48010000 		.4byte	.LASF13
+ 335 0091 02       		.byte	0x2
+ 336 0092 8E02     		.2byte	0x28e
+ 337 0094 98000000 		.4byte	0x98
+ 338 0098 05       		.uleb128 0x5
+ 339 0099 6B000000 		.4byte	0x6b
+ 340 009d 02       		.uleb128 0x2
+ 341 009e 08       		.byte	0x8
+ 342 009f 04       		.byte	0x4
+ 343 00a0 E8020000 		.4byte	.LASF14
+ 344 00a4 02       		.uleb128 0x2
+ 345 00a5 04       		.byte	0x4
+ 346 00a6 07       		.byte	0x7
+ 347 00a7 05020000 		.4byte	.LASF15
+ 348 00ab 06       		.uleb128 0x6
+ 349 00ac 65010000 		.4byte	.LASF31
+ 350 00b0 01       		.byte	0x1
+ 351 00b1 3B       		.byte	0x3b
+ 352 00b2 00000000 		.4byte	.LFB0
+ 353 00b6 DC000000 		.4byte	.LFE0-.LFB0
+ 354 00ba 01       		.uleb128 0x1
+ 355 00bb 9C       		.byte	0x9c
+ 356 00bc EB000000 		.4byte	0xeb
+ 357 00c0 07       		.uleb128 0x7
+ 358 00c1 00030000 		.4byte	.LASF16
+ 359 00c5 01       		.byte	0x1
+ 360 00c6 3D       		.byte	0x3d
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\cc9dnCD9.s 			page 12
+
+
+ 361 00c7 6B000000 		.4byte	0x6b
+ 362 00cb 02       		.uleb128 0x2
+ 363 00cc 91       		.byte	0x91
+ 364 00cd 75       		.sleb128 -11
+ 365 00ce 07       		.uleb128 0x7
+ 366 00cf 2F010000 		.4byte	.LASF17
+ 367 00d3 01       		.byte	0x1
+ 368 00d4 3E       		.byte	0x3e
+ 369 00d5 6B000000 		.4byte	0x6b
+ 370 00d9 02       		.uleb128 0x2
+ 371 00da 91       		.byte	0x91
+ 372 00db 76       		.sleb128 -10
+ 373 00dc 07       		.uleb128 0x7
+ 374 00dd 7E020000 		.4byte	.LASF18
+ 375 00e1 01       		.byte	0x1
+ 376 00e2 3F       		.byte	0x3f
+ 377 00e3 6B000000 		.4byte	0x6b
+ 378 00e7 02       		.uleb128 0x2
+ 379 00e8 91       		.byte	0x91
+ 380 00e9 77       		.sleb128 -9
+ 381 00ea 00       		.byte	0
+ 382 00eb 08       		.uleb128 0x8
+ 383 00ec F2010000 		.4byte	.LASF32
+ 384 00f0 01       		.byte	0x1
+ 385 00f1 D8       		.byte	0xd8
+ 386 00f2 00000000 		.4byte	.LFB1
+ 387 00f6 70000000 		.4byte	.LFE1-.LFB1
+ 388 00fa 01       		.uleb128 0x1
+ 389 00fb 9C       		.byte	0x9c
+ 390 00fc 09       		.uleb128 0x9
+ 391 00fd 98000000 		.4byte	0x98
+ 392 0101 0C010000 		.4byte	0x10c
+ 393 0105 0A       		.uleb128 0xa
+ 394 0106 A4000000 		.4byte	0xa4
+ 395 010a 7F       		.byte	0x7f
+ 396 010b 00       		.byte	0
+ 397 010c 0B       		.uleb128 0xb
+ 398 010d 90020000 		.4byte	.LASF19
+ 399 0111 03       		.byte	0x3
+ 400 0112 3801     		.2byte	0x138
+ 401 0114 18010000 		.4byte	0x118
+ 402 0118 05       		.uleb128 0x5
+ 403 0119 FC000000 		.4byte	0xfc
+ 404 011d 0B       		.uleb128 0xb
+ 405 011e 78010000 		.4byte	.LASF20
+ 406 0122 03       		.byte	0x3
+ 407 0123 3901     		.2byte	0x139
+ 408 0125 98000000 		.4byte	0x98
+ 409 0129 0B       		.uleb128 0xb
+ 410 012a 99010000 		.4byte	.LASF21
+ 411 012e 03       		.byte	0x3
+ 412 012f 3A01     		.2byte	0x13a
+ 413 0131 6B000000 		.4byte	0x6b
+ 414 0135 0B       		.uleb128 0xb
+ 415 0136 E0000000 		.4byte	.LASF22
+ 416 013a 03       		.byte	0x3
+ 417 013b 3D01     		.2byte	0x13d
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\cc9dnCD9.s 			page 13
+
+
+ 418 013d 6B000000 		.4byte	0x6b
+ 419 0141 0B       		.uleb128 0xb
+ 420 0142 F9000000 		.4byte	.LASF23
+ 421 0146 03       		.byte	0x3
+ 422 0147 3E01     		.2byte	0x13e
+ 423 0149 4D010000 		.4byte	0x14d
+ 424 014d 05       		.uleb128 0x5
+ 425 014e FC000000 		.4byte	0xfc
+ 426 0152 0B       		.uleb128 0xb
+ 427 0153 D8010000 		.4byte	.LASF24
+ 428 0157 03       		.byte	0x3
+ 429 0158 3F01     		.2byte	0x13f
+ 430 015a 98000000 		.4byte	0x98
+ 431 015e 0B       		.uleb128 0xb
+ 432 015f C5000000 		.4byte	.LASF25
+ 433 0163 03       		.byte	0x3
+ 434 0164 4001     		.2byte	0x140
+ 435 0166 98000000 		.4byte	0x98
+ 436 016a 0B       		.uleb128 0xb
+ 437 016b 0F010000 		.4byte	.LASF26
+ 438 016f 03       		.byte	0x3
+ 439 0170 4101     		.2byte	0x141
+ 440 0172 98000000 		.4byte	0x98
+ 441 0176 0B       		.uleb128 0xb
+ 442 0177 00000000 		.4byte	.LASF27
+ 443 017b 03       		.byte	0x3
+ 444 017c 4201     		.2byte	0x142
+ 445 017e 98000000 		.4byte	0x98
+ 446 0182 00       		.byte	0
+ 447              		.section	.debug_abbrev,"",%progbits
+ 448              	.Ldebug_abbrev0:
+ 449 0000 01       		.uleb128 0x1
+ 450 0001 11       		.uleb128 0x11
+ 451 0002 01       		.byte	0x1
+ 452 0003 25       		.uleb128 0x25
+ 453 0004 0E       		.uleb128 0xe
+ 454 0005 13       		.uleb128 0x13
+ 455 0006 0B       		.uleb128 0xb
+ 456 0007 03       		.uleb128 0x3
+ 457 0008 0E       		.uleb128 0xe
+ 458 0009 1B       		.uleb128 0x1b
+ 459 000a 0E       		.uleb128 0xe
+ 460 000b 55       		.uleb128 0x55
+ 461 000c 17       		.uleb128 0x17
+ 462 000d 11       		.uleb128 0x11
+ 463 000e 01       		.uleb128 0x1
+ 464 000f 10       		.uleb128 0x10
+ 465 0010 17       		.uleb128 0x17
+ 466 0011 00       		.byte	0
+ 467 0012 00       		.byte	0
+ 468 0013 02       		.uleb128 0x2
+ 469 0014 24       		.uleb128 0x24
+ 470 0015 00       		.byte	0
+ 471 0016 0B       		.uleb128 0xb
+ 472 0017 0B       		.uleb128 0xb
+ 473 0018 3E       		.uleb128 0x3e
+ 474 0019 0B       		.uleb128 0xb
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\cc9dnCD9.s 			page 14
+
+
+ 475 001a 03       		.uleb128 0x3
+ 476 001b 0E       		.uleb128 0xe
+ 477 001c 00       		.byte	0
+ 478 001d 00       		.byte	0
+ 479 001e 03       		.uleb128 0x3
+ 480 001f 24       		.uleb128 0x24
+ 481 0020 00       		.byte	0
+ 482 0021 0B       		.uleb128 0xb
+ 483 0022 0B       		.uleb128 0xb
+ 484 0023 3E       		.uleb128 0x3e
+ 485 0024 0B       		.uleb128 0xb
+ 486 0025 03       		.uleb128 0x3
+ 487 0026 08       		.uleb128 0x8
+ 488 0027 00       		.byte	0
+ 489 0028 00       		.byte	0
+ 490 0029 04       		.uleb128 0x4
+ 491 002a 16       		.uleb128 0x16
+ 492 002b 00       		.byte	0
+ 493 002c 03       		.uleb128 0x3
+ 494 002d 0E       		.uleb128 0xe
+ 495 002e 3A       		.uleb128 0x3a
+ 496 002f 0B       		.uleb128 0xb
+ 497 0030 3B       		.uleb128 0x3b
+ 498 0031 05       		.uleb128 0x5
+ 499 0032 49       		.uleb128 0x49
+ 500 0033 13       		.uleb128 0x13
+ 501 0034 00       		.byte	0
+ 502 0035 00       		.byte	0
+ 503 0036 05       		.uleb128 0x5
+ 504 0037 35       		.uleb128 0x35
+ 505 0038 00       		.byte	0
+ 506 0039 49       		.uleb128 0x49
+ 507 003a 13       		.uleb128 0x13
+ 508 003b 00       		.byte	0
+ 509 003c 00       		.byte	0
+ 510 003d 06       		.uleb128 0x6
+ 511 003e 2E       		.uleb128 0x2e
+ 512 003f 01       		.byte	0x1
+ 513 0040 3F       		.uleb128 0x3f
+ 514 0041 19       		.uleb128 0x19
+ 515 0042 03       		.uleb128 0x3
+ 516 0043 0E       		.uleb128 0xe
+ 517 0044 3A       		.uleb128 0x3a
+ 518 0045 0B       		.uleb128 0xb
+ 519 0046 3B       		.uleb128 0x3b
+ 520 0047 0B       		.uleb128 0xb
+ 521 0048 27       		.uleb128 0x27
+ 522 0049 19       		.uleb128 0x19
+ 523 004a 11       		.uleb128 0x11
+ 524 004b 01       		.uleb128 0x1
+ 525 004c 12       		.uleb128 0x12
+ 526 004d 06       		.uleb128 0x6
+ 527 004e 40       		.uleb128 0x40
+ 528 004f 18       		.uleb128 0x18
+ 529 0050 9742     		.uleb128 0x2117
+ 530 0052 19       		.uleb128 0x19
+ 531 0053 01       		.uleb128 0x1
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\cc9dnCD9.s 			page 15
+
+
+ 532 0054 13       		.uleb128 0x13
+ 533 0055 00       		.byte	0
+ 534 0056 00       		.byte	0
+ 535 0057 07       		.uleb128 0x7
+ 536 0058 34       		.uleb128 0x34
+ 537 0059 00       		.byte	0
+ 538 005a 03       		.uleb128 0x3
+ 539 005b 0E       		.uleb128 0xe
+ 540 005c 3A       		.uleb128 0x3a
+ 541 005d 0B       		.uleb128 0xb
+ 542 005e 3B       		.uleb128 0x3b
+ 543 005f 0B       		.uleb128 0xb
+ 544 0060 49       		.uleb128 0x49
+ 545 0061 13       		.uleb128 0x13
+ 546 0062 02       		.uleb128 0x2
+ 547 0063 18       		.uleb128 0x18
+ 548 0064 00       		.byte	0
+ 549 0065 00       		.byte	0
+ 550 0066 08       		.uleb128 0x8
+ 551 0067 2E       		.uleb128 0x2e
+ 552 0068 00       		.byte	0
+ 553 0069 3F       		.uleb128 0x3f
+ 554 006a 19       		.uleb128 0x19
+ 555 006b 03       		.uleb128 0x3
+ 556 006c 0E       		.uleb128 0xe
+ 557 006d 3A       		.uleb128 0x3a
+ 558 006e 0B       		.uleb128 0xb
+ 559 006f 3B       		.uleb128 0x3b
+ 560 0070 0B       		.uleb128 0xb
+ 561 0071 27       		.uleb128 0x27
+ 562 0072 19       		.uleb128 0x19
+ 563 0073 11       		.uleb128 0x11
+ 564 0074 01       		.uleb128 0x1
+ 565 0075 12       		.uleb128 0x12
+ 566 0076 06       		.uleb128 0x6
+ 567 0077 40       		.uleb128 0x40
+ 568 0078 18       		.uleb128 0x18
+ 569 0079 9742     		.uleb128 0x2117
+ 570 007b 19       		.uleb128 0x19
+ 571 007c 00       		.byte	0
+ 572 007d 00       		.byte	0
+ 573 007e 09       		.uleb128 0x9
+ 574 007f 01       		.uleb128 0x1
+ 575 0080 01       		.byte	0x1
+ 576 0081 49       		.uleb128 0x49
+ 577 0082 13       		.uleb128 0x13
+ 578 0083 01       		.uleb128 0x1
+ 579 0084 13       		.uleb128 0x13
+ 580 0085 00       		.byte	0
+ 581 0086 00       		.byte	0
+ 582 0087 0A       		.uleb128 0xa
+ 583 0088 21       		.uleb128 0x21
+ 584 0089 00       		.byte	0
+ 585 008a 49       		.uleb128 0x49
+ 586 008b 13       		.uleb128 0x13
+ 587 008c 2F       		.uleb128 0x2f
+ 588 008d 0B       		.uleb128 0xb
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\cc9dnCD9.s 			page 16
+
+
+ 589 008e 00       		.byte	0
+ 590 008f 00       		.byte	0
+ 591 0090 0B       		.uleb128 0xb
+ 592 0091 34       		.uleb128 0x34
+ 593 0092 00       		.byte	0
+ 594 0093 03       		.uleb128 0x3
+ 595 0094 0E       		.uleb128 0xe
+ 596 0095 3A       		.uleb128 0x3a
+ 597 0096 0B       		.uleb128 0xb
+ 598 0097 3B       		.uleb128 0x3b
+ 599 0098 05       		.uleb128 0x5
+ 600 0099 49       		.uleb128 0x49
+ 601 009a 13       		.uleb128 0x13
+ 602 009b 3F       		.uleb128 0x3f
+ 603 009c 19       		.uleb128 0x19
+ 604 009d 3C       		.uleb128 0x3c
+ 605 009e 19       		.uleb128 0x19
+ 606 009f 00       		.byte	0
+ 607 00a0 00       		.byte	0
+ 608 00a1 00       		.byte	0
+ 609              		.section	.debug_aranges,"",%progbits
+ 610 0000 24000000 		.4byte	0x24
+ 611 0004 0200     		.2byte	0x2
+ 612 0006 00000000 		.4byte	.Ldebug_info0
+ 613 000a 04       		.byte	0x4
+ 614 000b 00       		.byte	0
+ 615 000c 0000     		.2byte	0
+ 616 000e 0000     		.2byte	0
+ 617 0010 00000000 		.4byte	.LFB0
+ 618 0014 DC000000 		.4byte	.LFE0-.LFB0
+ 619 0018 00000000 		.4byte	.LFB1
+ 620 001c 70000000 		.4byte	.LFE1-.LFB1
+ 621 0020 00000000 		.4byte	0
+ 622 0024 00000000 		.4byte	0
+ 623              		.section	.debug_ranges,"",%progbits
+ 624              	.Ldebug_ranges0:
+ 625 0000 00000000 		.4byte	.LFB0
+ 626 0004 DC000000 		.4byte	.LFE0
+ 627 0008 00000000 		.4byte	.LFB1
+ 628 000c 70000000 		.4byte	.LFE1
+ 629 0010 00000000 		.4byte	0
+ 630 0014 00000000 		.4byte	0
+ 631              		.section	.debug_line,"",%progbits
+ 632              	.Ldebug_line0:
+ 633 0000 B9000000 		.section	.debug_str,"MS",%progbits,1
+ 633      02005F00 
+ 633      00000201 
+ 633      FB0E0D00 
+ 633      01010101 
+ 634              	.LASF27:
+ 635 0000 55707374 		.ascii	"Upstream_485_rxBufferOverflow\000"
+ 635      7265616D 
+ 635      5F343835 
+ 635      5F727842 
+ 635      75666665 
+ 636              	.LASF28:
+ 637 001e 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\cc9dnCD9.s 			page 17
+
+
+ 637      43313120 
+ 637      352E342E 
+ 637      31203230 
+ 637      31363036 
+ 638 0051 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 638      20726576 
+ 638      6973696F 
+ 638      6E203233 
+ 638      37373135 
+ 639 0084 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 639      66756E63 
+ 639      74696F6E 
+ 639      2D736563 
+ 639      74696F6E 
+ 640              	.LASF9:
+ 641 00ac 666C6F61 		.ascii	"float\000"
+ 641      7400
+ 642              	.LASF3:
+ 643 00b2 73686F72 		.ascii	"short unsigned int\000"
+ 643      7420756E 
+ 643      7369676E 
+ 643      65642069 
+ 643      6E7400
+ 644              	.LASF25:
+ 645 00c5 55707374 		.ascii	"Upstream_485_rxBufferWrite\000"
+ 645      7265616D 
+ 645      5F343835 
+ 645      5F727842 
+ 645      75666665 
+ 646              	.LASF22:
+ 647 00e0 55707374 		.ascii	"Upstream_485_errorStatus\000"
+ 647      7265616D 
+ 647      5F343835 
+ 647      5F657272 
+ 647      6F725374 
+ 648              	.LASF23:
+ 649 00f9 55707374 		.ascii	"Upstream_485_rxBuffer\000"
+ 649      7265616D 
+ 649      5F343835 
+ 649      5F727842 
+ 649      75666665 
+ 650              	.LASF26:
+ 651 010f 55707374 		.ascii	"Upstream_485_rxBufferLoopDetect\000"
+ 651      7265616D 
+ 651      5F343835 
+ 651      5F727842 
+ 651      75666665 
+ 652              	.LASF17:
+ 653 012f 72656164 		.ascii	"readStatus\000"
+ 653      53746174 
+ 653      757300
+ 654              	.LASF1:
+ 655 013a 756E7369 		.ascii	"unsigned char\000"
+ 655      676E6564 
+ 655      20636861 
+ 655      7200
+ 656              	.LASF13:
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\cc9dnCD9.s 			page 18
+
+
+ 657 0148 72656738 		.ascii	"reg8\000"
+ 657      00
+ 658              	.LASF5:
+ 659 014d 6C6F6E67 		.ascii	"long unsigned int\000"
+ 659      20756E73 
+ 659      69676E65 
+ 659      6420696E 
+ 659      7400
+ 660              	.LASF12:
+ 661 015f 75696E74 		.ascii	"uint8\000"
+ 661      3800
+ 662              	.LASF31:
+ 663 0165 55707374 		.ascii	"Upstream_485_RXISR\000"
+ 663      7265616D 
+ 663      5F343835 
+ 663      5F525849 
+ 663      535200
+ 664              	.LASF20:
+ 665 0178 55707374 		.ascii	"Upstream_485_txBufferRead\000"
+ 665      7265616D 
+ 665      5F343835 
+ 665      5F747842 
+ 665      75666665 
+ 666              	.LASF10:
+ 667 0192 646F7562 		.ascii	"double\000"
+ 667      6C6500
+ 668              	.LASF21:
+ 669 0199 55707374 		.ascii	"Upstream_485_txBufferWrite\000"
+ 669      7265616D 
+ 669      5F343835 
+ 669      5F747842 
+ 669      75666665 
+ 670              	.LASF8:
+ 671 01b4 756E7369 		.ascii	"unsigned int\000"
+ 671      676E6564 
+ 671      20696E74 
+ 671      00
+ 672              	.LASF7:
+ 673 01c1 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 673      206C6F6E 
+ 673      6720756E 
+ 673      7369676E 
+ 673      65642069 
+ 674              	.LASF24:
+ 675 01d8 55707374 		.ascii	"Upstream_485_rxBufferRead\000"
+ 675      7265616D 
+ 675      5F343835 
+ 675      5F727842 
+ 675      75666665 
+ 676              	.LASF32:
+ 677 01f2 55707374 		.ascii	"Upstream_485_TXISR\000"
+ 677      7265616D 
+ 677      5F343835 
+ 677      5F545849 
+ 677      535200
+ 678              	.LASF15:
+ 679 0205 73697A65 		.ascii	"sizetype\000"
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\cc9dnCD9.s 			page 19
+
+
+ 679      74797065 
+ 679      00
+ 680              	.LASF6:
+ 681 020e 6C6F6E67 		.ascii	"long long int\000"
+ 681      206C6F6E 
+ 681      6720696E 
+ 681      7400
+ 682              	.LASF30:
+ 683 021c 433A5C55 		.ascii	"C:\\Users\\Henry Kou\\Documents\\PSoC Creator\\Eige"
+ 683      73657273 
+ 683      5C48656E 
+ 683      7279204B 
+ 683      6F755C44 
+ 684 024a 6E626F61 		.ascii	"nboard_bootloading\\P01B_485_Bootloader_Simple.cyds"
+ 684      72645F62 
+ 684      6F6F746C 
+ 684      6F616469 
+ 684      6E675C50 
+ 685 027c 6E00     		.ascii	"n\000"
+ 686              	.LASF18:
+ 687 027e 696E6372 		.ascii	"increment_pointer\000"
+ 687      656D656E 
+ 687      745F706F 
+ 687      696E7465 
+ 687      7200
+ 688              	.LASF19:
+ 689 0290 55707374 		.ascii	"Upstream_485_txBuffer\000"
+ 689      7265616D 
+ 689      5F343835 
+ 689      5F747842 
+ 689      75666665 
+ 690              	.LASF2:
+ 691 02a6 73686F72 		.ascii	"short int\000"
+ 691      7420696E 
+ 691      7400
+ 692              	.LASF29:
+ 693 02b0 47656E65 		.ascii	"Generated_Source\\PSoC5\\Upstream_485_INT.c\000"
+ 693      72617465 
+ 693      645F536F 
+ 693      75726365 
+ 693      5C50536F 
+ 694              	.LASF4:
+ 695 02da 6C6F6E67 		.ascii	"long int\000"
+ 695      20696E74 
+ 695      00
+ 696              	.LASF11:
+ 697 02e3 63686172 		.ascii	"char\000"
+ 697      00
+ 698              	.LASF14:
+ 699 02e8 6C6F6E67 		.ascii	"long double\000"
+ 699      20646F75 
+ 699      626C6500 
+ 700              	.LASF0:
+ 701 02f4 7369676E 		.ascii	"signed char\000"
+ 701      65642063 
+ 701      68617200 
+ 702              	.LASF16:
+ARM GAS  C:\Users\HENRYK~1\AppData\Local\Temp\cc9dnCD9.s 			page 20
+
+
+ 703 0300 72656164 		.ascii	"readData\000"
+ 703      44617461 
+ 703      00
+ 704              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran
